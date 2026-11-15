@@ -1,8 +1,10 @@
 import fs from "node:fs";
 import { feature } from "topojson-client";
 import { geoMercator, geoPath } from "d3-geo";
-import { GROUPS, PLACES, STAYS } from "./data.mjs";
 import { LINKS } from "./links.mjs";
+const { GROUPS, STAYS } = JSON.parse(fs.readFileSync(new URL("./groups.json", import.meta.url), "utf8"));
+const COORDS = JSON.parse(fs.readFileSync(new URL("./coords.json", import.meta.url), "utf8"));
+const readSheet = (f) => JSON.parse(fs.readFileSync(new URL("./sheet/" + f, import.meta.url), "utf8")).values;
 
 const topo = JSON.parse(fs.readFileSync("node_modules/world-atlas/countries-10m.json", "utf8"));
 const countries = feature(topo, topo.objects.countries);
@@ -34,16 +36,47 @@ const TUNE = {
   "Okayama":          { anchor: "end",    dx: -17, dy: 6 },
   "Kobe":             { anchor: "end",    dx: -17, dy: 10, ox: -7, oy: 2 }
 };
-const groups = Object.entries(GROUPS).map(([key, g]) => {
+// ---- Lecture de la feuille : « À faire » (indispensables) et « Chronologie »
+const warn = [];
+const afaire = readSheet("afaire.json").slice(1).filter((r) => r[0] && r[1]);
+const chronoRows = readSheet("chrono.json").slice(1).filter((r) => r[0] && r[4]);
+const MOIS = ["janv", "févr", "mars", "avr", "mai", "juin", "juil", "août", "sept", "oct", "nov", "déc"];
+const dayLabel = (iso) => { const d = new Date(iso + "T12:00:00Z"); return ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"][d.getUTCDay()] + " " + d.getUTCDate() + " " + MOIS[d.getUTCMonth()]; };
+const inChrono = new Map();
+chronoRows.forEach((c) => { if (/^(backbone|ajout)$/i.test(c[5])) if (!inChrono.has(c[4])) inChrono.set(c[4], c[0]); });
+const byText = new Map(afaire.map((r) => [r[1], r]));
+const selected = afaire.filter((r) => String(r[3]).toUpperCase() === "TRUE" || inChrono.has(r[1]));
+const places = [];
+const addPlace = (text, row) => {
+  const c = COORDS[text];
+  if (!c) { warn.push("Position manquante (ajouter dans src/coords.json) : " + text); return null; }
+  const g = row ? row[0] : c.g;
+  if (!GROUPS[g]) { warn.push("Groupe inconnu « " + g + " » pour : " + text); return null; }
+  const id = places.length;
+  places.push({ id, g, n: c.n || text, full: text, r: row && row[2] !== "" ? +row[2] : null, ind: !!row && String(row[3]).toUpperCase() === "TRUE", h: row && row[4] !== "" ? +row[4] : null, t: row ? row[5] : (c.t || "Ajout"), res: row ? (row[7] || "") : "", lat: c.lat, lng: c.lng, ap: !!c.ap, u: LINKS[text] || null, xy: P(c.lng, c.lat), day: inChrono.has(text) ? dayLabel(inChrono.get(text)) : null, add: !row });
+  return id;
+};
+const pidOf = {};
+selected.forEach((r) => { const id = addPlace(r[1], r); if (id != null) pidOf[r[1]] = id; });
+chronoRows.forEach((c) => { if (/^ajout$/i.test(c[5]) && !byText.has(c[4]) && pidOf[c[4]] == null && COORDS[c[4]]) { const id = addPlace(c[4], null); if (id != null) pidOf[c[4]] = id; } });
+const days = [];
+chronoRows.forEach((c) => {
+  let d = days.find((x) => x.iso === c[0]);
+  if (!d) { d = { iso: c[0], label: dayLabel(c[0]), night: c[2] || "", items: [] }; days.push(d); }
+  if (c[2] && !d.night) d.night = c[2];
+  const pid = pidOf[c[4]] ?? null;
+  if (/^(backbone|ajout)$/i.test(c[5]) && pid == null) warn.push("Chronologie : « " + c[4] + " » ne correspond à aucune ligne de « À faire » (ou sans position)");
+  d.items.push({ m: c[3] || "", time: c[6] || "", text: c[4], type: c[5] || "", note: c[7] || "", pid });
+});
+days.sort((a, b) => a.iso.localeCompare(b.iso));
+selected.forEach((r) => { if (String(r[3]).toUpperCase() === "TRUE" && !inChrono.has(r[1])) warn.push("Indispensable absent de la chronologie : " + r[1]); });
+Object.keys(LINKS).forEach((k) => { if (!byText.has(k)) warn.push("Lien orphelin (texte modifié dans la feuille ?) : " + k.slice(0, 60)); });
+const usedGroups = new Set([...places.map((p) => p.g), ...STAYS.map((s) => s.group)]);
+const groups = Object.entries(GROUPS).filter(([key]) => usedGroups.has(key)).map(([key, g]) => {
   const t = { ...g, ...(TUNE[key] || {}) };
   const [x, y] = P(g.lng, g.lat);
   return { key, label: g.label, anchor: t.anchor, dx: t.dx, dy: t.dy, xy: [x + (t.ox || 0), y + (t.oy || 0)], lat: g.lat, lng: g.lng };
 });
-const places = PLACES.map((p, i) => ({
-  id: i, g: p[0], n: p[1], full: p[2], r: p[3], ind: p[4], h: p[5], t: p[6], res: p[7], lat: p[8], lng: p[9], ap: !!p[10], u: LINKS[p[2]] || null, xy: P(p[9], p[8])
-}));
-const unused = Object.keys(LINKS).filter(k => !PLACES.some(p => p[2] === k));
-if (unused.length) throw new Error("liens sans lieu: " + unused.join(" | "));
 const stays = STAYS;
 const seaLabels = [
   { t: "Mer du Japon", xy: P(135.2, 37.0), r: -6 },
@@ -54,9 +87,12 @@ const seaLabels = [
   { t: "Kyushu", xy: P(131.2, 33.1), r: 0, land: true }
 ];
 
-const data = { W, H, land, japanOnly, groups, places, stays, seaLabels, generated: "15 novembre 2026 (liens mis à jour)" };
+const today = new Date(); const generated = today.getDate() + " " + ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"][today.getMonth()] + " " + today.getFullYear();
+const data = { W, H, land, japanOnly, groups, places, stays, days, seaLabels, generated };
 const tpl = fs.readFileSync("template.html", "utf8");
 const html = tpl.replace("/*__DATA__*/null", JSON.stringify(data));
 fs.mkdirSync("out", { recursive: true });
 fs.writeFileSync("out/japan-map.html", html);
+fs.writeFileSync(new URL("../carte.html", import.meta.url), html);
+warn.forEach((w) => console.log("ATTENTION :", w));
 console.log("ok", (html.length / 1024).toFixed(0) + " KB", "land", (land.length / 1024).toFixed(0) + " KB", "places", places.length);

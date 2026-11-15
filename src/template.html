@@ -113,6 +113,15 @@ header a { color: var(--focus); }
 .row .meta { color: var(--muted); font-size: 12px; display: flex; flex-wrap: wrap; gap: 2px 10px; }
 .row .meta .res { color: var(--route); font-weight: 600; }
 .row .meta .star { color: var(--gold-ink); background: var(--gold); border-radius: 4px; padding: 0 5px; font-weight: 600; font-size: 11px; }
+.dhead { position: sticky; top: 0; z-index: 1; width: 100%; display: flex; align-items: baseline; gap: 8px; padding: 8px 14px; background: var(--panel); border: 0; border-bottom: 1px solid var(--line); text-align: left; cursor: pointer; }
+.dhead:hover { background: var(--bg); }
+.dhead .dn { font: 700 15px/1.2 var(--display); }
+.dhead .dt { color: var(--muted); font-size: 11.5px; margin-left: auto; white-space: nowrap; }
+.trow { display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 7px 14px; border-bottom: 1px solid var(--line); color: var(--muted); }
+.trow .tm, .row .tm { font-size: 11px; font-variant-numeric: tabular-nums; color: var(--muted); }
+.trow .ic { width: 24px; height: 24px; border-radius: 6px; display: grid; place-items: center; background: var(--bg); font-size: 13px; }
+.row .meta .add { color: #fff; background: var(--route); border-radius: 4px; padding: 0 5px; font-weight: 600; font-size: 11px; }
+.trow .nt, .row .nt { display: block; font-size: 12px; color: var(--muted); }
 .empty { padding: 28px 18px; color: var(--muted); text-align: center; }
 
 .mapwrap { position: relative; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--sea); min-height: 420px; }
@@ -200,13 +209,19 @@ svg#map.drag { cursor: grabbing; }
 <body>
 <header>
   <h1>Carte du voyage au Japon, avril 2027</h1>
-  <div class="sub"><a href="index.html">Accueil</a> · <a href="preparer.html">Préparer le voyage</a><br>2 adultes et une ado de 12 ans, du 3 au 18 avril. Données de la feuille « À faire » au <span id="gen"></span>. <a href="https://docs.google.com/spreadsheets/d/1BYG-KHH-lIS8tV3o3RzYj_1i19H_ioaJizK7ekh0WL4/edit" target="_blank" rel="noopener">Ouvrir la feuille</a></div>
+  <div class="sub"><a href="index.html">Accueil</a> · <a href="preparer.html">Préparer le voyage</a> · <a href="specialites.html">Spécialités</a><br>2 adultes et une ado de 12 ans, du 3 au 18 avril. Données de la feuille « À faire » au <span id="gen"></span>. <a href="https://docs.google.com/spreadsheets/d/1BYG-KHH-lIS8tV3o3RzYj_1i19H_ioaJizK7ekh0WL4/edit" target="_blank" rel="noopener">Ouvrir la feuille</a></div>
 </header>
 <div class="strip" id="strip"></div>
 
 <main class="app">
-  <aside class="panel" aria-label="Filtres et liste des lieux">
+  <aside class="panel" aria-label="Chronologie et liste des lieux">
     <div class="filters">
+      <div class="frow"><span class="t">Vue</span>
+        <div class="seg" id="seg-view" role="group" aria-label="Mode d'affichage">
+          <button type="button" data-v="chrono" aria-pressed="true">Chronologie</button>
+          <button type="button" data-v="ville" aria-pressed="false">Par ville</button>
+        </div>
+      </div>
       <div class="frow"><span class="t">Note</span>
         <div class="seg" id="seg-rating" role="group" aria-label="Note minimale">
           <button type="button" data-v="0" aria-pressed="true">Toutes</button>
@@ -248,7 +263,7 @@ svg#map.drag { cursor: grabbing; }
     <div class="card" id="card"></div>
   </section>
 </main>
-<div class="foot">Les lignes de transport, de préparation et de budget de la feuille ne sont pas placées sur la carte. Les positions marquées « approximative » sont à confirmer.</div>
+<div class="foot">La carte montre le tronc commun du voyage : les lieux indispensables et ceux de l'onglet « Chronologie » de la feuille. Les autres idées restent dans l'onglet « À faire ». Les positions marquées « approximative » sont à confirmer.</div>
 
 <script>
 const D = /*__DATA__*/null;
@@ -264,14 +279,14 @@ const D = /*__DATA__*/null;
   const gBy = {}; D.groups.forEach((g) => (gBy[g.key] = g));
   const pBy = {}; D.places.forEach((p) => (pBy[p.id] = p));
   const stayNums = {}; D.stays.forEach((s) => { (stayNums[s.group] = stayNums[s.group] || []).push(s.n); });
-  const tagFor = (key) => (stayNums[key] ? "Étape " + stayNums[key].join(" et ") : key === "Nara" ? "Excursion depuis Kyoto" : "Option");
+  const tagFor = (key) => (stayNums[key] ? "Étape " + stayNums[key].join(" et ") : "Excursion");
   const order = [];
   D.stays.forEach((s) => { if (!order.includes(s.group)) order.push(s.group); });
   D.groups.forEach((g) => { if (!order.includes(g.key)) order.push(g.key); });
 
   const types = [...new Set(D.places.map((p) => p.t))];
   const F = { min: 0, ind: false, res: false, route: true, types: new Set(types) };
-  let hover = null, sel = null, focusKey = null;
+  let hover = null, sel = null, focusKey = null, view = "chrono";
 
   const svg = $("#map"), wrap = $("#mapwrap");
   let cw = 800, ch = 500, fit = 1;
@@ -309,10 +324,33 @@ const D = /*__DATA__*/null;
   function ratePill(p) {
     return `<span class="rate bg${p.r == null ? 0 : p.r}${p.ind ? " ind" : ""}">${p.r == null ? "–" : p.r}</span>`;
   }
+  const MOMENT = { "Matin": "Matin", "Après-midi": "Après-midi", "Soir": "Soir", "Journée": "Journée" };
+  function buildChrono(vs) {
+    const ok = new Set(vs.map((p) => p.id));
+    let h = "";
+    D.days.forEach((d) => {
+      const items = d.items.filter((it) => it.pid == null || ok.has(it.pid));
+      if (!items.length) return;
+      const gk = (items.map((it) => it.pid).filter((x) => x != null).map((x) => pBy[x].g)[0]) || null;
+      h += `<${gk ? "button type=\"button\" data-g=\"" + esc(gk) + "\"" : "div"} class="dhead"><span class="dn">${esc(d.label)}</span><span class="dt">${d.night ? "Nuit : " + esc(d.night) : ""}</span></${gk ? "button" : "div"}>`;
+      items.forEach((it) => {
+        const p = it.pid != null ? pBy[it.pid] : null;
+        const when = [it.m, it.time].filter(Boolean).join(" · ");
+        if (p) {
+          h += `<button type="button" class="row${p.id === sel ? " sel" : ""}${p.id === hover ? " hl" : ""}" data-pid="${p.id}">${ratePill(p)}<span><span class="tm">${esc(when)}</span><span class="nm" style="display:block">${esc(p.n)}</span><span class="meta"><span>${esc(p.t)}</span>${p.h != null ? `<span>${fmtH(p.h)}</span>` : ""}${isRes(p) ? `<span class="res">À réserver</span>` : ""}${p.add ? `<span class="add">Ajout</span>` : ""}</span>${it.note ? `<span class="nt">${esc(it.note)}</span>` : ""}</span></button>`;
+        } else {
+          const ic = /^trajet/i.test(it.type) ? "→" : /^libre/i.test(it.type) ? "○" : "·";
+          h += `<div class="trow"><span class="ic" aria-hidden="true">${ic}</span><span><span class="tm">${esc(when)}</span><span style="display:block;color:var(--ink)">${esc(it.text)}</span>${it.note ? `<span class="nt">${esc(it.note)}</span>` : ""}</span></div>`;
+        }
+      });
+    });
+    return h;
+  }
   function buildList() {
     const vs = visible();
     let h = "";
-    order.forEach((key) => {
+    if (view === "chrono") h = buildChrono(vs);
+    else order.forEach((key) => {
       const items = vs.filter((p) => p.g === key).sort((a, b) => (b.r ?? -1) - (a.r ?? -1) || a.n.localeCompare(b.n, "fr"));
       if (!items.length) return;
       const ni = items.filter((p) => p.ind).length;
@@ -548,7 +586,7 @@ const D = /*__DATA__*/null;
     const p = pBy[sel];
     const stars = p.r == null ? "" : "★".repeat(p.r) + "☆".repeat(5 - p.r);
     c.innerHTML = `<button type="button" class="x" aria-label="Fermer">×</button><h2>${esc(p.n)}</h2><div class="kk">${esc(gBy[p.g].label)} · ${esc(p.t)}</div>`
-      + `<div class="badges">${p.r != null ? `<span class="bd"><span aria-hidden="true">${stars}</span> ${p.r}/5</span>` : '<span class="bd">Sans note</span>'}${p.ind ? '<span class="bd g">★ Indispensable</span>' : ""}${p.h != null ? `<span class="bd">${fmtH(p.h)} sur place</span>` : ""}${isRes(p) ? `<span class="bd r">À réserver : ${esc(p.res)}</span>` : p.res === "À vérifier" ? '<span class="bd">Réservation à vérifier</span>' : ""}</div>`
+      + `<div class="badges">${p.r != null ? `<span class="bd"><span aria-hidden="true">${stars}</span> ${p.r}/5</span>` : '<span class="bd">Sans note</span>'}${p.ind ? '<span class="bd g">★ Indispensable</span>' : ""}${p.day ? `<span class="bd">${esc(p.day)}</span>` : ""}${p.add ? '<span class="bd r">Ajout</span>' : ""}${p.h != null ? `<span class="bd">${fmtH(p.h)} sur place</span>` : ""}${isRes(p) ? `<span class="bd r">À réserver : ${esc(p.res)}</span>` : p.res === "À vérifier" ? '<span class="bd">Réservation à vérifier</span>' : ""}</div>`
       + `${p.full !== p.n ? `<p>${esc(p.full)}</p>` : ""}`
       + (p.u ? `<p><a href="${esc(p.u)}" target="_blank" rel="noopener">Fiche touristique (en français)</a>${/psg\.fr/.test(p.u) ? " (site du club)" : ""}</p>` : "")
       + `<p><a href="https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}" target="_blank" rel="noopener">Voir sur Google Maps</a>${p.ap ? " (position approximative)" : ""}</p>`;
@@ -612,10 +650,16 @@ const D = /*__DATA__*/null;
   $("#list").addEventListener("click", (e) => {
     const row = e.target.closest(".row");
     if (row) { focusPlace(+row.dataset.pid); return; }
-    const gh = e.target.closest(".ghead"); if (gh) { focusGroup(gh.dataset.g); showCard(); }
+    const gh = e.target.closest(".ghead, .dhead"); if (gh && gh.dataset.g) { focusGroup(gh.dataset.g); showCard(); }
   });
   $("#list").addEventListener("pointerover", (e) => { const row = e.target.closest(".row"); if (row) setHover(+row.dataset.pid); });
   $("#list").addEventListener("pointerleave", () => setHover(null));
+  $("#seg-view").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-v]"); if (!b) return;
+    view = b.dataset.v;
+    document.querySelectorAll("#seg-view button").forEach((x) => x.setAttribute("aria-pressed", x === b));
+    buildList();
+  });
   $("#seg-rating").addEventListener("click", (e) => {
     const b = e.target.closest("[data-v]"); if (!b) return;
     F.min = +b.dataset.v;

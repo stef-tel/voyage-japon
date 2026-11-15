@@ -52,11 +52,12 @@ const landing = `<!doctype html><html lang="fr"><head><meta charset="utf-8"><met
 .card .go{display:inline-block;margin-top:12px;color:var(--red);font-weight:bold}
 .foot{text-align:center;color:var(--muted);font-size:14px;padding:10px 20px 40px}
 </style></head><body>
-<div class="top"><b>Voyage au Japon</b><span><a href="carte.html">Carte interactive</a><a href="preparer.html">Préparer le voyage</a></span></div>
+<div class="top"><b>Voyage au Japon</b><span><a href="carte.html">Carte interactive</a><a href="preparer.html">Préparer le voyage</a><a href="specialites.html">Spécialités</a></span></div>
 <header class="hero">${sky}<div class="t"><h1>Japon, avril 2027</h1><p>Tokyo, Hakone, Kyoto, Takayama : notre voyage en famille du 2 au 18 avril</p></div></header>
 <nav class="menu" aria-label="Menu">
 <a class="card" href="carte.html"><h2>Carte interactive</h2><p>Tous les lieux à visiter sur une carte du Japon, avec la note de chaque lieu, nos indispensables, les horaires, les réservations et une fiche en français.</p><span class="go">Ouvrir la carte</span></a>
 <a class="card" href="preparer.html"><h2>Préparer le voyage</h2><p>La liste de ce qu'il faut préparer : papiers, réservations, eSIM, applis, argent, bagages. Elle vient de l'onglet « Préparer le voyage » de notre Google Sheet.</p><span class="go">Ouvrir la checklist</span></a>
+<a class="card" href="specialites.html"><h2>Spécialités culinaires</h2><p>Ce qu'il faut goûter, ville par ville, avec les plats déjà goûtés cochés. Elle vient de l'onglet « Spécialités » de notre Google Sheet.</p><span class="go">Ouvrir la liste</span></a>
 </nav>
 <p class="foot">Dernière mise à jour des listes : ${esc(data.updated)}. Illustration originale.</p>
 </body></html>`;
@@ -93,7 +94,7 @@ li label{display:flex;gap:12px;padding:12px 14px;cursor:pointer}li input{width:2
 .rej{margin-top:34px;border-top:2px solid var(--line);padding-top:10px}.rej summary{cursor:pointer;color:var(--muted);font-weight:bold}.rej li{border-left-color:#bbb;padding:10px 14px;opacity:.75}.rej li b{text-decoration:line-through;color:var(--muted)}
 .note{font-size:13px;color:var(--muted);margin-top:30px}
 </style></head><body>
-<div class="top"><b><a href="index.html" style="margin:0">Voyage au Japon</a></b><span><a href="carte.html">Carte interactive</a><a href="preparer.html">Préparer le voyage</a></span></div>
+<div class="top"><b><a href="index.html" style="margin:0">Voyage au Japon</a></b><span><a href="carte.html">Carte interactive</a><a href="preparer.html">Préparer le voyage</a><a href="specialites.html">Spécialités</a></span></div>
 <main><h1>Préparer le voyage</h1>
 <div class="bar"><div><span id="count"></span></div><div class="prog"><i id="bar"></i></div>
 <div class="filters" id="f"><button data-f="all" aria-pressed="true">Tout</button><button data-f="Indispensable" aria-pressed="false">Indispensable</button><button data-f="Important" aria-pressed="false">Important</button><button data-f="Utile" aria-pressed="false">Utile</button><button data-f="todo" aria-pressed="false">Reste à faire</button></div></div>
@@ -112,6 +113,33 @@ document.getElementById("count").textContent=d+" sur "+boxes.length+" faits";doc
 document.querySelectorAll("#f button").forEach(x=>x.addEventListener("click",()=>{flt=x.dataset.f;document.querySelectorAll("#f button").forEach(y=>y.setAttribute("aria-pressed",y===x));upd()}));
 upd();
 </script></body></html>`;
+
+
+// ---- Page des spécialités culinaires (onglet « Spécialités », colonne « Fait » = case à cocher de la feuille)
+const foodRows = JSON.parse(fs.readFileSync(new URL("./sheet/food.json", import.meta.url), "utf8")).values.slice(1).filter((r) => r[0]);
+const isDone = (r) => String(r[5]).toUpperCase() === "TRUE";
+const villes = [...new Set(foodRows.map((r) => r[2]))];
+const nDone = foodRows.filter(isDone).length;
+const foodItem = (r) => `<li class="${isDone(r) ? "done" : ""} p${esc(r[4] || 3)}"><span class="ck" aria-hidden="true">${isDone(r) ? "✓" : ""}</span><span class="main"><b>${esc(r[0])}</b><span class="meta"><span class="tag">${esc(r[1])}</span>${isDone(r) ? " · goûté" : ""}</span>${r[3] ? `<span class="det">${esc(r[3])}</span>` : ""}</span></li>`;
+const foodPage = `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spécialités culinaires du Japon</title><style>${css}
+main{max-width:860px;margin:0 auto;padding:20px}h1{color:var(--navy);margin:8px 0}
+.prog{height:10px;background:#e9e2dc;border-radius:5px;overflow:hidden;margin:6px 0 4px}.prog i{display:block;height:100%;background:var(--navy)}
+section h2{margin:26px 0 8px;color:var(--navy);border-bottom:2px solid var(--pink);padding-bottom:4px}
+ul{list-style:none;margin:0;padding:0}li{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-left:5px solid #9aa5bd;border-radius:10px;margin:8px 0;padding:12px 14px}
+li.p1{border-left-color:var(--red)}li.p2{border-left-color:#e0a030}
+.ck{flex:none;width:22px;height:22px;border:2px solid var(--navy);border-radius:5px;display:grid;place-items:center;font-weight:bold;color:#fff;margin-top:2px}li.done .ck{background:var(--navy)}
+.main{display:flex;flex-direction:column;gap:4px}.meta{font-size:13px;color:var(--muted)}.tag{font-weight:bold;color:var(--ink)}.det{font-size:14px;color:#333}
+li.done b{text-decoration:line-through;color:var(--muted)}
+.note{font-size:13px;color:var(--muted);margin-top:30px}
+</style></head><body>
+<div class="top"><b><a href="index.html" style="margin:0">Voyage au Japon</a></b><span><a href="carte.html">Carte interactive</a><a href="preparer.html">Préparer le voyage</a><a href="specialites.html">Spécialités</a></span></div>
+<main><h1>Spécialités culinaires à goûter</h1>
+<div><b>${nDone} sur ${foodRows.length}</b> goûtées</div><div class="prog"><i style="width:${foodRows.length ? Math.round(100 * nDone / foodRows.length) : 0}%"></i></div>
+${villes.map((v) => `<section><h2>${esc(v)}</h2><ul>${foodRows.filter((r) => r[2] === v).map(foodItem).join("")}</ul></section>`).join("")}
+<p class="note">Liste générée depuis l'onglet « Spécialités » de <a href="${SHEET}">notre Google Sheet</a> (état au ${esc(data.updated)}). Pour marquer un plat comme goûté, cocher la case « Fait » dans la feuille, puis relancer la mise à jour du site.</p>
+</main></body></html>`;
+fs.writeFileSync(new URL("../specialites.html", import.meta.url), foodPage);
 
 fs.writeFileSync(new URL("../index.html", import.meta.url), landing);
 fs.writeFileSync(new URL("../preparer.html", import.meta.url), prep);

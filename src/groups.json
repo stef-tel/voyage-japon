@@ -1,0 +1,153 @@
+{
+ "GROUPS": {
+  "Tokyo": {
+   "label": "Tokyo",
+   "lat": 35.685,
+   "lng": 139.73,
+   "anchor": "start",
+   "dx": 15,
+   "dy": -12
+  },
+  "Fuji-Hakone-Izu": {
+   "label": "Fuji",
+   "lat": 35.43,
+   "lng": 138.85,
+   "anchor": "end",
+   "dx": -15,
+   "dy": -6
+  },
+  "Hakone": {
+   "label": "Hakone",
+   "lat": 35.233,
+   "lng": 139.06,
+   "anchor": "middle",
+   "dx": 0,
+   "dy": 26
+  },
+  "Kyoto": {
+   "label": "Kyoto",
+   "lat": 35.0116,
+   "lng": 135.7681,
+   "anchor": "start",
+   "dx": 15,
+   "dy": -8
+  },
+  "Nara": {
+   "label": "Nara",
+   "lat": 34.6851,
+   "lng": 135.83,
+   "anchor": "start",
+   "dx": 15,
+   "dy": 8
+  },
+  "Nagoya / Inuyama": {
+   "label": "Nagoya et Inuyama",
+   "lat": 35.1815,
+   "lng": 136.9066,
+   "anchor": "middle",
+   "dx": 0,
+   "dy": 26
+  },
+  "Osaka": {
+   "label": "Osaka",
+   "lat": 34.6937,
+   "lng": 135.5023,
+   "anchor": "middle",
+   "dx": 0,
+   "dy": 26
+  },
+  "Takayama / Shirakawa-go": {
+   "label": "Takayama et Shirakawa-go",
+   "lat": 36.1405,
+   "lng": 137.2615,
+   "anchor": "middle",
+   "dx": 0,
+   "dy": -18
+  },
+  "Kanazawa": {
+   "label": "Kanazawa",
+   "lat": 36.5613,
+   "lng": 136.6562,
+   "anchor": "middle",
+   "dx": 0,
+   "dy": -18
+  },
+  "Himeji": {
+   "label": "Himeji",
+   "lat": 34.8151,
+   "lng": 134.6853,
+   "anchor": "end",
+   "dx": -15,
+   "dy": 4
+  },
+  "Hiroshima": {
+   "label": "Hiroshima",
+   "lat": 34.3853,
+   "lng": 132.4553,
+   "anchor": "middle",
+   "dx": 0,
+   "dy": 26
+  },
+  "Miyajima": {
+   "label": "Miyajima",
+   "lat": 34.2961,
+   "lng": 132.3198,
+   "anchor": "start",
+   "dx": 14,
+   "dy": 14
+  },
+  "Okayama": {
+   "label": "Okayama",
+   "lat": 34.6551,
+   "lng": 133.9195,
+   "anchor": "end",
+   "dx": -15,
+   "dy": -4
+  },
+  "Kobe": {
+   "label": "Kobe",
+   "lat": 34.6901,
+   "lng": 135.1955,
+   "anchor": "end",
+   "dx": -15,
+   "dy": 14
+  }
+ },
+ "STAYS": [
+  {
+   "n": 1,
+   "group": "Tokyo",
+   "from": "3 avr",
+   "to": "6 avr",
+   "nights": 3
+  },
+  {
+   "n": 2,
+   "group": "Hakone",
+   "from": "6 avr",
+   "to": "8 avr",
+   "nights": 2
+  },
+  {
+   "n": 3,
+   "group": "Kyoto",
+   "from": "8 avr",
+   "to": "12 avr",
+   "nights": 4
+  },
+  {
+   "n": 4,
+   "group": "Takayama / Shirakawa-go",
+   "from": "12 avr",
+   "to": "14 avr",
+   "nights": 2
+  },
+  {
+   "n": 5,
+   "group": "Tokyo",
+   "from": "14 avr",
+   "to": "16 avr",
+   "nights": 2
+  }
+ ]
+}

@@ -1,0 +1,453 @@
+{
+ "Senso-ji (Asakusa), arriver tôt pour éviter la foule sur Nakamise-dori": {
+  "g": "Tokyo",
+  "n": "Senso-ji",
+  "lat": 35.7148,
+  "lng": 139.7967
+ },
+ "Meiji-Jingu": {
+  "g": "Tokyo",
+  "n": "Meiji-Jingu",
+  "lat": 35.6764,
+  "lng": 139.6993
+ },
+ "Sengaku-ji": {
+  "g": "Tokyo",
+  "n": "Sengaku-ji",
+  "lat": 35.6385,
+  "lng": 139.734
+ },
+ "Okunitama Jinja": {
+  "g": "Tokyo",
+  "n": "Okunitama Jinja",
+  "lat": 35.6683,
+  "lng": 139.4778
+ },
+ "Maneki-Neko": {
+  "g": "Tokyo",
+  "n": "Maneki-Neko",
+  "lat": 35.6486,
+  "lng": 139.6469,
+  "ap": true
+ },
+ "Shibuya Crossing": {
+  "g": "Tokyo",
+  "n": "Shibuya Crossing",
+  "lat": 35.6595,
+  "lng": 139.7005
+ },
+ "Shinjuku (jardin Shinjuku Gyoen, fermé le lundi)": {
+  "g": "Tokyo",
+  "n": "Shinjuku Gyoen",
+  "lat": 35.6852,
+  "lng": 139.71
+ },
+ "Harajuku": {
+  "g": "Tokyo",
+  "n": "Harajuku",
+  "lat": 35.6702,
+  "lng": 139.7027
+ },
+ "Akihabara (manga, jeux vidéo, électronique)": {
+  "g": "Tokyo",
+  "n": "Akihabara",
+  "lat": 35.6984,
+  "lng": 139.7731
+ },
+ "teamLab (Planets ou Borderless)": {
+  "g": "Tokyo",
+  "n": "teamLab",
+  "lat": 35.6491,
+  "lng": 139.7897
+ },
+ "Repas de sushi au marché de Toyosu": {
+  "g": "Tokyo",
+  "n": "Sushi à Toyosu",
+  "lat": 35.6455,
+  "lng": 139.7845
+ },
+ "Dernier shopping et site raté au premier passage (fin de séjour)": {
+  "g": "Tokyo",
+  "n": "Dernier shopping",
+  "lat": 35.6717,
+  "lng": 139.765,
+  "ap": true
+ },
+ "Sumo : assister à l'entraînement du matin dans une écurie de Ryogoku (visite guidée en anglais)": {
+  "g": "Tokyo",
+  "n": "Sumo : entraînement du matin",
+  "lat": 35.693,
+  "lng": 139.796,
+  "ap": true
+ },
+ "Sumo : tournée de printemps « Ariake Basho » à l'Ariake Arena, jeudi 15 avril 2027 (portes 9h, fin 14h30)": {
+  "g": "Tokyo",
+  "n": "Sumo : tournée Ariake Basho",
+  "lat": 35.636,
+  "lng": 139.791
+ },
+ "Sumo : autre tournée possible à Fujisawa (Kanagawa), samedi 17 avril 2027": {
+  "g": "Tokyo",
+  "n": "Sumo : tournée de Fujisawa",
+  "lat": 35.339,
+  "lng": 139.49
+ },
+ "Ryogoku : musée du sumo et quartier (chanko-nabe, le ragoût des lutteurs)": {
+  "g": "Tokyo",
+  "n": "Ryogoku : musée du sumo",
+  "lat": 35.699,
+  "lng": 139.7936
+ },
+ "Boutique PSG de Shinjuku (boutique principale de Tokyo)": {
+  "g": "Tokyo",
+  "n": "Boutique PSG de Shinjuku",
+  "lat": 35.6905,
+  "lng": 139.701,
+  "ap": true
+ },
+ "Boutique PSG de Harajuku (Laforet Harajuku, 1er étage)": {
+  "g": "Tokyo",
+  "n": "Boutique PSG de Harajuku",
+  "lat": 35.6703,
+  "lng": 139.706
+ },
+ "Musée Ghibli de Mitaka": {
+  "g": "Tokyo",
+  "n": "Musée Ghibli",
+  "lat": 35.6962,
+  "lng": 139.5704
+ },
+ "Shibuya Sky (vue panoramique, de préférence au coucher du soleil)": {
+  "g": "Tokyo",
+  "n": "Shibuya Sky",
+  "lat": 35.6585,
+  "lng": 139.7022
+ },
+ "Tokyo Skytree (plateforme d'observation, de préférence au coucher du soleil)": {
+  "g": "Tokyo",
+  "n": "Tokyo Skytree",
+  "lat": 35.7101,
+  "lng": 139.8107
+ },
+ "Cerisiers en fleurs : parc d'Ueno, Chidorigafuchi, rivière Meguro": {
+  "g": "Tokyo",
+  "n": "Cerisiers : Ueno, Chidorigafuchi, Meguro",
+  "lat": 35.7148,
+  "lng": 139.7745
+ },
+ "Excursion d'une journée à Kamakura (Grand Bouddha) ou à Nikko (environ 2 h de train)": {
+  "g": "Tokyo",
+  "n": "Kamakura ou Nikko",
+  "lat": 35.3167,
+  "lng": 139.5359
+ },
+ "Parc National de Fuji-Hakone-Izu": {
+  "g": "Fuji-Hakone-Izu",
+  "n": "Parc national Fuji-Hakone-Izu",
+  "lat": 35.3,
+  "lng": 138.95,
+  "ap": true
+ },
+ "Vue sur le Mont Fuji depuis Hakone ou Kawaguchiko": {
+  "g": "Fuji-Hakone-Izu",
+  "n": "Vue sur le Fuji (Kawaguchiko)",
+  "lat": 35.51,
+  "lng": 138.76
+ },
+ "Gravir le Mont Fuji (à vérifier : saison d'ouverture des sentiers, généralement l'été)": {
+  "g": "Fuji-Hakone-Izu",
+  "n": "Gravir le Mont Fuji",
+  "lat": 35.3606,
+  "lng": 138.7274
+ },
+ "Croisière sur le lac Ashi": {
+  "g": "Hakone",
+  "n": "Croisière sur le lac Ashi",
+  "lat": 35.2,
+  "lng": 139.027
+ },
+ "Nuit en ryokan avec onsen (séjour spécial du voyage)": {
+  "g": "Hakone",
+  "n": "Nuit en ryokan avec onsen",
+  "lat": 35.2265,
+  "lng": 139.0909,
+  "ap": true
+ },
+ "Alternative au ryokan : journée « nature et gourmandise » près du Fuji (petite randonnée, onsen en plein air, restaurant de fruits de mer) et Musée du ramen de Shin-Yokohama": {
+  "g": "Hakone",
+  "n": "Alternative : nature, onsen, ramen",
+  "lat": 35.245,
+  "lng": 139.045,
+  "ap": true
+ },
+ "Fushimi Inari (arriver avant 7h)": {
+  "g": "Kyoto",
+  "n": "Fushimi Inari",
+  "lat": 34.9671,
+  "lng": 135.7727
+ },
+ "Kinkaku-ji (Pavillon d'Or)": {
+  "g": "Kyoto",
+  "n": "Kinkaku-ji",
+  "lat": 35.0394,
+  "lng": 135.7292
+ },
+ "Ginkaku-ji (Pavillon d'Argent)": {
+  "g": "Kyoto",
+  "n": "Ginkaku-ji",
+  "lat": 35.027,
+  "lng": 135.7982
+ },
+ "Gion (idéal en fin de journée)": {
+  "g": "Kyoto",
+  "n": "Gion",
+  "lat": 35.0037,
+  "lng": 135.7756
+ },
+ "Kiyomizu-dera": {
+  "g": "Kyoto",
+  "n": "Kiyomizu-dera",
+  "lat": 34.9949,
+  "lng": 135.785
+ },
+ "Forêt de bambous d'Arashiyama": {
+  "g": "Kyoto",
+  "n": "Forêt de bambous d'Arashiyama",
+  "lat": 35.017,
+  "lng": 135.6713
+ },
+ "Nintendo Museum (Uji, près de Kyoto)": {
+  "g": "Kyoto",
+  "n": "Nintendo Museum",
+  "lat": 34.8896,
+  "lng": 135.8031
+ },
+ "Cerisiers en fleurs : chemin de la Philosophie": {
+  "g": "Kyoto",
+  "n": "Cerisiers : chemin de la Philosophie",
+  "lat": 35.023,
+  "lng": 135.795
+ },
+ "Parc de Nara (cerfs) et Todai-ji, excursion depuis Kyoto": {
+  "g": "Nara",
+  "n": "Parc de Nara et Todai-ji",
+  "lat": 34.689,
+  "lng": 135.8398
+ },
+ "Sanctuaire Kasuga Taisha et ses lanternes": {
+  "g": "Nara",
+  "n": "Kasuga Taisha",
+  "lat": 34.6813,
+  "lng": 135.8485
+ },
+ "Quartier de Naramachi (vieilles maisons de marchands, boutiques)": {
+  "g": "Nara",
+  "n": "Naramachi",
+  "lat": 34.676,
+  "lng": 135.83
+ },
+ "Nourrir les cerfs avec les biscuits vendus dans le parc": {
+  "g": "Nara",
+  "n": "Nourrir les cerfs",
+  "lat": 34.6851,
+  "lng": 135.843
+ },
+ "Visiter Nagoya": {
+  "g": "Nagoya / Inuyama",
+  "n": "Nagoya",
+  "lat": 35.1852,
+  "lng": 136.8996
+ },
+ "Château d'Inuyama": {
+  "g": "Nagoya / Inuyama",
+  "n": "Château d'Inuyama",
+  "lat": 35.3883,
+  "lng": 136.9393
+ },
+ "Boutique PSG de Nagoya (Parco, aile ouest, 1er étage)": {
+  "g": "Nagoya / Inuyama",
+  "n": "Boutique PSG de Nagoya",
+  "lat": 35.1665,
+  "lng": 136.9086,
+  "ap": true
+ },
+ "Visiter Osaka : Dotonbori (street food), château d'Osaka (option à trancher, Osaka jugée moins intéressante)": {
+  "g": "Osaka",
+  "n": "Dotonbori",
+  "lat": 34.6687,
+  "lng": 135.5013
+ },
+ "Château d'Osaka (Osaka-jô), donjon, musée et parc": {
+  "g": "Osaka",
+  "n": "Château d'Osaka",
+  "lat": 34.6873,
+  "lng": 135.5262
+ },
+ "Universal Studios Japan (option, une journée entière)": {
+  "g": "Osaka",
+  "n": "Universal Studios Japan",
+  "lat": 34.6654,
+  "lng": 135.4323
+ },
+ "Takayama (vieille ville, marchés) et village historique de Shirakawa-go (option à la place d'Osaka)": {
+  "g": "Takayama / Shirakawa-go",
+  "n": "Takayama et Shirakawa-go",
+  "lat": 36.1405,
+  "lng": 137.2615
+ },
+ "Nuit en ryokan à Takayama (Asunaro, Tanabe ou Honjin Hiranoya Kachoan)": {
+  "g": "Takayama / Shirakawa-go",
+  "n": "Nuit en ryokan à Takayama",
+  "lat": 36.1385,
+  "lng": 137.254,
+  "ap": true
+ },
+ "Jardin Kenroku-en": {
+  "g": "Kanazawa",
+  "n": "Kenroku-en",
+  "lat": 36.5622,
+  "lng": 136.6628
+ },
+ "Quartier des geishas Higashi Chaya": {
+  "g": "Kanazawa",
+  "n": "Higashi Chaya",
+  "lat": 36.5724,
+  "lng": 136.6666
+ },
+ "Marché Omicho (produits de la mer, street food)": {
+  "g": "Kanazawa",
+  "n": "Marché Omicho",
+  "lat": 36.5712,
+  "lng": 136.6577
+ },
+ "Château de Himeji": {
+  "g": "Himeji",
+  "n": "Château de Himeji",
+  "lat": 34.8394,
+  "lng": 134.6939
+ },
+ "Jardin Koko-en (à côté du château)": {
+  "g": "Himeji",
+  "n": "Jardin Koko-en",
+  "lat": 34.839,
+  "lng": 134.6895
+ },
+ "Temple Engyo-ji": {
+  "g": "Himeji",
+  "n": "Temple Engyo-ji",
+  "lat": 34.8689,
+  "lng": 134.6595
+ },
+ "Himeji comme arrêt entre Osaka ou Kyoto et Hiroshima": {
+  "g": "Himeji",
+  "n": "Himeji comme étape",
+  "lat": 34.8271,
+  "lng": 134.6906,
+  "ap": true
+ },
+ "Parc du Mémorial de la Paix et Dôme de Genbaku": {
+  "g": "Hiroshima",
+  "n": "Parc du Mémorial de la Paix",
+  "lat": 34.3955,
+  "lng": 132.4536
+ },
+ "Musée du Mémorial de la Paix": {
+  "g": "Hiroshima",
+  "n": "Musée du Mémorial de la Paix",
+  "lat": 34.3912,
+  "lng": 132.4527
+ },
+ "Jardin Shukkei-en": {
+  "g": "Hiroshima",
+  "n": "Jardin Shukkei-en",
+  "lat": 34.4003,
+  "lng": 132.467
+ },
+ "Okonomiyaki à la façon de Hiroshima, huîtres, anago (congre)": {
+  "g": "Hiroshima",
+  "n": "Okonomiyaki",
+  "lat": 34.3935,
+  "lng": 132.459,
+  "ap": true
+ },
+ "Grand torii et sanctuaire d'Itsukushima": {
+  "g": "Miyajima",
+  "n": "Grand torii d'Itsukushima",
+  "lat": 34.2958,
+  "lng": 132.3194
+ },
+ "Cerfs en liberté sur l'île": {
+  "g": "Miyajima",
+  "n": "Cerfs en liberté",
+  "lat": 34.2985,
+  "lng": 132.318
+ },
+ "Pagode Goju-no-to et sanctuaire Toyokuni": {
+  "g": "Miyajima",
+  "n": "Pagode Goju-no-to",
+  "lat": 34.2985,
+  "lng": 132.3212
+ },
+ "Momiji manju (gâteaux en forme de feuille d'érable)": {
+  "g": "Miyajima",
+  "n": "Momiji manju",
+  "lat": 34.2955,
+  "lng": 132.3205
+ },
+ "Nuit sur l'île en ryokan familial (par exemple Miyajima Kinsuikan)": {
+  "g": "Miyajima",
+  "n": "Nuit en ryokan sur l'île",
+  "lat": 34.2967,
+  "lng": 132.3215,
+  "ap": true
+ },
+ "Jardin Korakuen": {
+  "g": "Okayama",
+  "n": "Jardin Korakuen",
+  "lat": 34.6665,
+  "lng": 133.9362
+ },
+ "Château d'Okayama, le château noir": {
+  "g": "Okayama",
+  "n": "Château d'Okayama",
+  "lat": 34.6652,
+  "lng": 133.9417
+ },
+ "Quartier historique Bikan à Kurashiki": {
+  "g": "Okayama",
+  "n": "Bikan à Kurashiki",
+  "lat": 34.5963,
+  "lng": 133.772
+ },
+ "Bœuf de Kobe (repas teppanyaki)": {
+  "g": "Kobe",
+  "n": "Bœuf de Kobe",
+  "lat": 34.69,
+  "lng": 135.191,
+  "ap": true
+ },
+ "Quartier de Kitano (maisons occidentales)": {
+  "g": "Kobe",
+  "n": "Quartier de Kitano",
+  "lat": 34.6976,
+  "lng": 135.1927
+ },
+ "Port de Kobe (Harborland, Meriken Park)": {
+  "g": "Kobe",
+  "n": "Port de Kobe",
+  "lat": 34.6786,
+  "lng": 135.1856
+ },
+ "Téléphérique Nunobiki, jardin d'herbes et vue de nuit sur Kobe (mont Rokko)": {
+  "g": "Kobe",
+  "n": "Téléphérique Nunobiki",
+  "lat": 34.705,
+  "lng": 135.1965
+ },
+ "Arima Onsen (station thermale proche de Kobe)": {
+  "g": "Kobe",
+  "n": "Arima Onsen",
+  "lat": 34.7977,
+  "lng": 135.2478
+ }
+}
