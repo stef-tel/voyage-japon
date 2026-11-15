@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carte du voyage au Japon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Shippori+Mincho+B1:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* Plan : carte plein cadre, panneau de tri à gauche. Une teinte (indigo) pour la note, or pour « indispensable », vermillon pour l'itinéraire. */
+:root {
+  --bg: #f2f4f7;
+  --panel: #ffffff;
+  --ink: #14202e;
+  --muted: #5b6878;
+  --line: #dbe1e8;
+  --sea: #dde8f1;
+  --land: #f8f6ef;
+  --coast: #aebbc9;
+  --other-land: #ecebe6;
+  --route: #c8372d;
+  --gold: #e0a100;
+  --gold-ink: #3d2b00;
+  --pin: #14202e;
+  --r1: #d3deee; --r2: #a3bde0; --r3: #4f7fbd; --r4: #2c5ca0; --r5: #123a73;
+  --n1: #14202e; --n2: #14202e; --n3: #ffffff; --n4: #ffffff; --n5: #ffffff;
+  --none: #c6ccd4;
+  --focus: #2c5ca0;
+  --shadow: 0 1px 2px rgba(20,32,46,.12), 0 6px 18px rgba(20,32,46,.10);
+  --display: "Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho", Georgia, serif;
+  --body: "Noto Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e141b; --panel: #151d27; --ink: #e6ebf1; --muted: #9aa8b8; --line: #263341;
+    --sea: #0f1d2b; --land: #1d2a37; --coast: #3b4e63; --other-land: #18222d;
+    --route: #ff6a5c; --gold: #f2b705; --gold-ink: #231900; --pin: #e6ebf1;
+    --r1: #26406a; --r2: #35568f; --r3: #4f7fc9; --r4: #6f9ae0; --r5: #9bbcf4;
+    --n1: #e6ebf1; --n2: #e6ebf1; --n3: #ffffff; --n4: #0b1220; --n5: #0b1220;
+    --none: #3b4857; --focus: #9bbcf4;
+    --shadow: 0 1px 2px rgba(0,0,0,.5), 0 6px 18px rgba(0,0,0,.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e141b; --panel: #151d27; --ink: #e6ebf1; --muted: #9aa8b8; --line: #263341;
+  --sea: #0f1d2b; --land: #1d2a37; --coast: #3b4e63; --other-land: #18222d;
+  --route: #ff6a5c; --gold: #f2b705; --gold-ink: #231900; --pin: #e6ebf1;
+  --r1: #26406a; --r2: #35568f; --r3: #4f7fc9; --r4: #6f9ae0; --r5: #9bbcf4;
+  --n1: #e6ebf1; --n2: #e6ebf1; --n3: #ffffff; --n4: #0b1220; --n5: #0b1220;
+  --none: #3b4857; --focus: #9bbcf4;
+  --shadow: 0 1px 2px rgba(0,0,0,.5), 0 6px 18px rgba(0,0,0,.35);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 14px/1.45 var(--body); display: flex; flex-direction: column; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 20px; padding: 14px 20px 6px; }
+h1 { margin: 0; font: 700 24px/1.15 var(--display); letter-spacing: .01em; text-wrap: balance; }
+header .sub { color: var(--muted); font-size: 13px; }
+header a { color: var(--focus); }
+
+.strip { display: flex; flex-wrap: wrap; gap: 8px; padding: 6px 20px 12px; align-items: center; }
+.strip .lab { color: var(--muted); font-size: 12px; margin-right: 2px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; padding: 5px 11px 5px 6px; border: 1px solid var(--line); background: var(--panel); border-radius: 999px; cursor: pointer; }
+.chip:hover { border-color: var(--route); }
+.chip .num { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 999px; background: var(--route); color: #fff; font-weight: 700; font-size: 11px; }
+.chip .dates { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.chip.todo { border-style: dashed; cursor: default; color: var(--muted); padding-left: 11px; }
+.chip.todo:hover { border-color: var(--line); }
+
+.app { flex: 1; min-height: 0; display: grid; grid-template-columns: 400px 1fr; gap: 12px; padding: 0 20px 20px; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.filters { padding: 12px 14px; border-bottom: 1px solid var(--line); display: grid; gap: 10px; }
+.frow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.frow .t { color: var(--muted); font-size: 12px; min-width: 62px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { background: transparent; border: 0; padding: 5px 11px; cursor: pointer; border-right: 1px solid var(--line); }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--panel); }
+.tg { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 8px; background: transparent; cursor: pointer; }
+.tg[aria-pressed="true"] { background: var(--ink); color: var(--panel); border-color: var(--ink); }
+.tg .st { color: var(--gold); font-size: 14px; line-height: 1; }
+.tg[aria-pressed="true"] .st { color: var(--gold); }
+.types { display: flex; flex-wrap: wrap; gap: 5px; }
+.types button { padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; background: transparent; cursor: pointer; font-size: 12px; }
+.types button[aria-pressed="false"] { color: var(--muted); text-decoration: line-through; opacity: .7; }
+
+.summary { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.summary div { padding: 9px 14px; border-right: 1px solid var(--line); }
+.summary div:last-child { border-right: 0; }
+.summary b { display: block; font: 700 20px/1.1 var(--display); font-variant-numeric: tabular-nums; }
+.summary span { color: var(--muted); font-size: 11.5px; }
+
+.list { overflow: auto; flex: 1; min-height: 0; }
+.ghead { position: sticky; top: 0; z-index: 1; width: 100%; display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: var(--panel); border: 0; border-bottom: 1px solid var(--line); text-align: left; cursor: pointer; }
+.ghead:hover { background: var(--bg); }
+.ghead .gn { font: 700 15px/1.2 var(--display); }
+.ghead .gt { color: var(--muted); font-size: 11.5px; }
+.ghead .gc { margin-left: auto; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ghead .gc .st { color: var(--gold); }
+.row { width: 100%; display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 7px 14px; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; cursor: pointer; }
+.row:hover, .row.hl { background: var(--bg); }
+.row.sel { background: color-mix(in srgb, var(--route) 10%, var(--panel)); }
+.rate { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 12px; position: relative; }
+.rate.ind { box-shadow: 0 0 0 2px var(--panel), 0 0 0 4px var(--gold); }
+.row .nm { font-weight: 500; }
+.row .meta { color: var(--muted); font-size: 12px; display: flex; flex-wrap: wrap; gap: 2px 10px; }
+.row .meta .res { color: var(--route); font-weight: 600; }
+.row .meta .star { color: var(--gold-ink); background: var(--gold); border-radius: 4px; padding: 0 5px; font-weight: 600; font-size: 11px; }
+.empty { padding: 28px 18px; color: var(--muted); text-align: center; }
+
+.mapwrap { position: relative; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--sea); min-height: 420px; }
+svg#map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
+svg#map.drag { cursor: grabbing; }
+.land { fill: var(--land); stroke: var(--coast); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.otherland { fill: var(--other-land); stroke: var(--coast); stroke-width: .8; vector-effect: non-scaling-stroke; }
+.sealab { font: italic 500 12px var(--body); fill: var(--muted); letter-spacing: .12em; opacity: .75; text-anchor: middle; pointer-events: none; }
+.landlab { font: 600 11px var(--body); fill: var(--muted); letter-spacing: .24em; text-transform: uppercase; opacity: .6; text-anchor: middle; pointer-events: none; }
+.route { fill: none; stroke: var(--route); stroke-width: 2.5; stroke-dasharray: 7 6; stroke-linecap: round; opacity: .9; }
+.halo { paint-order: stroke; stroke: var(--panel); stroke-width: 3.5px; stroke-linejoin: round; }
+.glabel { font: 700 13px var(--display); fill: var(--ink); pointer-events: none; }
+.glabel.opt { font-weight: 600; fill: var(--muted); }
+.pin { cursor: pointer; }
+.pin .body { fill: var(--pin); }
+.pin .cnt { fill: var(--panel); font: 700 12px var(--body); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.pin .ring { fill: none; stroke: var(--route); stroke-width: 3; }
+.pin.opt .body { opacity: .78; }
+.pin.dim { opacity: .35; }
+.pin:hover .body { transform: scale(1.08); }
+.pin .rb { fill: var(--route); }
+.pin .rt { fill: #fff; font: 700 10.5px var(--body); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.pin .ib { fill: var(--gold); stroke: var(--panel); stroke-width: 1.5; }
+.pin .it { fill: var(--gold-ink); font: 700 10.5px var(--body); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.mk { cursor: pointer; }
+.mk .dot { stroke: var(--panel); stroke-width: 1.5; }
+.mk .num { font: 700 11px var(--body); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.mk .gring { fill: none; stroke: var(--gold); stroke-width: 3; }
+.mk .sbadge { fill: var(--gold); stroke: var(--panel); stroke-width: 1.2; }
+.mk .sglyph { fill: var(--gold-ink); font: 700 9px var(--body); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.mk .selring { fill: none; stroke: var(--route); stroke-width: 2.5; }
+.mk.hl .dot { stroke: var(--ink); stroke-width: 2; }
+.mk .nobox { fill: var(--none); stroke: var(--panel); stroke-width: 1.5; }
+.mk .nonum { fill: var(--ink); font: 700 10px var(--body); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.lead { stroke: var(--muted); stroke-width: 1; opacity: .6; }
+.leaddot { fill: var(--muted); opacity: .8; }
+.mlabel { font: 500 11.5px var(--body); fill: var(--ink); pointer-events: none; }
+.r1 { fill: var(--r1); } .r2 { fill: var(--r2); } .r3 { fill: var(--r3); } .r4 { fill: var(--r4); } .r5 { fill: var(--r5); }
+.n1 { fill: var(--n1); } .n2 { fill: var(--n2); } .n3 { fill: var(--n3); } .n4 { fill: var(--n4); } .n5 { fill: var(--n5); }
+.bg1 { background: var(--r1); color: var(--n1); } .bg2 { background: var(--r2); color: var(--n2); } .bg3 { background: var(--r3); color: var(--n3); }
+.bg4 { background: var(--r4); color: var(--n4); } .bg5 { background: var(--r5); color: var(--n5); } .bg0 { background: var(--none); color: var(--ink); }
+
+.ctl { position: absolute; top: 12px; right: 12px; display: grid; gap: 6px; }
+.ctl button { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); box-shadow: var(--shadow); cursor: pointer; font-size: 18px; line-height: 1; }
+.ctl button:hover { border-color: var(--route); }
+.legend { position: absolute; left: 12px; bottom: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); padding: 9px 12px; display: grid; gap: 6px; font-size: 12px; max-width: 300px; }
+.legend .lr { display: flex; align-items: center; gap: 8px; }
+.legend .ramp { display: inline-flex; }
+.legend .ramp i { width: 22px; height: 16px; display: grid; place-items: center; font-style: normal; font-weight: 700; font-size: 10.5px; }
+.legend .ramp i:first-child { border-radius: 4px 0 0 4px; } .legend .ramp i:last-child { border-radius: 0 4px 4px 0; }
+.legend .sw { width: 16px; height: 16px; border-radius: 50%; display: inline-grid; place-items: center; }
+.legend .sw.ring { box-shadow: 0 0 0 2px var(--panel), 0 0 0 4px var(--gold); background: var(--r4); }
+.legend .dash { width: 26px; height: 0; border-top: 2.5px dashed var(--route); }
+.legend .sq { width: 14px; height: 14px; border-radius: 4px; background: var(--none); }
+.hint { position: absolute; right: 12px; bottom: 12px; color: var(--muted); font-size: 11.5px; background: color-mix(in srgb, var(--panel) 80%, transparent); padding: 3px 8px; border-radius: 6px; pointer-events: none; }
+.tip { position: absolute; z-index: 3; pointer-events: none; background: var(--ink); color: var(--panel); border-radius: 8px; padding: 7px 10px; font-size: 12.5px; max-width: 280px; box-shadow: var(--shadow); display: none; }
+.tip b { display: block; font-weight: 600; }
+.tip span { opacity: .85; }
+.card { position: absolute; left: 50%; transform: translateX(-50%); bottom: 12px; width: min(560px, calc(100% - 24px)); background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 12px 14px; display: none; z-index: 4; }
+.card.on { display: block; }
+.card h2 { margin: 0 28px 2px 0; font: 700 17px/1.25 var(--display); text-wrap: balance; }
+.card .kk { color: var(--muted); font-size: 12px; margin-bottom: 8px; }
+.card .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.card .bd { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); font-size: 12px; }
+.card .bd.g { background: var(--gold); color: var(--gold-ink); border-color: var(--gold); font-weight: 600; }
+.card .bd.r { color: var(--route); border-color: var(--route); font-weight: 600; }
+.card p { margin: 0 0 8px; color: var(--muted); font-size: 12.5px; }
+.card a { color: var(--focus); }
+.card .x { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border: 0; border-radius: 6px; background: transparent; cursor: pointer; font-size: 18px; }
+.card .x:hover { background: var(--bg); }
+.foot { padding: 0 20px 14px; color: var(--muted); font-size: 12px; }
+
+@media (max-width: 920px) {
+  .app { grid-template-columns: 1fr; grid-template-rows: 62vh auto; overflow: auto; }
+  .mapwrap { order: -1; }
+  .panel { max-height: none; }
+  .list { max-height: 60vh; }
+  body { overflow: auto; }
+  html, body { height: auto; }
+  .app { min-height: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Carte du voyage au Japon, avril 2027</h1>
+  <div class="sub">2 adultes et une ado de 12 ans, du 3 au 18 avril. Données de la feuille « À faire » au <span id="gen"></span>. <a href="https://docs.google.com/spreadsheets/d/1BYG-KHH-lIS8tV3o3RzYj_1i19H_ioaJizK7ekh0WL4/edit" target="_blank" rel="noopener">Ouvrir la feuille</a></div>
+</header>
+<div class="strip" id="strip"></div>
+
+<main class="app">
+  <aside class="panel" aria-label="Filtres et liste des lieux">
+    <div class="filters">
+      <div class="frow"><span class="t">Note</span>
+        <div class="seg" id="seg-rating" role="group" aria-label="Note minimale">
+          <button type="button" data-v="0" aria-pressed="true">Toutes</button>
+          <button type="button" data-v="3" aria-pressed="false">3 et +</button>
+          <button type="button" data-v="4" aria-pressed="false">4 et +</button>
+          <button type="button" data-v="5" aria-pressed="false">5</button>
+        </div>
+      </div>
+      <div class="frow"><span class="t">Afficher</span>
+        <button type="button" class="tg" id="tg-ind" aria-pressed="false"><span class="st">★</span> Indispensables</button>
+        <button type="button" class="tg" id="tg-res" aria-pressed="false">À réserver</button>
+        <button type="button" class="tg" id="tg-route" aria-pressed="true">Itinéraire</button>
+      </div>
+      <div class="frow"><span class="t">Type</span><div class="types" id="types"></div></div>
+    </div>
+    <div class="summary">
+      <div><b id="s-n">0</b><span>lieux affichés</span></div>
+      <div><b id="s-i">0</b><span>indispensables</span></div>
+      <div><b id="s-h">0 h</b><span>durée des indispensables</span></div>
+    </div>
+    <div class="list" id="list"></div>
+  </aside>
+
+  <section class="mapwrap" id="mapwrap" aria-label="Carte interactive du Japon">
+    <svg id="map" role="img" aria-label="Carte du Japon avec les lieux à visiter"></svg>
+    <div class="ctl">
+      <button type="button" id="zin" aria-label="Zoomer">+</button>
+      <button type="button" id="zout" aria-label="Dézoomer">−</button>
+      <button type="button" id="zhome" aria-label="Voir tout le Japon">⌂</button>
+    </div>
+    <div class="legend" id="legend">
+      <div class="lr"><span class="ramp"><i class="bg1">1</i><i class="bg2">2</i><i class="bg3">3</i><i class="bg4">4</i><i class="bg5">5</i></span><span>Note, 5 = à ne pas rater</span></div>
+      <div class="lr"><span class="sw ring"></span><span>Anneau or et ★ : indispensable</span></div>
+      <div class="lr"><span class="dash"></span><span>Itinéraire retenu</span></div>
+      <div class="lr"><span class="sq"></span><span>Sans note (hébergement, étape)</span></div>
+    </div>
+    <div class="hint" id="hint">Molette pour zoomer, glisser pour se déplacer</div>
+    <div class="tip" id="tip"></div>
+    <div class="card" id="card"></div>
+  </section>
+</main>
+<div class="foot">Les lignes de transport, de préparation et de budget de la feuille ne sont pas placées sur la carte. Les positions marquées « approximative » sont à confirmer.</div>
+
+<script>
+const D = /*__DATA__*/null;
+(function () {
+  const $ = (s) => document.querySelector(s);
+  const NS = "http://www.w3.org/2000/svg";
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const fmtH = (h) => { if (h == null) return ""; const n = Math.round(h * 10) / 10; return (String(n).replace(".", ",")) + " h"; };
+  const isRes = (p) => /^oui/i.test(p.res);
+  const ZLOD = 3.4, ZMAX = 90;
+  $("#gen").textContent = D.generated;
+
+  const gBy = {}; D.groups.forEach((g) => (gBy[g.key] = g));
+  const pBy = {}; D.places.forEach((p) => (pBy[p.id] = p));
+  const stayNums = {}; D.stays.forEach((s) => { (stayNums[s.group] = stayNums[s.group] || []).push(s.n); });
+  const tagFor = (key) => (stayNums[key] ? "Étape " + stayNums[key].join(" et ") : key === "Nara" ? "Excursion depuis Kyoto" : "Option");
+  const order = [];
+  D.stays.forEach((s) => { if (!order.includes(s.group)) order.push(s.group); });
+  D.groups.forEach((g) => { if (!order.includes(g.key)) order.push(g.key); });
+
+  const types = [...new Set(D.places.map((p) => p.t))];
+  const F = { min: 0, ind: false, res: false, route: true, types: new Set(types) };
+  let hover = null, sel = null, focusKey = null;
+
+  const svg = $("#map"), wrap = $("#mapwrap");
+  let cw = 800, ch = 500, fit = 1;
+  const V = { s: 1, tx: 0, ty: 0 };
+
+  function vis(p) {
+    if (F.min > 0 && (p.r == null || p.r < F.min)) return false;
+    if (F.ind && !p.ind) return false;
+    if (F.res && !isRes(p)) return false;
+    return F.types.has(p.t);
+  }
+  const visible = () => D.places.filter(vis);
+
+  /* ---------- Panneau ---------- */
+  function buildStrip() {
+    let h = '<span class="lab">Itinéraire retenu</span>';
+    D.stays.forEach((s) => {
+      h += `<button type="button" class="chip" data-g="${esc(s.group)}"><span class="num">${s.n}</span><b>${esc(gBy[s.group].label)}</b><span class="dates">${esc(s.from)} → ${esc(s.to)} · ${s.nights} nuits</span></button>`;
+    });
+    const placed = D.stays.reduce((a, s) => a + s.nights, 0);
+    h += `<span class="chip todo">${15 - placed} nuits à placer (16 → 18 avr)</span>`;
+    $("#strip").innerHTML = h;
+    $("#strip").addEventListener("click", (e) => { const b = e.target.closest("[data-g]"); if (b) focusGroup(b.dataset.g); });
+  }
+  function buildTypes() {
+    $("#types").innerHTML = types.map((t) => `<button type="button" data-t="${esc(t)}" aria-pressed="true">${esc(t)}</button>`).join("");
+    $("#types").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-t]"); if (!b) return;
+      const t = b.dataset.t;
+      if (F.types.has(t)) F.types.delete(t); else F.types.add(t);
+      b.setAttribute("aria-pressed", F.types.has(t));
+      refresh();
+    });
+  }
+  function ratePill(p) {
+    return `<span class="rate bg${p.r == null ? 0 : p.r}${p.ind ? " ind" : ""}">${p.r == null ? "–" : p.r}</span>`;
+  }
+  function buildList() {
+    const vs = visible();
+    let h = "";
+    order.forEach((key) => {
+      const items = vs.filter((p) => p.g === key).sort((a, b) => (b.r ?? -1) - (a.r ?? -1) || a.n.localeCompare(b.n, "fr"));
+      if (!items.length) return;
+      const ni = items.filter((p) => p.ind).length;
+      h += `<button type="button" class="ghead" data-g="${esc(key)}"><span class="gn">${esc(gBy[key].label)}</span><span class="gt">${esc(tagFor(key))}</span><span class="gc">${ni ? `<span class="st">★</span> ${ni} · ` : ""}${items.length} lieu${items.length > 1 ? "x" : ""}</span></button>`;
+      items.forEach((p) => {
+        h += `<button type="button" class="row${p.id === sel ? " sel" : ""}${p.id === hover ? " hl" : ""}" data-pid="${p.id}">${ratePill(p)}<span><span class="nm">${esc(p.n)}</span><span class="meta"><span>${esc(p.t)}</span>${p.h != null ? `<span>${fmtH(p.h)}</span>` : ""}${isRes(p) ? `<span class="res">À réserver</span>` : ""}${p.ind ? `<span class="star">★ Indispensable</span>` : ""}</span></span></button>`;
+      });
+    });
+    $("#list").innerHTML = h || '<div class="empty">Aucun lieu ne correspond à ces filtres.</div>';
+    const ind = vs.filter((p) => p.ind);
+    $("#s-n").textContent = vs.length;
+    $("#s-i").textContent = ind.length;
+    $("#s-h").textContent = fmtH(ind.reduce((a, p) => a + (p.h || 0), 0)).replace(".", ",") || "0 h";
+  }
+
+  /* ---------- Carte ---------- */
+  const sx = (x) => x * V.s + V.tx, sy = (y) => y * V.s + V.ty;
+  const z = () => V.s / fit;
+
+  function resize() {
+    const r = wrap.getBoundingClientRect();
+    const oldFit = fit;
+    cw = Math.max(300, r.width); ch = Math.max(300, r.height);
+    fit = Math.min(cw / D.W, ch / D.H) * 0.98;
+    svg.setAttribute("viewBox", `0 0 ${cw} ${ch}`);
+    if (!resize.done) { home(false); resize.done = true; }
+    else { const k = V.s / oldFit; V.s = fit * k; clampView(); }
+    draw();
+  }
+  function clampView() {
+    const minS = fit, maxS = fit * ZMAX;
+    V.s = Math.min(maxS, Math.max(minS, V.s));
+    // garder le centre de l'écran à l'intérieur du pays
+    const cx = (cw / 2 - V.tx) / V.s, cy = (ch / 2 - V.ty) / V.s;
+    const ccx = Math.min(D.W, Math.max(0, cx)), ccy = Math.min(D.H, Math.max(0, cy));
+    V.tx = cw / 2 - ccx * V.s; V.ty = ch / 2 - ccy * V.s;
+  }
+  function home(anim = true) {
+    const t = { s: fit, tx: (cw - D.W * fit) / 2, ty: (ch - D.H * fit) / 2 };
+    focusKey = null; animateTo(t, anim);
+  }
+  let raf = null;
+  function animateTo(t, anim = true) {
+    cancelAnimationFrame(raf);
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!anim || reduce) { Object.assign(V, t); clampView(); draw(); return; }
+    const a = { ...V }, t0 = performance.now(), dur = 520;
+    // interpolation géométrique de l'échelle pour un zoom régulier
+    const step = (now) => {
+      let u = Math.min(1, (now - t0) / dur); u = u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+      V.s = a.s * Math.pow(t.s / a.s, u);
+      // garder le point de convergence cohérent : interpoler le centre en coordonnées carte
+      const c0x = (cw / 2 - a.tx) / a.s, c0y = (ch / 2 - a.ty) / a.s, c1x = (cw / 2 - t.tx) / t.s, c1y = (ch / 2 - t.ty) / t.s;
+      const cx = c0x + (c1x - c0x) * u, cy = c0y + (c1y - c0y) * u;
+      V.tx = cw / 2 - cx * V.s; V.ty = ch / 2 - cy * V.s;
+      draw();
+      if (u < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+  }
+  function fitPoints(pts, pad = 90) {
+    const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
+    const minx = Math.min(...xs), maxx = Math.max(...xs), miny = Math.min(...ys), maxy = Math.max(...ys);
+    const w = Math.max(maxx - minx, 4), h = Math.max(maxy - miny, 4);
+    let s = Math.min((cw - 2 * pad) / w, (ch - 2 * pad) / h);
+    s = Math.min(fit * ZMAX * 0.5, Math.max(fit * (ZLOD + 0.4), s));
+    const cx = (minx + maxx) / 2, cy = (miny + maxy) / 2;
+    return { s, tx: cw / 2 - cx * s, ty: ch / 2 - cy * s };
+  }
+  function focusGroup(key) {
+    focusKey = key; sel = null;
+    const pts = D.places.filter((p) => p.g === key && vis(p)).map((p) => p.xy);
+    const use = pts.length ? pts : D.places.filter((p) => p.g === key).map((p) => p.xy);
+    animateTo(fitPoints(use), true);
+    refreshPanelOnly();
+  }
+  function focusPlace(id) {
+    const p = pBy[id]; sel = id; focusKey = p.g;
+    const t = { s: Math.max(V.s, fit * 26) , tx: 0, ty: 0 };
+    t.tx = cw / 2 - p.xy[0] * t.s; t.ty = ch / 2 - p.xy[1] * t.s;
+    animateTo(t, true); showCard(); refreshPanelOnly();
+  }
+
+  /* ---------- Dessin ---------- */
+  let landNode = null, otherNode = null;
+  function ensureBase() {
+    if (landNode) return;
+    svg.innerHTML = `<rect width="100%" height="100%" fill="var(--sea)"/><g id="L"><path class="otherland" id="PO"/><path class="land" id="PJ"/></g><g id="seal"></g><g id="routeL"></g><g id="pinsL"></g><g id="mksL"></g>`;
+    $("#PO").setAttribute("d", D.land); $("#PJ").setAttribute("d", D.japanOnly);
+    landNode = $("#L");
+  }
+  function labelsBase() {
+    return D.seaLabels.map((l) => `<text class="${l.land ? "landlab" : "sealab"}" x="${sx(l.xy[0]).toFixed(1)}" y="${sy(l.xy[1]).toFixed(1)}" transform="rotate(${l.r} ${sx(l.xy[0]).toFixed(1)} ${sy(l.xy[1]).toFixed(1)})">${esc(l.t)}</text>`).join("");
+  }
+  function routePath() {
+    const pts = D.stays.map((s) => gBy[s.group].xy).map((p) => [sx(p[0]), sy(p[1])]);
+    let d = `M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+    for (let i = 1; i < pts.length; i++) {
+      const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
+      const mx = (x0 + x1) / 2, my = (y0 + y1) / 2, dx = x1 - x0, dy = y1 - y0;
+      const k = 0.16 * (i % 2 ? 1 : -1);
+      d += ` Q${(mx - dy * k).toFixed(1)} ${(my + dx * k).toFixed(1)} ${x1.toFixed(1)} ${y1.toFixed(1)}`;
+    }
+    return d;
+  }
+
+  function spread(items) {
+    // items : {x,y} en écran ; écarte les marqueurs trop proches
+    const min = 21;
+    items.forEach((o, i) => { o.ox = o.x; o.oy = o.y; const a = i * 2.399; o.x += Math.cos(a) * 0.3; o.y += Math.sin(a) * 0.3; });
+    for (let it = 0; it < 28; it++) {
+      let moved = false;
+      for (let i = 0; i < items.length; i++) for (let j = i + 1; j < items.length; j++) {
+        const a = items[i], b = items[j];
+        let dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy);
+        if (d < min) {
+          if (d < 0.01) { dx = 1; dy = 0; d = 1; }
+          const push = (min - d) / 2 + 0.05;
+          a.x -= dx / d * push; a.y -= dy / d * push; b.x += dx / d * push; b.y += dy / d * push; moved = true;
+        }
+      }
+      if (!moved) break;
+    }
+  }
+
+  function draw() {
+    ensureBase();
+    landNode.setAttribute("transform", `translate(${V.tx.toFixed(2)} ${V.ty.toFixed(2)}) scale(${V.s.toFixed(4)})`);
+    $("#seal").innerHTML = labelsBase();
+    $("#routeL").innerHTML = F.route ? `<path class="route" d="${routePath()}"/>` : "";
+    const zz = z();
+    const vs = visible();
+    const showMarkers = zz >= ZLOD;
+    // pins de villes
+    let pins = "";
+    D.groups.forEach((g) => {
+      const mine = vs.filter((p) => p.g === g.key);
+      const all = D.places.filter((p) => p.g === g.key);
+      const n = mine.length, ni = mine.filter((p) => p.ind).length;
+      const x = sx(g.xy[0]), y = sy(g.xy[1]);
+      const stay = !!stayNums[g.key];
+      if (showMarkers) return;
+      const dim = n === 0;
+      const num = stayNums[g.key] ? stayNums[g.key].join("·") : "";
+      pins += `<g class="pin${stay ? "" : " opt"}${dim ? " dim" : ""}" data-g="${esc(g.key)}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})" tabindex="0" role="button" aria-label="${esc(g.label)}, ${n} lieux">`
+        + `${stay ? '<circle class="ring" r="14"/>' : ""}<circle class="body" r="11"/><text class="cnt" y="1">${n}</text>`
+        + `${num ? `<g transform="translate(-14 -14)"><rect class="rb" x="${num.length > 1 ? -12 : -8}" y="-8" width="${num.length > 1 ? 24 : 16}" height="16" rx="8"/><text class="rt">${num}</text></g>` : ""}`
+        + `${ni ? `<g transform="translate(14 -14)"><rect class="ib" x="-12" y="-8" width="24" height="16" rx="8"/><text class="it">★${ni}</text></g>` : ""}`
+        + `<text class="glabel halo${stay ? "" : " opt"}" text-anchor="${g.anchor}" x="${g.dx}" y="${g.dy + 4}">${esc(g.label)}</text></g>`;
+    });
+    $("#pinsL").innerHTML = showMarkers ? "" : pins;
+
+    // marqueurs de lieux
+    let mk = "";
+    if (showMarkers) {
+      const items = vs.map((p) => ({ p, x: sx(p.xy[0]), y: sy(p.xy[1]) }))
+        .filter((o) => o.x > -40 && o.x < cw + 40 && o.y > -40 && o.y < ch + 40);
+      spread(items);
+      // étiquettes de villes (discrètes)
+      let cityTxt = "";
+      D.groups.forEach((g) => {
+        const x = sx(g.xy[0]), y = sy(g.xy[1]);
+        if (x < -50 || x > cw + 50 || y < -50 || y > ch + 50) return;
+        if (zz < ZLOD * 2.6) cityTxt += `<text class="glabel halo ${stayNums[g.key] ? "" : "opt"}" x="${x.toFixed(1)}" y="${(y - 20).toFixed(1)}" text-anchor="middle" style="font-size:15px;opacity:.8">${esc(g.label)}</text>`;
+      });
+      const order2 = items.slice().sort((a, b) => (a.p.id === sel || a.p.id === hover ? 1 : 0) - (b.p.id === sel || b.p.id === hover ? 1 : 0) || (a.p.r ?? 0) - (b.p.r ?? 0));
+      const taken = items.map((o) => ({ x0: o.x - 14, y0: o.y - 14, x1: o.x + 14, y1: o.y + 14 }));
+      const labelRects = [];
+      const lbl = {};
+      items.slice().sort((a, b) => (b.p.ind ? 1 : 0) - (a.p.ind ? 1 : 0) || (b.p.r ?? 0) - (a.p.r ?? 0)).forEach((o) => {
+        const w = o.p.n.length * 6 + 8, h = 15;
+        const cands = [[o.x + 15, o.y - h / 2 + 1, "start"], [o.x - 15 - w, o.y - h / 2 + 1, "end"], [o.x - w / 2, o.y - 28, "mid"], [o.x - w / 2, o.y + 14, "mid"]];
+        for (const c of cands) {
+          const r = { x0: c[0], y0: c[1], x1: c[0] + w, y1: c[1] + h };
+          if (r.x0 < 4 || r.x1 > cw - 4 || r.y0 < 4 || r.y1 > ch - 4) continue;
+          const hit = (q) => !(r.x1 < q.x0 || r.x0 > q.x1 || r.y1 < q.y0 || r.y0 > q.y1);
+          if (labelRects.some(hit)) continue;
+          if (taken.some((q) => q !== null && hit(q) && !(q.x0 === o.x - 14 && q.y0 === o.y - 14))) continue;
+          labelRects.push(r);
+          lbl[o.p.id] = { x: c[2] === "start" ? c[0] + 2 : c[2] === "end" ? c[0] + w - 2 : c[0] + w / 2, y: c[1] + 12, anchor: c[2] === "mid" ? "middle" : c[2] };
+          break;
+        }
+      });
+      let leads = "", marks = "", labs = "";
+      order2.forEach((o) => {
+        const p = o.p;
+        const disp = Math.hypot(o.x - o.ox, o.y - o.oy);
+        if (disp > 4) leads += `<line class="lead" x1="${o.ox.toFixed(1)}" y1="${o.oy.toFixed(1)}" x2="${o.x.toFixed(1)}" y2="${o.y.toFixed(1)}"/><circle class="leaddot" cx="${o.ox.toFixed(1)}" cy="${o.oy.toFixed(1)}" r="2.2"/>`;
+        const cls = "mk" + (p.id === hover ? " hl" : "");
+        const body = p.r == null
+          ? `<rect class="nobox" x="-9" y="-9" width="18" height="18" rx="5"/><text class="nonum">${p.t === "Hébergement" ? "H" : "·"}</text>`
+          : `<circle class="dot r${p.r}" r="10"/><text class="num n${p.r}" y="1">${p.r}</text>`;
+        marks += `<g class="${cls}" data-pid="${p.id}" transform="translate(${o.x.toFixed(1)} ${o.y.toFixed(1)})" tabindex="0" role="button" aria-label="${esc(p.n)}, note ${p.r ?? "sans note"}${p.ind ? ", indispensable" : ""}">`
+          + `${p.ind ? '<circle class="gring" r="13.5"/>' : ""}${body}`
+          + `${p.ind ? '<g transform="translate(10 -10)"><circle class="sbadge" r="6.5"/><text class="sglyph">★</text></g>' : ""}`
+          + `${p.id === sel ? '<circle class="selring" r="18"/>' : ""}</g>`;
+        const L = lbl[p.id] || (p.id === sel || p.id === hover ? { x: o.x + 16, y: o.y + 4, anchor: "start" } : null);
+        if (L) labs += `<text class="mlabel halo" x="${L.x.toFixed(1)}" y="${L.y.toFixed(1)}" text-anchor="${L.anchor}"${p.id === sel ? ' style="font-weight:700"' : ""}>${esc(p.n)}</text>`;
+      });
+      mk = cityTxt + leads + marks + labs;
+    }
+    $("#mksL").innerHTML = mk;
+  }
+
+  /* ---------- Interactions ---------- */
+  const tip = $("#tip");
+  function showTip(p, ev) {
+    const r = wrap.getBoundingClientRect();
+    tip.innerHTML = `<b>${esc(p.n)}</b><span>${esc(gBy[p.g].label)} · ${esc(p.t)}${p.r != null ? " · note " + p.r + "/5" : ""}${p.h != null ? " · " + fmtH(p.h) : ""}${p.ind ? " · indispensable" : ""}${isRes(p) ? " · à réserver" : ""}</span>`;
+    tip.style.display = "block";
+    let x = ev.clientX - r.left + 14, y = ev.clientY - r.top + 14;
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    if (x + tw > r.width - 6) x = ev.clientX - r.left - tw - 14;
+    if (y + th > r.height - 6) y = ev.clientY - r.top - th - 14;
+    tip.style.left = Math.max(6, x) + "px"; tip.style.top = Math.max(6, y) + "px";
+  }
+  function setHover(id) {
+    if (hover === id) return;
+    hover = id; draw();
+    document.querySelectorAll(".row").forEach((r) => r.classList.toggle("hl", +r.dataset.pid === id));
+  }
+  svg.addEventListener("pointermove", (e) => {
+    if (drag) return;
+    const t = e.target.closest && e.target.closest("[data-pid]");
+    if (t) { const id = +t.dataset.pid; showTip(pBy[id], e); if (hover !== id) setHover(id); }
+    else { tip.style.display = "none"; if (hover !== null) setHover(null); }
+  });
+  svg.addEventListener("pointerleave", () => { tip.style.display = "none"; if (hover !== null) setHover(null); });
+
+  function showCard() {
+    const c = $("#card");
+    if (sel == null) { c.classList.remove("on"); c.innerHTML = ""; return; }
+    const p = pBy[sel];
+    const stars = p.r == null ? "" : "★".repeat(p.r) + "☆".repeat(5 - p.r);
+    c.innerHTML = `<button type="button" class="x" aria-label="Fermer">×</button><h2>${esc(p.n)}</h2><div class="kk">${esc(gBy[p.g].label)} · ${esc(p.t)}</div>`
+      + `<div class="badges">${p.r != null ? `<span class="bd"><span aria-hidden="true">${stars}</span> ${p.r}/5</span>` : '<span class="bd">Sans note</span>'}${p.ind ? '<span class="bd g">★ Indispensable</span>' : ""}${p.h != null ? `<span class="bd">${fmtH(p.h)} sur place</span>` : ""}${isRes(p) ? `<span class="bd r">À réserver : ${esc(p.res)}</span>` : p.res === "À vérifier" ? '<span class="bd">Réservation à vérifier</span>' : ""}</div>`
+      + `${p.full !== p.n ? `<p>${esc(p.full)}</p>` : ""}`
+      + (p.u ? `<p><a href="${esc(p.u)}" target="_blank" rel="noopener">Fiche touristique (en français)</a>${/psg\.fr/.test(p.u) ? " (site du club)" : ""}</p>` : "")
+      + `<p><a href="https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}" target="_blank" rel="noopener">Voir sur Google Maps</a>${p.ap ? " (position approximative)" : ""}</p>`;
+    c.classList.add("on");
+    c.querySelector(".x").addEventListener("click", () => { sel = null; showCard(); draw(); refreshPanelOnly(); });
+  }
+
+  function selectPlace(id) { sel = id; showCard(); draw(); refreshPanelOnly(); const r = document.querySelector(`.row[data-pid="${id}"]`); if (r) r.scrollIntoView({ block: "nearest" }); }
+
+  // glisser, pincer, molette
+  const ptrs = new Map(); let drag = false, moved = 0, last = null, pinch0 = null;
+  svg.addEventListener("pointerdown", (e) => {
+    svg.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    moved = 0; cancelAnimationFrame(raf);
+    if (ptrs.size === 1) { drag = true; last = { x: e.clientX, y: e.clientY }; }
+    if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; pinch0 = { d: Math.hypot(a.x - b.x, a.y - b.y), s: V.s, tx: V.tx, ty: V.ty, mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2 }; }
+  });
+  svg.addEventListener("pointermove", (e) => {
+    if (!ptrs.has(e.pointerId)) return;
+    ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    const r = svg.getBoundingClientRect();
+    if (ptrs.size === 2 && pinch0) {
+      const [a, b] = [...ptrs.values()]; const d = Math.hypot(a.x - b.x, a.y - b.y);
+      const ns = Math.min(fit * ZMAX, Math.max(fit, pinch0.s * d / pinch0.d));
+      const mx = pinch0.mx - r.left, my = pinch0.my - r.top;
+      V.tx = mx - (mx - pinch0.tx) * ns / pinch0.s; V.ty = my - (my - pinch0.ty) * ns / pinch0.s; V.s = ns; moved = 99; clampView(); draw(); return;
+    }
+    if (drag && last) {
+      const dx = e.clientX - last.x, dy = e.clientY - last.y; moved += Math.abs(dx) + Math.abs(dy);
+      if (moved > 5) { svg.classList.add("drag"); V.tx += dx; V.ty += dy; clampView(); draw(); }
+      last = { x: e.clientX, y: e.clientY };
+    }
+  });
+  const up = (e) => { ptrs.delete(e.pointerId); if (ptrs.size < 2) pinch0 = null; if (ptrs.size === 0) { drag = false; svg.classList.remove("drag"); } };
+  svg.addEventListener("pointerup", up); svg.addEventListener("pointercancel", up);
+  svg.addEventListener("click", (e) => {
+    if (moved > 5) return;
+    const m = e.target.closest("[data-pid]"); if (m) { selectPlace(+m.dataset.pid); return; }
+    const g = e.target.closest("[data-g]"); if (g) { focusGroup(g.dataset.g); return; }
+    if (sel != null) { sel = null; showCard(); draw(); refreshPanelOnly(); }
+  });
+  svg.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const m = e.target.closest("[data-pid]"); if (m) { e.preventDefault(); selectPlace(+m.dataset.pid); return; }
+    const g = e.target.closest("[data-g]"); if (g) { e.preventDefault(); focusGroup(g.dataset.g); }
+  });
+  function zoomAt(f, mx = cw / 2, my = ch / 2) {
+    const ns = Math.min(fit * ZMAX, Math.max(fit, V.s * f));
+    V.tx = mx - (mx - V.tx) * ns / V.s; V.ty = my - (my - V.ty) * ns / V.s; V.s = ns; clampView(); draw();
+  }
+  svg.addEventListener("wheel", (e) => {
+    e.preventDefault(); cancelAnimationFrame(raf);
+    const r = svg.getBoundingClientRect();
+    zoomAt(Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0018)), e.clientX - r.left, e.clientY - r.top);
+  }, { passive: false });
+  $("#zin").addEventListener("click", () => { const t = { s: Math.min(fit * ZMAX, V.s * 1.8) }; const c = { x: (cw / 2 - V.tx) / V.s, y: (ch / 2 - V.ty) / V.s }; t.tx = cw / 2 - c.x * t.s; t.ty = ch / 2 - c.y * t.s; animateTo(t, true); });
+  $("#zout").addEventListener("click", () => { const t = { s: Math.max(fit, V.s / 1.8) }; const c = { x: (cw / 2 - V.tx) / V.s, y: (ch / 2 - V.ty) / V.s }; t.tx = cw / 2 - c.x * t.s; t.ty = ch / 2 - c.y * t.s; animateTo(t, true); });
+  $("#zhome").addEventListener("click", () => { sel = null; showCard(); home(true); refreshPanelOnly(); });
+
+  // panneau
+  $("#list").addEventListener("click", (e) => {
+    const row = e.target.closest(".row");
+    if (row) { focusPlace(+row.dataset.pid); return; }
+    const gh = e.target.closest(".ghead"); if (gh) { focusGroup(gh.dataset.g); showCard(); }
+  });
+  $("#list").addEventListener("pointerover", (e) => { const row = e.target.closest(".row"); if (row) setHover(+row.dataset.pid); });
+  $("#list").addEventListener("pointerleave", () => setHover(null));
+  $("#seg-rating").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-v]"); if (!b) return;
+    F.min = +b.dataset.v;
+    document.querySelectorAll("#seg-rating button").forEach((x) => x.setAttribute("aria-pressed", x === b));
+    refresh();
+  });
+  const toggle = (id, key) => $(id).addEventListener("click", (e) => { F[key] = !F[key]; e.currentTarget.setAttribute("aria-pressed", F[key]); refresh(); });
+  toggle("#tg-ind", "ind"); toggle("#tg-res", "res"); toggle("#tg-route", "route");
+
+  function refreshPanelOnly() { buildList(); }
+  function refresh() {
+    if (sel != null && !vis(pBy[sel])) { sel = null; showCard(); }
+    if (z() >= ZLOD * 0.9 && !visible().some((p) => p.xy[0] * V.s + V.tx > 0 && p.xy[0] * V.s + V.tx < cw && p.xy[1] * V.s + V.ty > 0 && p.xy[1] * V.s + V.ty < ch)) { buildList(); home(true); return; }
+    buildList();
+    if (focusKey === null && sel === null && z() > 1.05) home(true); else draw();
+  }
+
+  buildStrip(); buildTypes(); buildList();
+  new ResizeObserver(resize).observe(wrap);
+  resize();
+  if (location.hash) { const k = decodeURIComponent(location.hash.slice(1)); if (gBy[k]) focusGroup(k); }
+})();
+</script>
+</body>
+</html>
