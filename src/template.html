@@ -60,51 +60,111 @@ body { background: var(--bg); color: var(--ink); font: 14px/1.45 var(--body); di
 button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 
-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 20px; padding: 14px 20px 6px; }
-h1 { margin: 0; font: 700 24px/1.15 var(--display); letter-spacing: .01em; text-wrap: balance; }
-header .sub { color: var(--muted); font-size: 13px; }
-header a { color: var(--focus); }
+html, body { height: 100%; }
+body { height: 100vh; height: 100dvh; }
+header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 18px; padding: 10px 16px 4px; flex: none; }
+h1 { margin: 0; font: 700 22px/1.15 var(--display); letter-spacing: .01em; text-wrap: balance; }
+header nav { display: flex; gap: 14px; font-size: 13px; }
+header .meta { color: var(--muted); font-size: 12px; margin-left: auto; }
+header a, .about a { color: var(--focus); }
 
-.strip { display: flex; flex-wrap: wrap; gap: 8px; padding: 6px 20px 12px; align-items: center; }
-.strip .lab { color: var(--muted); font-size: 12px; margin-right: 2px; }
-.chip { display: inline-flex; align-items: center; gap: 8px; padding: 5px 11px 5px 6px; border: 1px solid var(--line); background: var(--panel); border-radius: 999px; cursor: pointer; }
+.strip { display: flex; gap: 8px; padding: 4px 16px 8px; align-items: center; overflow-x: auto; scrollbar-width: none; flex: none; }
+.strip::-webkit-scrollbar { display: none; }
+.strip .lab { color: var(--muted); font-size: 12px; margin-right: 2px; flex: none; white-space: nowrap; }
+.chip { flex: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; padding: 5px 11px 5px 6px; min-height: 32px; border: 1px solid var(--line); background: var(--panel); border-radius: 999px; cursor: pointer; }
 .chip:hover { border-color: var(--route); }
 .chip .num { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 999px; background: var(--route); color: #fff; font-weight: 700; font-size: 11px; }
 .chip .dates { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
 .chip.todo { border-style: dashed; cursor: default; color: var(--muted); padding-left: 11px; }
 .chip.todo:hover { border-color: var(--line); }
 
-.app { flex: 1; min-height: 0; display: grid; grid-template-columns: 400px 1fr; gap: 12px; padding: 0 20px 20px; }
-.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
-.filters { padding: 12px 14px; border-bottom: 1px solid var(--line); display: grid; gap: 10px; }
+.app { flex: 1; min-height: 0; display: grid; grid-template-columns: var(--pw, 480px) 14px minmax(0, 1fr); padding: 0 16px 14px; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; display: flex; flex-direction: column; min-height: 0; min-width: 0; overflow: hidden; }
+.splitter { position: relative; cursor: col-resize; touch-action: none; display: grid; place-items: center; }
+.splitter::before { content: ""; width: 4px; height: 48px; border-radius: 2px; background: var(--line); transition: background .15s; }
+.splitter:hover::before, .splitter:focus-visible::before, .splitter.drag::before { background: var(--focus); }
+.splitter .tgl { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 22px; height: 22px; padding: 0; border-radius: 50%; border: 1px solid var(--line); background: var(--panel); cursor: pointer; font-size: 13px; line-height: 1; color: var(--muted); }
+.splitter .tgl:hover { color: var(--ink); border-color: var(--route); }
+@media (min-width: 921px) {
+  .app.collapsed { grid-template-columns: 0 14px minmax(0, 1fr); }
+  .app.collapsed .panel { visibility: hidden; border: 0; }
+  .app.resizing { user-select: none; }
+}
+
+.ptools { padding: 10px 12px 8px; border-bottom: 1px solid var(--line); display: grid; gap: 8px; flex: none; }
+.srow { display: flex; gap: 8px; }
+.search { position: relative; flex: 1; min-width: 0; }
+.search svg { position: absolute; left: 11px; top: 11px; width: 18px; height: 18px; color: var(--muted); pointer-events: none; }
+.search input { width: 100%; height: 40px; padding: 0 36px 0 36px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font: inherit; font-size: 15px; }
+.search input::placeholder { color: var(--muted); }
+.search .clr { position: absolute; right: 4px; top: 4px; width: 32px; height: 32px; border: 0; border-radius: 8px; background: transparent; color: var(--muted); cursor: pointer; font-size: 18px; display: none; }
+.search.has .clr { display: block; }
+.fbtn { height: 40px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; background: transparent; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; flex: none; }
+.fbtn svg { width: 16px; height: 16px; }
+.fbtn[aria-expanded="true"] { background: var(--ink); color: var(--panel); border-color: var(--ink); }
+.fbtn .bdg { display: none; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--route); color: #fff; font-size: 11px; font-weight: 700; place-items: center; }
+.fbtn .bdg.on { display: inline-grid; }
+.qrow { display: flex; gap: 8px; align-items: center; overflow-x: auto; scrollbar-width: none; }
+.qrow::-webkit-scrollbar { display: none; }
+.qrow > * { flex: none; }
+@media (min-width: 921px) { .qrow { flex-wrap: wrap; overflow: visible; } }
+.adv { display: grid; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+.adv[hidden] { display: none; }
 .frow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .frow .t { color: var(--muted); font-size: 12px; min-width: 62px; }
-.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-.seg button { background: transparent; border: 0; padding: 5px 11px; cursor: pointer; border-right: 1px solid var(--line); }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--panel); }
+.seg button { background: transparent; border: 0; padding: 0 12px; min-height: 36px; cursor: pointer; border-right: 1px solid var(--line); white-space: nowrap; }
 .seg button:last-child { border-right: 0; }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--panel); }
-.tg { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 8px; background: transparent; cursor: pointer; }
+.tg { display: inline-flex; align-items: center; gap: 6px; padding: 0 11px; min-height: 36px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); cursor: pointer; white-space: nowrap; }
 .tg[aria-pressed="true"] { background: var(--ink); color: var(--panel); border-color: var(--ink); }
 .tg .st { color: var(--gold); font-size: 14px; line-height: 1; }
-.tg[aria-pressed="true"] .st { color: var(--gold); }
-.types { display: flex; flex-wrap: wrap; gap: 5px; }
-.types button { padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; background: transparent; cursor: pointer; font-size: 12px; }
+.types { display: flex; flex-wrap: wrap; gap: 6px; }
+.types button { padding: 0 11px; min-height: 32px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); cursor: pointer; font-size: 12.5px; }
 .types button[aria-pressed="false"] { color: var(--muted); text-decoration: line-through; opacity: .7; }
+.reset { justify-self: start; border: 0; background: transparent; color: var(--focus); cursor: pointer; padding: 4px 0; text-decoration: underline; }
+.ptabs { display: flex; border-bottom: 1px solid var(--line); margin: 0 -12px; padding: 0 12px; gap: 4px; }
+.ptabs[hidden] { display: none; }
+.ptabs button { flex: 1; min-height: 42px; border: 0; border-bottom: 3px solid transparent; background: transparent; cursor: pointer; color: var(--muted); font-weight: 500; }
+.ptabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--route); font-weight: 700; }
+.hotel { display: none; overflow: auto; flex: 1; min-height: 0; padding: 12px 14px 18px; }
+.panel.hotelmode .hotel { display: block; }
+.panel.hotelmode .list, .panel.hotelmode .sumline, .panel.hotelmode #adv, .panel.hotelmode .srow, .panel.hotelmode .qrow { display: none; }
+.panel.showing .hotel { display: none; }
+.hsec { font: 700 15px/1.2 var(--display); margin: 4px 0 8px; }
+.hsec span { color: var(--muted); font: 400 12px var(--body); margin-left: 6px; }
+.hcard { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; background: var(--panel); }
+.hcard.keep { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+.hcard .tag { display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 600; border: 1px solid var(--line); color: var(--muted); margin-bottom: 6px; }
+.hcard.keep .tag { background: var(--gold); color: var(--gold-ink); border-color: var(--gold); }
+.hcard h3 { margin: 0; font: 700 18px/1.25 var(--display); }
+.hcard .area { color: var(--muted); font-size: 12.5px; }
+.hcard p { margin: 6px 0 0; color: var(--ink); font-size: 13.5px; }
+.hempty { color: var(--muted); padding: 10px 0 16px; }
+.hnote { color: var(--muted); font-size: 12px; margin-top: 4px; }
+.sumline { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.sumline b { color: var(--ink); font-weight: 700; }
 
-.summary { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
-.summary div { padding: 9px 14px; border-right: 1px solid var(--line); }
-.summary div:last-child { border-right: 0; }
-.summary b { display: block; font: 700 20px/1.1 var(--display); font-variant-numeric: tabular-nums; }
-.summary span { color: var(--muted); font-size: 11.5px; }
+.detail { display: none; overflow: auto; flex: 1; min-height: 0; padding: 10px 14px 18px; }
+.panel.showing .detail { display: block; }
+.panel.showing .ptools, .panel.showing .list { display: none; }
+.back { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; margin: 0 0 6px -8px; padding: 0 10px; border: 0; border-radius: 8px; background: transparent; color: var(--focus); cursor: pointer; font-weight: 500; }
+.back:hover { background: var(--bg); }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: var(--focus); text-decoration: none; cursor: pointer; font-weight: 500; }
+.btn:hover { border-color: var(--route); }
+.btn.primary { background: var(--ink); color: var(--panel); border-color: var(--ink); }
+.mobile-only { display: none !important; }
+.card .mobile-only { display: none !important; }
 
 .list { overflow: auto; flex: 1; min-height: 0; }
-.ghead { position: sticky; top: 0; z-index: 1; width: 100%; display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: var(--panel); border: 0; border-bottom: 1px solid var(--line); text-align: left; cursor: pointer; }
+.ghead { position: sticky; top: 0; z-index: 1; width: 100%; display: flex; align-items: center; gap: 8px; padding: 10px 14px; min-height: 44px; background: var(--panel); border: 0; border-bottom: 1px solid var(--line); text-align: left; cursor: pointer; }
 .ghead:hover { background: var(--bg); }
 .ghead .gn { font: 700 15px/1.2 var(--display); }
 .ghead .gt { color: var(--muted); font-size: 11.5px; }
 .ghead .gc { margin-left: auto; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .ghead .gc .st { color: var(--gold); }
-.row { width: 100%; display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 7px 14px; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; cursor: pointer; }
+.row { width: 100%; display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 10px 14px; min-height: 52px; border: 0; border-bottom: 1px solid var(--line); background: transparent; text-align: left; cursor: pointer; }
 .row:hover, .row.hl { background: var(--bg); }
 .row.sel { background: color-mix(in srgb, var(--route) 10%, var(--panel)); }
 .rate { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 12px; position: relative; }
@@ -113,25 +173,25 @@ header a { color: var(--focus); }
 .row .meta { color: var(--muted); font-size: 12px; display: flex; flex-wrap: wrap; gap: 2px 10px; }
 .row .meta .res { color: var(--route); font-weight: 600; }
 .row .meta .star { color: var(--gold-ink); background: var(--gold); border-radius: 4px; padding: 0 5px; font-weight: 600; font-size: 11px; }
-.dhead { position: sticky; top: 0; z-index: 1; width: 100%; display: flex; align-items: baseline; gap: 8px; padding: 8px 14px; background: var(--panel); border: 0; border-bottom: 1px solid var(--line); text-align: left; cursor: pointer; }
+.dhead { position: sticky; top: 0; z-index: 1; width: 100%; display: flex; align-items: baseline; gap: 8px; padding: 10px 14px; min-height: 44px; background: var(--panel); border: 0; border-bottom: 1px solid var(--line); text-align: left; cursor: pointer; }
 .dhead:hover { background: var(--bg); }
 .dhead .dn { font: 700 15px/1.2 var(--display); }
 .dhead .dt { color: var(--muted); font-size: 11.5px; margin-left: auto; white-space: nowrap; }
-.trow { display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 7px 14px; border-bottom: 1px solid var(--line); color: var(--muted); }
+.trow { display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 9px 14px; border-bottom: 1px solid var(--line); color: var(--muted); }
 .trow .tm, .row .tm { font-size: 11px; font-variant-numeric: tabular-nums; color: var(--muted); }
 .trow .ic { width: 24px; height: 24px; border-radius: 6px; display: grid; place-items: center; background: var(--bg); font-size: 13px; }
 .row .meta .add { color: #fff; background: var(--route); border-radius: 4px; padding: 0 5px; font-weight: 600; font-size: 11px; }
 .trow .nt, .row .nt { display: block; font-size: 12px; color: var(--muted); }
 .empty { padding: 28px 18px; color: var(--muted); text-align: center; }
 
-.mapwrap { position: relative; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--sea); min-height: 420px; }
+.mapwrap { position: relative; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--sea); min-height: 0; }
 svg#map { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; cursor: grab; }
 svg#map.drag { cursor: grabbing; }
 .land { fill: var(--land); stroke: var(--coast); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
 .otherland { fill: var(--other-land); stroke: var(--coast); stroke-width: .8; vector-effect: non-scaling-stroke; }
 .sealab { font: italic 500 12px var(--body); fill: var(--muted); letter-spacing: .12em; opacity: .75; text-anchor: middle; pointer-events: none; }
 .landlab { font: 600 11px var(--body); fill: var(--muted); letter-spacing: .24em; text-transform: uppercase; opacity: .6; text-anchor: middle; pointer-events: none; }
-.route { fill: none; stroke: var(--route); stroke-width: 2.5; stroke-dasharray: 7 6; stroke-linecap: round; opacity: .9; }
+.route { fill: none; stroke: var(--route); stroke-width: 3; stroke-dasharray: 7 6; stroke-linecap: round; opacity: .9; }
 .halo { paint-order: stroke; stroke: var(--panel); stroke-width: 3.5px; stroke-linejoin: round; }
 .glabel { font: 700 13px var(--display); fill: var(--ink); pointer-events: none; }
 .glabel.opt { font-weight: 600; fill: var(--muted); }
@@ -164,10 +224,14 @@ svg#map.drag { cursor: grabbing; }
 .bg1 { background: var(--r1); color: var(--n1); } .bg2 { background: var(--r2); color: var(--n2); } .bg3 { background: var(--r3); color: var(--n3); }
 .bg4 { background: var(--r4); color: var(--n4); } .bg5 { background: var(--r5); color: var(--n5); } .bg0 { background: var(--none); color: var(--ink); }
 
-.ctl { position: absolute; top: 12px; right: 12px; display: grid; gap: 6px; }
+.ctl { position: absolute; top: 12px; right: 12px; display: grid; gap: 6px; z-index: 2; }
 .ctl button { width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); box-shadow: var(--shadow); cursor: pointer; font-size: 18px; line-height: 1; }
 .ctl button:hover { border-color: var(--route); }
-.legend { position: absolute; left: 12px; bottom: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); padding: 9px 12px; display: grid; gap: 6px; font-size: 12px; max-width: 300px; }
+.legend { display: none; position: absolute; left: 12px; bottom: 58px; z-index: 3; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); padding: 10px 12px; gap: 7px; font-size: 12px; max-width: min(320px, calc(100% - 24px)); }
+.legend.on { display: grid; }
+.legend .about { color: var(--muted); border-top: 1px solid var(--line); padding-top: 7px; line-height: 1.4; }
+.lgbtn { position: absolute; left: 12px; bottom: 12px; z-index: 3; height: 38px; padding: 0 13px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel); box-shadow: var(--shadow); cursor: pointer; display: inline-flex; align-items: center; gap: 7px; }
+.lgbtn[aria-expanded="true"] { border-color: var(--route); }
 .legend .lr { display: flex; align-items: center; gap: 8px; }
 .legend .ramp { display: inline-flex; }
 .legend .ramp i { width: 22px; height: 16px; display: grid; place-items: center; font-style: normal; font-weight: 700; font-size: 10.5px; }
@@ -176,32 +240,66 @@ svg#map.drag { cursor: grabbing; }
 .legend .sw.ring { box-shadow: 0 0 0 2px var(--panel), 0 0 0 4px var(--gold); background: var(--r4); }
 .legend .dash { width: 26px; height: 0; border-top: 2.5px dashed var(--route); }
 .legend .sq { width: 14px; height: 14px; border-radius: 4px; background: var(--none); }
-.hint { position: absolute; right: 12px; bottom: 12px; color: var(--muted); font-size: 11.5px; background: color-mix(in srgb, var(--panel) 80%, transparent); padding: 3px 8px; border-radius: 6px; pointer-events: none; }
+.hint { position: absolute; right: 12px; bottom: 12px; transition: opacity .6s; color: var(--muted); font-size: 11.5px; background: color-mix(in srgb, var(--panel) 80%, transparent); padding: 3px 8px; border-radius: 6px; pointer-events: none; }
 .tip { position: absolute; z-index: 3; pointer-events: none; background: var(--ink); color: var(--panel); border-radius: 8px; padding: 7px 10px; font-size: 12.5px; max-width: 280px; box-shadow: var(--shadow); display: none; }
 .tip b { display: block; font-weight: 600; }
 .tip span { opacity: .85; }
-.card { position: absolute; left: 50%; transform: translateX(-50%); bottom: 12px; width: min(560px, calc(100% - 24px)); background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 12px 14px; display: none; z-index: 4; }
+.card { position: absolute; left: 50%; transform: translateX(-50%); bottom: 12px; width: min(560px, calc(100% - 24px)); background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 12px 14px; display: none; z-index: 4; max-height: 60%; overflow: auto; }
 .card.on { display: block; }
-.card h2 { margin: 0 28px 2px 0; font: 700 17px/1.25 var(--display); text-wrap: balance; }
-.card .kk { color: var(--muted); font-size: 12px; margin-bottom: 8px; }
-.card .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-.card .bd { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); font-size: 12px; }
-.card .bd.g { background: var(--gold); color: var(--gold-ink); border-color: var(--gold); font-weight: 600; }
-.card .bd.r { color: var(--route); border-color: var(--route); font-weight: 600; }
-.card p { margin: 0 0 8px; color: var(--muted); font-size: 12.5px; }
-.card a { color: var(--focus); }
-.card .x { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border: 0; border-radius: 6px; background: transparent; cursor: pointer; font-size: 18px; }
+.fiche h2 { margin: 0 32px 2px 0; font: 700 18px/1.25 var(--display); text-wrap: balance; }
+.detail .fiche h2 { margin-right: 0; font-size: 21px; }
+.fiche .kk { color: var(--muted); font-size: 12px; margin-bottom: 8px; }
+.fiche .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.fiche .bd { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--line); font-size: 12px; }
+.fiche .bd.g { background: var(--gold); color: var(--gold-ink); border-color: var(--gold); font-weight: 600; }
+.fiche .bd.r { color: var(--route); border-color: var(--route); font-weight: 600; }
+.fiche p { margin: 0 0 8px; color: var(--muted); font-size: 13.5px; }
+.fiche a:not(.btn) { color: var(--focus); }
+.card .x { position: absolute; top: 6px; right: 6px; width: 36px; height: 36px; border: 0; border-radius: 6px; background: transparent; cursor: pointer; font-size: 18px; }
 .card .x:hover { background: var(--bg); }
-.foot { padding: 0 20px 14px; color: var(--muted); font-size: 12px; }
 
+g.leg { cursor: pointer; }
+.larrow { fill: var(--route); stroke: var(--panel); stroke-width: 1.6; stroke-linejoin: round; }
+.lpill { fill: var(--panel); stroke: var(--route); stroke-width: 1.4; }
+g.leg:hover .lpill { fill: var(--route); }
+g.leg:hover .ltxt { fill: #fff; }
+.ltxt { font: 600 11px var(--body); fill: var(--ink); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.legchip { flex: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 0 9px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font-size: 12px; cursor: pointer; }
+.legchip:hover { color: var(--route); background: var(--panel); }
+.chip.on { border-color: var(--route); box-shadow: 0 0 0 1px var(--route); }
+.focusbar { display: flex; align-items: center; gap: 8px; padding: 6px 6px 6px 10px; border: 1px solid var(--route); border-radius: 10px; background: color-mix(in srgb, var(--route) 8%, var(--panel)); }
+.focusbar[hidden] { display: none; }
+.focusbar .ft { flex: 1; min-width: 0; line-height: 1.3; }
+.focusbar .ft span { color: var(--muted); font-size: 12px; display: block; }
+.focusbar button { flex: none; min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); cursor: pointer; }
+.focuschip { display: none; position: absolute; top: 10px; left: 10px; right: 64px; z-index: 3; align-items: center; gap: 8px; min-height: 44px; padding: 6px 12px; border: 1px solid var(--route); border-radius: 12px; background: var(--panel); box-shadow: var(--shadow); text-align: left; cursor: pointer; }
+.focuschip span { flex: 1; min-width: 0; line-height: 1.25; }
+.focuschip small { display: block; color: var(--muted); font-size: 12px; }
+.focuschip b { color: var(--route); white-space: nowrap; }
+@media (max-width: 920px) { .focuschip.on { display: flex; } }
+.tabs { display: none; flex: none; border-top: 1px solid var(--line); background: var(--panel); padding-bottom: env(safe-area-inset-bottom); }
+.tabs button { flex: 1; min-height: 56px; border: 0; background: transparent; display: grid; justify-items: center; align-content: center; gap: 2px; font-size: 12px; color: var(--muted); cursor: pointer; position: relative; }
+.tabs button[aria-selected="true"] { color: var(--ink); font-weight: 600; }
+.tabs button[aria-selected="true"]::before { content: ""; position: absolute; top: 0; left: 28%; right: 28%; height: 3px; background: var(--route); border-radius: 0 0 3px 3px; }
+.tabs svg { width: 22px; height: 22px; }
+.tabs .tn { font-variant-numeric: tabular-nums; opacity: .8; }
+@media (hover: none) { .hint { display: none; } }
+@media (min-width: 921px) { .card { display: none !important; } }
 @media (max-width: 920px) {
-  .app { grid-template-columns: 1fr; grid-template-rows: 62vh auto; overflow: auto; }
-  .mapwrap { order: -1; }
-  .panel { max-height: none; }
-  .list { max-height: 60vh; }
-  body { overflow: auto; }
-  html, body { height: auto; }
-  .app { min-height: 0; }
+  body { font-size: 15px; }
+  header { padding: 8px 12px 2px; gap: 0 14px; }
+  h1 { font-size: 18px; }
+  header .meta { display: none; }
+  .strip { padding: 4px 12px 8px; }
+  .app { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); padding: 0; }
+  .splitter { display: none; }
+  .panel, .mapwrap { grid-area: 1 / 1; border-radius: 0; border-width: 1px 0 0; }
+  .app[data-tab="map"] .panel, .app[data-tab="list"] .mapwrap { visibility: hidden; pointer-events: none; }
+  .tabs { display: flex; }
+  .detail .mobile-only { display: inline-flex !important; }
+  .ctl button { width: 42px; height: 42px; }
+  .card { bottom: 10px; }
+  .fiche h2 { font-size: 17px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
@@ -209,72 +307,110 @@ svg#map.drag { cursor: grabbing; }
 <body>
 <header>
   <h1>Carte du voyage au Japon, avril 2027</h1>
-  <div class="sub"><a href="index.html">Accueil</a> · <a href="preparer.html">Préparer le voyage</a> · <a href="specialites.html">Spécialités</a><br>2 adultes et une ado de 12 ans, du 3 au 18 avril. Données de la feuille « À faire » au <span id="gen"></span>. <a href="https://docs.google.com/spreadsheets/d/1BYG-KHH-lIS8tV3o3RzYj_1i19H_ioaJizK7ekh0WL4/edit" target="_blank" rel="noopener">Ouvrir la feuille</a></div>
+  <nav aria-label="Pages du site"><a href="index.html">Accueil</a><a href="preparer.html">Préparer le voyage</a><a href="specialites.html">Spécialités</a></nav>
+  <div class="meta">3 au 18 avril · données au <span class="gen"></span></div>
 </header>
 <div class="strip" id="strip"></div>
 
-<main class="app">
-  <aside class="panel" aria-label="Chronologie et liste des lieux">
-    <div class="filters">
-      <div class="frow"><span class="t">Vue</span>
+<main class="app" id="app" data-tab="map">
+  <aside class="panel" id="panel" aria-label="Chronologie et liste des lieux">
+    <div class="ptools">
+      <div class="srow">
+        <label class="search" id="searchbox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input id="q" type="search" placeholder="Rechercher un lieu" autocomplete="off" enterkeyhint="search" aria-label="Rechercher un lieu">
+          <button type="button" class="clr" id="qclr" aria-label="Effacer la recherche">×</button>
+        </label>
+        <button type="button" class="fbtn" id="fbtn" aria-expanded="false" aria-controls="adv">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+          Filtres <span class="bdg" id="fcount">0</span>
+        </button>
+      </div>
+      <div class="qrow">
         <div class="seg" id="seg-view" role="group" aria-label="Mode d'affichage">
           <button type="button" data-v="chrono" aria-pressed="true">Chronologie</button>
           <button type="button" data-v="ville" aria-pressed="false">Par ville</button>
         </div>
-      </div>
-      <div class="frow"><span class="t">Note</span>
-        <div class="seg" id="seg-rating" role="group" aria-label="Note minimale">
-          <button type="button" data-v="0" aria-pressed="true">Toutes</button>
-          <button type="button" data-v="3" aria-pressed="false">3 et +</button>
-          <button type="button" data-v="4" aria-pressed="false">4 et +</button>
-          <button type="button" data-v="5" aria-pressed="false">5</button>
-        </div>
-      </div>
-      <div class="frow"><span class="t">Afficher</span>
         <button type="button" class="tg" id="tg-ind" aria-pressed="false"><span class="st">★</span> Indispensables</button>
         <button type="button" class="tg" id="tg-res" aria-pressed="false">À réserver</button>
-        <button type="button" class="tg" id="tg-route" aria-pressed="true">Itinéraire</button>
       </div>
-      <div class="frow"><span class="t">Type</span><div class="types" id="types"></div></div>
-    </div>
-    <div class="summary">
-      <div><b id="s-n">0</b><span>lieux affichés</span></div>
-      <div><b id="s-i">0</b><span>indispensables</span></div>
-      <div><b id="s-h">0 h</b><span>durée des indispensables</span></div>
+      <div class="adv" id="adv" hidden>
+        <div class="frow"><span class="t">Note</span>
+          <div class="seg" id="seg-rating" role="group" aria-label="Note minimale">
+            <button type="button" data-v="0" aria-pressed="true">Toutes</button>
+            <button type="button" data-v="3" aria-pressed="false">3 et +</button>
+            <button type="button" data-v="4" aria-pressed="false">4 et +</button>
+            <button type="button" data-v="5" aria-pressed="false">5</button>
+          </div>
+        </div>
+        <div class="frow"><span class="t">Carte</span>
+          <button type="button" class="tg" id="tg-route" aria-pressed="true">Itinéraire</button>
+        </div>
+        <div class="frow"><span class="t">Type</span><div class="types" id="types"></div></div>
+        <button type="button" class="reset" id="reset">Réinitialiser les filtres</button>
+      </div>
+      <div class="focusbar" id="focusbar" hidden>
+        <div class="ft"><b id="ftitle"></b><span id="fsub"></span></div>
+        <button type="button" id="fclr">Tout afficher</button>
+      </div>
+      <div class="ptabs" id="ptabs" role="tablist" hidden>
+        <button type="button" role="tab" data-pt="places" aria-selected="true">Centres d'intérêt</button>
+        <button type="button" role="tab" data-pt="hotel" aria-selected="false">Hôtel</button>
+      </div>
+      <div class="sumline" id="summary" aria-live="polite"></div>
     </div>
     <div class="list" id="list"></div>
+    <div class="hotel" id="hotel"></div>
+    <div class="detail" id="detail"></div>
   </aside>
+
+  <div class="splitter" id="splitter" role="separator" aria-orientation="vertical" aria-label="Largeur du panneau (flèches gauche et droite, Entrée pour masquer)" tabindex="0">
+    <button type="button" class="tgl" id="spl-toggle" aria-label="Masquer le panneau" title="Masquer / afficher le panneau">‹</button>
+  </div>
 
   <section class="mapwrap" id="mapwrap" aria-label="Carte interactive du Japon">
     <svg id="map" role="img" aria-label="Carte du Japon avec les lieux à visiter"></svg>
+    <button type="button" class="focuschip" id="focuschip"><span><b style="color:var(--ink)" id="fctitle"></b><small id="fcsub"></small></span><b>Détail ›</b></button>
     <div class="ctl">
       <button type="button" id="zin" aria-label="Zoomer">+</button>
       <button type="button" id="zout" aria-label="Dézoomer">−</button>
-      <button type="button" id="zhome" aria-label="Voir tout le Japon">⌂</button>
+      <button type="button" id="zhome" aria-label="Recentrer sur l'itinéraire" title="Recentrer sur l'itinéraire">⌂</button>
     </div>
+    <button type="button" class="lgbtn" id="lgbtn" aria-expanded="false" aria-controls="legend">Légende</button>
     <div class="legend" id="legend">
       <div class="lr"><span class="ramp"><i class="bg1">1</i><i class="bg2">2</i><i class="bg3">3</i><i class="bg4">4</i><i class="bg5">5</i></span><span>Note, 5 = à ne pas rater</span></div>
       <div class="lr"><span class="sw ring"></span><span>Anneau or et ★ : indispensable</span></div>
       <div class="lr"><span class="dash"></span><span>Itinéraire retenu</span></div>
       <div class="lr"><span class="sq"></span><span>Sans note (hébergement, étape)</span></div>
+      <div class="about">Notre voyage en famille, du 3 au 18 avril. Données au <span class="gen"></span>.<br>La carte montre le tronc commun du voyage : les lieux indispensables et ceux de l'onglet « Chronologie ». Les autres idées restent dans l'onglet « À faire ». Les positions marquées « approximative » sont à confirmer.</div>
     </div>
-    <div class="hint" id="hint">Molette pour zoomer, glisser pour se déplacer</div>
+    <div class="hint" id="hint">Molette : zoom · Glisser : déplacer</div>
     <div class="tip" id="tip"></div>
     <div class="card" id="card"></div>
   </section>
 </main>
-<div class="foot">La carte montre le tronc commun du voyage : les lieux indispensables et ceux de l'onglet « Chronologie » de la feuille. Les autres idées restent dans l'onglet « À faire ». Les positions marquées « approximative » sont à confirmer.</div>
+<nav class="tabs" id="tabs" aria-label="Affichage">
+  <button type="button" role="tab" data-tab="map" aria-selected="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M9 4L3 6.5v13L9 17l6 3 6-2.5v-13L15 7 9 4z"/><path d="M9 4v13M15 7v13"/></svg>
+    <span>Carte</span>
+  </button>
+  <button type="button" role="tab" data-tab="list" aria-selected="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
+    <span>Liste <span class="tn" id="tab-n"></span></span>
+  </button>
+</nav>
 
 <script>
 const D = /*__DATA__*/null;
 (function () {
   const $ = (s) => document.querySelector(s);
+  const isMobile = () => matchMedia("(max-width: 920px)").matches;
   const NS = "http://www.w3.org/2000/svg";
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const fmtH = (h) => { if (h == null) return ""; const n = Math.round(h * 10) / 10; return (String(n).replace(".", ",")) + " h"; };
   const isRes = (p) => /^oui/i.test(p.res);
   const ZLOD = 3.4, ZMAX = 90;
-  $("#gen").textContent = D.generated;
+  document.querySelectorAll(".gen").forEach((n) => (n.textContent = D.generated));
 
   const gBy = {}; D.groups.forEach((g) => (gBy[g.key] = g));
   const pBy = {}; D.places.forEach((p) => (pBy[p.id] = p));
@@ -285,7 +421,16 @@ const D = /*__DATA__*/null;
   D.groups.forEach((g) => { if (!order.includes(g.key)) order.push(g.key); });
 
   const types = [...new Set(D.places.map((p) => p.t))];
-  const F = { min: 0, ind: false, res: false, route: true, types: new Set(types) };
+  const norm = (s) => String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  D.places.forEach((p) => { p.q = norm(p.n + " " + p.full + " " + gBy[p.g].label + " " + p.t); });
+  const F = { min: 0, ind: false, res: false, route: true, q: "", types: new Set(types) };
+  const app = $("#app"), panel = $("#panel");
+  let listScroll = 0, listFocus = null, shownIds = new Set();
+  const YEAR = D.days.length ? D.days[0].iso.slice(0, 4) : "2027";
+  const MOIS = ["janv", "févr", "mars", "avr", "mai", "juin", "juil", "août", "sept", "oct", "nov", "déc"];
+  const stayIso = (txt) => { const m = String(txt).match(/(\d+)\s+(\S+)/); if (!m) return ""; const i = MOIS.findIndex((x) => m[2].startsWith(x.slice(0, 3))); return YEAR + "-" + String(i + 1).padStart(2, "0") + "-" + m[1].padStart(2, "0"); };
+  D.stays.forEach((s) => { s.f = stayIso(s.from); s.t = stayIso(s.to); s.days = D.days.filter((d) => d.iso >= s.f && d.iso < s.t).map((d) => d.iso); });
+  const stayLabel = (s) => gBy[s.group].label;
   let hover = null, sel = null, focusKey = null, view = "chrono";
 
   const svg = $("#map"), wrap = $("#mapwrap");
@@ -296,6 +441,7 @@ const D = /*__DATA__*/null;
     if (F.min > 0 && (p.r == null || p.r < F.min)) return false;
     if (F.ind && !p.ind) return false;
     if (F.res && !isRes(p)) return false;
+    if (F.q && !p.q.includes(F.q)) return false;
     return F.types.has(p.t);
   }
   const visible = () => D.places.filter(vis);
@@ -303,14 +449,18 @@ const D = /*__DATA__*/null;
   /* ---------- Panneau ---------- */
   function buildStrip() {
     let h = '<span class="lab">Itinéraire retenu</span>';
-    D.stays.forEach((s) => {
-      h += `<button type="button" class="chip" data-g="${esc(s.group)}"><span class="num">${s.n}</span><b>${esc(gBy[s.group].label)}</b><span class="dates">${esc(s.from)} → ${esc(s.to)} · ${s.nights} nuits</span></button>`;
+    D.stays.forEach((s, i) => {
+      if (i > 0 && s.leg) h += `<button type="button" class="legchip" data-leg="${i - 1}" title="${esc(s.leg.detail)}"><span aria-hidden="true">→</span> ${esc(s.leg.mode)} · ${esc(s.leg.duree)}</button>`;
+      h += `<button type="button" class="chip" data-g="${esc(s.group)}" data-n="${s.n}"><span class="num">${s.n}</span><b>${esc(gBy[s.group].label)}</b><span class="dates">${esc(s.from)} → ${esc(s.to)} · ${s.nights} nuits</span></button>`;
     });
     const placed = D.stays.reduce((a, s) => a + s.nights, 0);
     h += `<span class="chip todo">${15 - placed} nuits à placer (16 → 18 avr)</span>`;
     $("#strip").innerHTML = h;
-    $("#strip").addEventListener("click", (e) => { const b = e.target.closest("[data-g]"); if (b) focusGroup(b.dataset.g); });
   }
+  $("#strip").addEventListener("click", (e) => {
+    const l = e.target.closest("[data-leg]"); if (l) { focusLeg(+l.dataset.leg); if (isMobile()) setTab("map"); return; }
+    const b = e.target.closest("[data-g]"); if (b) { focusGroup(b.dataset.g, { list: true, n: +b.dataset.n || null }); if (isMobile()) setTab("map"); }
+  });
   function buildTypes() {
     $("#types").innerHTML = types.map((t) => `<button type="button" data-t="${esc(t)}" aria-pressed="true">${esc(t)}</button>`).join("");
     $("#types").addEventListener("click", (e) => {
@@ -329,7 +479,8 @@ const D = /*__DATA__*/null;
     const ok = new Set(vs.map((p) => p.id));
     let h = "";
     D.days.forEach((d) => {
-      const items = d.items.filter((it) => it.pid == null || ok.has(it.pid));
+      if (listFocus && !listFocus.days.has(d.iso)) return;
+      const items = d.items.filter((it) => (it.pid == null ? !F.q : ok.has(it.pid)));
       if (!items.length) return;
       const gk = (items.map((it) => it.pid).filter((x) => x != null).map((x) => pBy[x].g)[0]) || null;
       h += `<${gk ? "button type=\"button\" data-g=\"" + esc(gk) + "\"" : "div"} class="dhead"><span class="dn">${esc(d.label)}</span><span class="dt">${d.night ? "Nuit : " + esc(d.night) : ""}</span></${gk ? "button" : "div"}>`;
@@ -337,6 +488,7 @@ const D = /*__DATA__*/null;
         const p = it.pid != null ? pBy[it.pid] : null;
         const when = [it.m, it.time].filter(Boolean).join(" · ");
         if (p) {
+          shownIds.add(p.id);
           h += `<button type="button" class="row${p.id === sel ? " sel" : ""}${p.id === hover ? " hl" : ""}" data-pid="${p.id}">${ratePill(p)}<span><span class="tm">${esc(when)}</span><span class="nm" style="display:block">${esc(p.n)}</span><span class="meta"><span>${esc(p.t)}</span>${p.h != null ? `<span>${fmtH(p.h)}</span>` : ""}${isRes(p) ? `<span class="res">À réserver</span>` : ""}${p.add ? `<span class="add">Ajout</span>` : ""}</span>${it.note ? `<span class="nt">${esc(it.note)}</span>` : ""}</span></button>`;
         } else {
           const ic = /^trajet/i.test(it.type) ? "→" : /^libre/i.test(it.type) ? "○" : "·";
@@ -349,21 +501,28 @@ const D = /*__DATA__*/null;
   function buildList() {
     const vs = visible();
     let h = "";
+    shownIds = new Set();
     if (view === "chrono") h = buildChrono(vs);
     else order.forEach((key) => {
+      if (listFocus && !listFocus.keys.includes(key)) return;
       const items = vs.filter((p) => p.g === key).sort((a, b) => (b.r ?? -1) - (a.r ?? -1) || a.n.localeCompare(b.n, "fr"));
       if (!items.length) return;
       const ni = items.filter((p) => p.ind).length;
       h += `<button type="button" class="ghead" data-g="${esc(key)}"><span class="gn">${esc(gBy[key].label)}</span><span class="gt">${esc(tagFor(key))}</span><span class="gc">${ni ? `<span class="st">★</span> ${ni} · ` : ""}${items.length} lieu${items.length > 1 ? "x" : ""}</span></button>`;
       items.forEach((p) => {
+        shownIds.add(p.id);
         h += `<button type="button" class="row${p.id === sel ? " sel" : ""}${p.id === hover ? " hl" : ""}" data-pid="${p.id}">${ratePill(p)}<span><span class="nm">${esc(p.n)}</span><span class="meta"><span>${esc(p.t)}</span>${p.h != null ? `<span>${fmtH(p.h)}</span>` : ""}${isRes(p) ? `<span class="res">À réserver</span>` : ""}${p.ind ? `<span class="star">★ Indispensable</span>` : ""}</span></span></button>`;
       });
     });
     $("#list").innerHTML = h || '<div class="empty">Aucun lieu ne correspond à ces filtres.</div>';
-    const ind = vs.filter((p) => p.ind);
-    $("#s-n").textContent = vs.length;
-    $("#s-i").textContent = ind.length;
-    $("#s-h").textContent = fmtH(ind.reduce((a, p) => a + (p.h || 0), 0)).replace(".", ",") || "0 h";
+    const sv = listFocus ? vs.filter((p) => shownIds.has(p.id)) : vs;
+    const ind = sv.filter((p) => p.ind);
+    const hh = ind.reduce((a, p) => a + (p.h || 0), 0);
+    $("#summary").innerHTML = `<b>${sv.length}</b> lieu${sv.length > 1 ? "x" : ""} · <b>${ind.length}</b> indispensable${ind.length > 1 ? "s" : ""}${ind.length ? " (" + fmtH(hh) + ")" : ""}`;
+    $("#tab-n").textContent = "(" + sv.length + ")";
+    if (!panel.classList.contains("showing")) $("#list").scrollTop = listScroll;
+    const nf = (F.min > 0 ? 1 : 0) + (F.route ? 0 : 1) + (types.length - F.types.size);
+    $("#fcount").textContent = nf; $("#fcount").classList.toggle("on", nf > 0);
   }
 
   /* ---------- Carte ---------- */
@@ -372,12 +531,18 @@ const D = /*__DATA__*/null;
 
   function resize() {
     const r = wrap.getBoundingClientRect();
-    const oldFit = fit;
+    const oldFit = fit, ocw = cw, och = ch;
     cw = Math.max(300, r.width); ch = Math.max(300, r.height);
     fit = Math.min(cw / D.W, ch / D.H) * 0.98;
     svg.setAttribute("viewBox", `0 0 ${cw} ${ch}`);
     if (!resize.done) { home(false); resize.done = true; }
-    else { const k = V.s / oldFit; V.s = fit * k; clampView(); }
+    else {
+      // garder le même point de la carte au centre quand la zone change de taille
+      const ccx = (ocw / 2 - V.tx) / V.s, ccy = (och / 2 - V.ty) / V.s;
+      const k = V.s / oldFit; V.s = fit * k;
+      V.tx = cw / 2 - ccx * V.s; V.ty = ch / 2 - ccy * V.s;
+      cancelAnimationFrame(raf); clampView();
+    }
     draw();
   }
   function clampView() {
@@ -388,10 +553,17 @@ const D = /*__DATA__*/null;
     const ccx = Math.min(D.W, Math.max(0, cx)), ccy = Math.min(D.H, Math.max(0, cy));
     V.tx = cw / 2 - ccx * V.s; V.ty = ch / 2 - ccy * V.s;
   }
-  function home(anim = true) {
-    const t = { s: fit, tx: (cw - D.W * fit) / 2, ty: (ch - D.H * fit) / 2 };
-    focusKey = null; animateTo(t, anim);
+  function homeTarget() {
+    const pts = D.groups.map((g) => g.xy);
+    const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
+    const minx = Math.min(...xs), maxx = Math.max(...xs), miny = Math.min(...ys), maxy = Math.max(...ys);
+    const w = Math.max(maxx - minx, 40), h = Math.max(maxy - miny, 40);
+    let s = Math.min((cw - 128) / w, (ch - 112) / h);
+    s = Math.max(fit, Math.min(s, fit * 3.2));
+    const cx = (minx + maxx) / 2, cy = (miny + maxy) / 2;
+    return { s, tx: cw / 2 - cx * s, ty: ch / 2 - cy * s };
   }
+  function home(anim = true) { focusKey = null; animateTo(homeTarget(), anim); }
   let raf = null;
   function animateTo(t, anim = true) {
     cancelAnimationFrame(raf);
@@ -420,17 +592,107 @@ const D = /*__DATA__*/null;
     const cx = (minx + maxx) / 2, cy = (miny + maxy) / 2;
     return { s, tx: cw / 2 - cx * s, ty: ch / 2 - cy * s };
   }
-  function focusGroup(key) {
-    focusKey = key; sel = null;
+  function focusGroup(key, opt = {}) {
+    focusKey = key; sel = null; showCard();
+    if (opt.list) setListFocus(makeFocus(key, opt.n));
     const pts = D.places.filter((p) => p.g === key && vis(p)).map((p) => p.xy);
     const use = pts.length ? pts : D.places.filter((p) => p.g === key).map((p) => p.xy);
     animateTo(fitPoints(use), true);
     refreshPanelOnly();
   }
+  function makeFocus(key, n) {
+    const st = n ? D.stays.filter((x) => x.n === n) : D.stays.filter((x) => x.group === key);
+    const days = new Set(st.flatMap((x) => x.days));
+    if (!n) D.days.forEach((d) => { if (d.items.some((it) => it.pid != null && pBy[it.pid].g === key)) days.add(d.iso); });
+    const rng = st.map((x) => x.from + " → " + x.to).join(" et ");
+    const num = st.map((x) => x.n).join(" et ");
+    return { n: n || null, ns: st.map((x) => x.n), key, keys: [key], days, title: (st.length ? "Étape " + num + " · " : "") + gBy[key].label, sub: st.length ? rng + " · " + days.size + " jour" + (days.size > 1 ? "s" : "") : days.size + " jour" + (days.size > 1 ? "s" : "") + " avec des visites ici" };
+  }
+  function legGeom() {
+    const pts = D.stays.map((s) => gBy[s.group].xy).map((p) => [sx(p[0]), sy(p[1])]);
+    return pts.slice(1).map((p1, j) => {
+      const i = j + 1, p0 = pts[j];
+      const mx = (p0[0] + p1[0]) / 2, my = (p0[1] + p1[1]) / 2, dx = p1[0] - p0[0], dy = p1[1] - p0[1], k = 0.16 * (i % 2 ? 1 : -1);
+      const c = [mx - dy * k, my + dx * k];
+      return { i: j, mid: [0.25 * p0[0] + 0.5 * c[0] + 0.25 * p1[0], 0.25 * p0[1] + 0.5 * c[1] + 0.25 * p1[1]], ang: Math.atan2(dy, dx), dist: Math.hypot(dx, dy) };
+    });
+  }
+  function legsSVG() {
+    let h = "";
+    legGeom().forEach((L) => {
+      const a = D.stays[L.i], b = D.stays[L.i + 1], leg = b.leg;
+      const lab = `Trajet ${stayLabel(a)} vers ${stayLabel(b)}${leg ? " : " + leg.detail : ""}`;
+      h += `<g class="leg" data-leg="${L.i}" transform="translate(${L.mid[0].toFixed(1)} ${L.mid[1].toFixed(1)})" tabindex="0" role="button" aria-label="${esc(lab)}"><title>${esc(lab)}</title><circle r="15" fill="transparent"/><g transform="rotate(${(L.ang * 180 / Math.PI).toFixed(1)})"><path class="larrow" d="M-8 -7L8 0L-8 7z"/></g>`;
+      const compact = cw < 700;
+      if (leg && L.dist > (compact ? 60 : 110)) {
+        const txt = compact ? leg.duree : leg.mode + " · " + leg.duree, w = txt.length * 6.2 + 18;
+        let nx = -Math.sin(L.ang), ny = Math.cos(L.ang); if (ny > 0) { nx = -nx; ny = -ny; }
+        h += `<g transform="translate(${(nx * 24).toFixed(1)} ${(ny * 24).toFixed(1)})"><rect class="lpill" x="${(-w / 2).toFixed(1)}" y="-11" width="${w.toFixed(1)}" height="22" rx="11"/><text class="ltxt" y="1">${esc(txt)}</text></g>`;
+      }
+      h += "</g>";
+    });
+    return h;
+  }
+  function focusLeg(i) {
+    const a = D.stays[i], b = D.stays[i + 1];
+    sel = null; showCard(); focusKey = null;
+    const pts = [gBy[a.group].xy, gBy[b.group].xy];
+    const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
+    const w = Math.max(Math.abs(xs[0] - xs[1]), 30), h = Math.max(Math.abs(ys[0] - ys[1]), 30);
+    const s0 = Math.max(fit, Math.min(Math.min((cw - 150) / w, (ch - 170) / h), fit * 3.2));
+    const cx = (xs[0] + xs[1]) / 2, cy = (ys[0] + ys[1]) / 2;
+    animateTo({ s: s0, tx: cw / 2 - cx * s0, ty: ch / 2 - cy * s0 }, true);
+    const days = new Set(b.days.slice(0, 1));
+    const lg = b.leg;
+    setListFocus({ n: null, key: null, keys: [a.group, b.group], days, title: "Trajet " + stayLabel(a) + " → " + stayLabel(b), sub: (lg ? lg.mode + " · " + lg.duree + " · " : "") + b.from });
+  }
+  let ptab = "places";
+  const bkq = (st) => `checkin=${st.f}&checkout=${st.t}&group_adults=2&group_children=1&age=12&no_rooms=1&selected_currency=EUR`;
+  const TAGS = { 1: "Proposition", 2: "Option", 3: "Option", 4: "Retenu" };
+  function hotelCard(h, st) {
+    const city = gBy[st.group].label.split(" et ")[0];
+    const book = h.url ? `${h.url}?${bkq(st)}` : `https://www.booking.com/searchresults.html?ss=${encodeURIComponent(h.name + " " + city + " Japon")}&${bkq(st)}`;
+    const maps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name + " " + city + " Japon")}`;
+    return `<div class="hcard${h.slot === 4 ? " keep" : ""}"><span class="tag">${TAGS[h.slot]} (hôtel ${h.slot})</span><h3>${esc(h.name)}</h3>${h.area ? `<div class="area">${esc(h.area)}</div>` : ""}${h.rest ? `<p>${esc(h.rest)}</p>` : ""}`
+      + `<div class="btns"><a class="btn primary" href="${esc(book)}" target="_blank" rel="noopener">${h.url ? "Voir sur Booking.com" : "Chercher sur Booking.com"}</a><a class="btn" href="${esc(maps)}" target="_blank" rel="noopener">Google Maps</a></div>`
+      + `<div class="hnote">${st.from} → ${st.to}, ${st.nights} nuits, 2 adultes et 1 enfant${h.url ? "" : ". Pas de fiche enregistrée : la recherche peut donner un autre établissement."}</div></div>`;
+  }
+  function renderHotel() {
+    const f = listFocus; let h = "";
+    if (f && f.ns && f.ns.length) f.ns.forEach((n) => {
+      const st = D.stays.find((x) => x.n === n); if (!st) return;
+      const hs = (st.hotels || []).slice().sort((a, b) => (b.slot === 4) - (a.slot === 4) || a.slot - b.slot);
+      h += `<div class="hsec">Étape ${st.n} · ${esc(stayLabel(st))}<span>${esc(st.from)} → ${esc(st.to)} · ${st.nights} nuits</span></div>`;
+      h += hs.length ? hs.map((x) => hotelCard(x, st)).join("") : `<div class="hempty">Hôtel pas encore choisi pour cette étape.</div>`;
+    });
+    $("#hotel").innerHTML = h;
+  }
+  function setPtab(t) {
+    ptab = t;
+    document.querySelectorAll("#ptabs [data-pt]").forEach((b) => b.setAttribute("aria-selected", b.dataset.pt === t));
+    panel.classList.toggle("hotelmode", t === "hotel" && !$("#ptabs").hidden);
+    if (t === "hotel") { renderHotel(); $("#hotel").scrollTop = 0; }
+  }
+  $("#ptabs").addEventListener("click", (e) => { const b = e.target.closest("[data-pt]"); if (b) setPtab(b.dataset.pt); });
+  function setListFocus(f) {
+    listFocus = f; listScroll = 0;
+    $("#focusbar").hidden = !f;
+    if (f) { $("#ftitle").textContent = f.title; $("#fsub").textContent = f.sub; $("#fctitle").textContent = f.title; $("#fcsub").textContent = f.sub; }
+    $("#focuschip").classList.toggle("on", !!f);
+    const hasH = !!f && !!f.ns && f.ns.length > 0;
+    $("#ptabs").hidden = !hasH;
+    if (!hasH) ptab = "places";
+    setPtab(ptab);
+    document.querySelectorAll("#strip .chip[data-n]").forEach((c) => c.classList.toggle("on", !!f && !!f.ns && f.ns.includes(+c.dataset.n)));
+    buildList(); $("#list").scrollTop = 0;
+  }
+  $("#fclr").addEventListener("click", () => setListFocus(null));
+  $("#focuschip").addEventListener("click", () => setTab("list"));
+
   function focusPlace(id) {
     const p = pBy[id]; sel = id; focusKey = p.g;
     const t = { s: Math.max(V.s, fit * 26) , tx: 0, ty: 0 };
-    t.tx = cw / 2 - p.xy[0] * t.s; t.ty = ch / 2 - p.xy[1] * t.s;
+    t.tx = cw / 2 - p.xy[0] * t.s; t.ty = (isMobile() ? ch * 0.28 : ch / 2) - p.xy[1] * t.s;
     animateTo(t, true); showCard(); refreshPanelOnly();
   }
 
@@ -438,7 +700,7 @@ const D = /*__DATA__*/null;
   let landNode = null, otherNode = null;
   function ensureBase() {
     if (landNode) return;
-    svg.innerHTML = `<rect width="100%" height="100%" fill="var(--sea)"/><g id="L"><path class="otherland" id="PO"/><path class="land" id="PJ"/></g><g id="seal"></g><g id="routeL"></g><g id="pinsL"></g><g id="mksL"></g>`;
+    svg.innerHTML = `<rect width="100%" height="100%" fill="var(--sea)"/><g id="L"><path class="otherland" id="PO"/><path class="land" id="PJ"/></g><g id="seal"></g><g id="routeL"></g><g id="legsL"></g><g id="pinsL"></g><g id="mksL"></g>`;
     $("#PO").setAttribute("d", D.land); $("#PJ").setAttribute("d", D.japanOnly);
     landNode = $("#L");
   }
@@ -481,6 +743,7 @@ const D = /*__DATA__*/null;
     landNode.setAttribute("transform", `translate(${V.tx.toFixed(2)} ${V.ty.toFixed(2)}) scale(${V.s.toFixed(4)})`);
     $("#seal").innerHTML = labelsBase();
     $("#routeL").innerHTML = F.route ? `<path class="route" d="${routePath()}"/>` : "";
+    $("#legsL").innerHTML = F.route ? legsSVG() : "";
     const zz = z();
     const vs = visible();
     const showMarkers = zz >= ZLOD;
@@ -580,21 +843,36 @@ const D = /*__DATA__*/null;
   });
   svg.addEventListener("pointerleave", () => { tip.style.display = "none"; if (hover !== null) setHover(null); });
 
-  function showCard() {
-    const c = $("#card");
-    if (sel == null) { c.classList.remove("on"); c.innerHTML = ""; return; }
-    const p = pBy[sel];
+  function fiche(p) {
     const stars = p.r == null ? "" : "★".repeat(p.r) + "☆".repeat(5 - p.r);
-    c.innerHTML = `<button type="button" class="x" aria-label="Fermer">×</button><h2>${esc(p.n)}</h2><div class="kk">${esc(gBy[p.g].label)} · ${esc(p.t)}</div>`
+    return `<div class="fiche"><h2>${esc(p.n)}</h2><div class="kk">${esc(gBy[p.g].label)} · ${esc(p.t)}</div>`
       + `<div class="badges">${p.r != null ? `<span class="bd"><span aria-hidden="true">${stars}</span> ${p.r}/5</span>` : '<span class="bd">Sans note</span>'}${p.ind ? '<span class="bd g">★ Indispensable</span>' : ""}${p.day ? `<span class="bd">${esc(p.day)}</span>` : ""}${p.add ? '<span class="bd r">Ajout</span>' : ""}${p.h != null ? `<span class="bd">${fmtH(p.h)} sur place</span>` : ""}${isRes(p) ? `<span class="bd r">À réserver : ${esc(p.res)}</span>` : p.res === "À vérifier" ? '<span class="bd">Réservation à vérifier</span>' : ""}</div>`
       + `${p.full !== p.n ? `<p>${esc(p.full)}</p>` : ""}`
-      + (p.u ? `<p><a href="${esc(p.u)}" target="_blank" rel="noopener">Fiche touristique (en français)</a>${/psg\.fr/.test(p.u) ? " (site du club)" : ""}</p>` : "")
-      + `<p><a href="https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}" target="_blank" rel="noopener">Voir sur Google Maps</a>${p.ap ? " (position approximative)" : ""}</p>`;
-    c.classList.add("on");
-    c.querySelector(".x").addEventListener("click", () => { sel = null; showCard(); draw(); refreshPanelOnly(); });
+      + (p.ap ? "<p>Position approximative sur la carte, à confirmer.</p>" : "")
+      + `<div class="btns"><button type="button" class="btn primary mobile-only" data-act="map">Voir sur la carte</button>`
+      + `<a class="btn" href="https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}" target="_blank" rel="noopener">Google Maps</a>`
+      + (p.u ? `<a class="btn" href="${esc(p.u)}" target="_blank" rel="noopener">${/psg\.fr/.test(p.u) ? "Site du club" : "Fiche touristique (fr)"}</a>` : "")
+      + `</div></div>`;
   }
+  function showCard() {
+    const c = $("#card"), d = $("#detail");
+    if (sel == null) { c.classList.remove("on"); c.innerHTML = ""; d.innerHTML = ""; panel.classList.remove("showing"); return; }
+    const p = pBy[sel];
+    if (!panel.classList.contains("showing")) listScroll = $("#list").scrollTop;
+    c.innerHTML = `<button type="button" class="x" data-act="close" aria-label="Fermer">×</button>` + fiche(p);
+    c.classList.add("on");
+    d.innerHTML = `<button type="button" class="back" data-act="close"><span aria-hidden="true">←</span> Retour à la liste</button>` + fiche(p);
+    panel.classList.add("showing"); d.scrollTop = 0;
+  }
+  function closeSel() { sel = null; showCard(); draw(); refreshPanelOnly(); }
+  function onAct(e) {
+    const b = e.target.closest("[data-act]"); if (!b) return;
+    if (b.dataset.act === "close") closeSel();
+    if (b.dataset.act === "map") setTab("map");
+  }
+  $("#card").addEventListener("click", onAct); $("#detail").addEventListener("click", onAct);
 
-  function selectPlace(id) { sel = id; showCard(); draw(); refreshPanelOnly(); const r = document.querySelector(`.row[data-pid="${id}"]`); if (r) r.scrollIntoView({ block: "nearest" }); }
+  function selectPlace(id) { sel = id; showCard(); draw(); refreshPanelOnly(); }
 
   // glisser, pincer, molette
   const ptrs = new Map(); let drag = false, moved = 0, last = null, pinch0 = null;
@@ -624,14 +902,18 @@ const D = /*__DATA__*/null;
   svg.addEventListener("pointerup", up); svg.addEventListener("pointercancel", up);
   svg.addEventListener("click", (e) => {
     if (moved > 5) return;
-    const m = e.target.closest("[data-pid]"); if (m) { selectPlace(+m.dataset.pid); return; }
-    const g = e.target.closest("[data-g]"); if (g) { focusGroup(g.dataset.g); return; }
-    if (sel != null) { sel = null; showCard(); draw(); refreshPanelOnly(); }
+    // la capture du pointeur (glisser) renvoie le clic à la carte entière : on retrouve l'élément réellement touché
+    const hit = (e.clientX || e.clientY ? document.elementFromPoint(e.clientX, e.clientY) : null) || e.target;
+    const lg = hit.closest("[data-leg]"); if (lg) { focusLeg(+lg.dataset.leg); return; }
+    const m = hit.closest("[data-pid]"); if (m) { selectPlace(+m.dataset.pid); return; }
+    const g = hit.closest("[data-g]"); if (g) { focusGroup(g.dataset.g, { list: true }); return; }
+    if (sel != null) closeSel();
   });
   svg.addEventListener("keydown", (e) => {
     if (e.key !== "Enter" && e.key !== " ") return;
+    const lg = e.target.closest("[data-leg]"); if (lg) { e.preventDefault(); focusLeg(+lg.dataset.leg); return; }
     const m = e.target.closest("[data-pid]"); if (m) { e.preventDefault(); selectPlace(+m.dataset.pid); return; }
-    const g = e.target.closest("[data-g]"); if (g) { e.preventDefault(); focusGroup(g.dataset.g); }
+    const g = e.target.closest("[data-g]"); if (g) { e.preventDefault(); focusGroup(g.dataset.g, { list: true }); }
   });
   function zoomAt(f, mx = cw / 2, my = ch / 2) {
     const ns = Math.min(fit * ZMAX, Math.max(fit, V.s * f));
@@ -644,13 +926,13 @@ const D = /*__DATA__*/null;
   }, { passive: false });
   $("#zin").addEventListener("click", () => { const t = { s: Math.min(fit * ZMAX, V.s * 1.8) }; const c = { x: (cw / 2 - V.tx) / V.s, y: (ch / 2 - V.ty) / V.s }; t.tx = cw / 2 - c.x * t.s; t.ty = ch / 2 - c.y * t.s; animateTo(t, true); });
   $("#zout").addEventListener("click", () => { const t = { s: Math.max(fit, V.s / 1.8) }; const c = { x: (cw / 2 - V.tx) / V.s, y: (ch / 2 - V.ty) / V.s }; t.tx = cw / 2 - c.x * t.s; t.ty = ch / 2 - c.y * t.s; animateTo(t, true); });
-  $("#zhome").addEventListener("click", () => { sel = null; showCard(); home(true); refreshPanelOnly(); });
+  $("#zhome").addEventListener("click", () => { sel = null; showCard(); home(true); setListFocus(null); });
 
   // panneau
   $("#list").addEventListener("click", (e) => {
     const row = e.target.closest(".row");
     if (row) { focusPlace(+row.dataset.pid); return; }
-    const gh = e.target.closest(".ghead, .dhead"); if (gh && gh.dataset.g) { focusGroup(gh.dataset.g); showCard(); }
+    const gh = e.target.closest(".ghead, .dhead"); if (gh && gh.dataset.g) { focusGroup(gh.dataset.g); if (isMobile()) setTab("map"); }
   });
   $("#list").addEventListener("pointerover", (e) => { const row = e.target.closest(".row"); if (row) setHover(+row.dataset.pid); });
   $("#list").addEventListener("pointerleave", () => setHover(null));
@@ -674,13 +956,75 @@ const D = /*__DATA__*/null;
     if (sel != null && !vis(pBy[sel])) { sel = null; showCard(); }
     if (z() >= ZLOD * 0.9 && !visible().some((p) => p.xy[0] * V.s + V.tx > 0 && p.xy[0] * V.s + V.tx < cw && p.xy[1] * V.s + V.ty > 0 && p.xy[1] * V.s + V.ty < ch)) { buildList(); home(true); return; }
     buildList();
-    if (focusKey === null && sel === null && z() > 1.05) home(true); else draw();
+    if (focusKey === null && sel === null && V.s > homeTarget().s * 1.05) home(true); else draw();
   }
+
+  /* ---------- Onglets (mobile), recherche, filtres, séparateur ---------- */
+  function setTab(t) {
+    app.dataset.tab = t;
+    document.querySelectorAll("#tabs [data-tab]").forEach((b) => b.setAttribute("aria-selected", b.dataset.tab === t));
+    if (t === "list" && !panel.classList.contains("showing")) $("#list").scrollTop = listScroll;
+  }
+  $("#tabs").addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (b) setTab(b.dataset.tab); });
+
+  const qIn = $("#q");
+  qIn.addEventListener("input", () => { F.q = norm(qIn.value.trim()); $("#searchbox").classList.toggle("has", qIn.value !== ""); refresh(); });
+  $("#qclr").addEventListener("click", () => { qIn.value = ""; qIn.dispatchEvent(new Event("input")); qIn.focus(); });
+  $("#fbtn").addEventListener("click", () => { const o = $("#adv").hidden; $("#adv").hidden = !o; $("#fbtn").setAttribute("aria-expanded", o); });
+  $("#reset").addEventListener("click", () => {
+    F.min = 0; F.route = true; F.ind = false; F.res = false; F.types = new Set(types);
+    document.querySelectorAll("#seg-rating button").forEach((x) => x.setAttribute("aria-pressed", x.dataset.v === "0"));
+    $("#tg-route").setAttribute("aria-pressed", true); $("#tg-ind").setAttribute("aria-pressed", false); $("#tg-res").setAttribute("aria-pressed", false);
+    document.querySelectorAll("#types button").forEach((x) => x.setAttribute("aria-pressed", true));
+    qIn.value = ""; F.q = ""; $("#searchbox").classList.remove("has");
+    refresh();
+  });
+  $("#lgbtn").addEventListener("click", () => { const o = !$("#legend").classList.contains("on"); $("#legend").classList.toggle("on", o); $("#lgbtn").setAttribute("aria-expanded", o); });
+  svg.addEventListener("pointerdown", () => { $("#hint").style.opacity = 0; }, { once: true });
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    if ($("#legend").classList.contains("on")) { $("#lgbtn").click(); return; }
+    if (sel != null) closeSel();
+  });
+
+  // séparateur : largeur du panneau sur PC (mémorisée), masquage du panneau
+  const spl = $("#splitter"), PW = { min: 300, def: 480 };
+  const store = { get(k) { try { return localStorage.getItem(k); } catch (_) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (_) {} } };
+  function setPw(v, save = true) {
+    const max = Math.max(PW.min, Math.min(780, app.clientWidth - 360));
+    const pw = Math.round(Math.min(max, Math.max(PW.min, v)));
+    app.style.setProperty("--pw", pw + "px"); app.dataset.pw = pw;
+    if (save) store.set("jp-pw", pw);
+  }
+  function setCollapsed(c) {
+    app.classList.toggle("collapsed", c);
+    const t = $("#spl-toggle"); t.textContent = c ? "›" : "‹"; t.setAttribute("aria-label", c ? "Afficher le panneau" : "Masquer le panneau");
+    store.set("jp-collapsed", c ? "1" : "0");
+  }
+  setPw(+store.get("jp-pw") || PW.def, false); setCollapsed(store.get("jp-collapsed") === "1");
+  spl.addEventListener("pointerdown", (e) => {
+    if (e.target.closest("#spl-toggle") || app.classList.contains("collapsed")) return;
+    spl.setPointerCapture(e.pointerId); spl.classList.add("drag"); app.classList.add("resizing");
+    const move = (ev) => setPw(ev.clientX - panel.getBoundingClientRect().left - spl.offsetWidth / 2, false);
+    const end = () => { spl.classList.remove("drag"); app.classList.remove("resizing"); store.set("jp-pw", app.dataset.pw); spl.removeEventListener("pointermove", move); spl.removeEventListener("pointerup", end); spl.removeEventListener("pointercancel", end); };
+    spl.addEventListener("pointermove", move); spl.addEventListener("pointerup", end); spl.addEventListener("pointercancel", end);
+  });
+  spl.addEventListener("dblclick", (e) => { if (!e.target.closest("#spl-toggle")) setPw(PW.def); });
+  spl.addEventListener("keydown", (e) => {
+    if (e.target.closest("#spl-toggle")) return;
+    const cur = +app.dataset.pw || PW.def;
+    if (e.key === "ArrowLeft") { e.preventDefault(); setPw(cur - 24); }
+    else if (e.key === "ArrowRight") { e.preventDefault(); setPw(cur + 24); }
+    else if (e.key === "Enter") { e.preventDefault(); setCollapsed(!app.classList.contains("collapsed")); }
+  });
+  $("#spl-toggle").addEventListener("click", () => setCollapsed(!app.classList.contains("collapsed")));
+  window.addEventListener("resize", () => setPw(+app.dataset.pw || PW.def, false));
+  $("#list").addEventListener("scroll", () => { if (!panel.classList.contains("showing")) listScroll = $("#list").scrollTop; }, { passive: true });
 
   buildStrip(); buildTypes(); buildList();
   new ResizeObserver(resize).observe(wrap);
   resize();
-  if (location.hash) { const k = decodeURIComponent(location.hash.slice(1)); if (gBy[k]) focusGroup(k); }
+  if (location.hash) { const k = decodeURIComponent(location.hash.slice(1)); if (gBy[k]) focusGroup(k, { list: true }); }
 })();
 </script>
 </body>

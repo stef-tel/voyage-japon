@@ -1,0 +1,86 @@
+{
+ "values": [
+  [
+   "Arrivée à Tokyo (vol vol, Haneda 20h00)",
+   "03/04/2027"
+  ],
+  [
+   "Départ de Tokyo (vol vol, Haneda 8h30)",
+   "18/04/2027"
+  ],
+  [
+   "Nuits disponibles",
+   "15"
+  ],
+  [],
+  [
+   "Ordre",
+   "Ville",
+   "Arrivée",
+   "Nuits",
+   "Départ",
+   "Comment y aller",
+   "Durée du trajet (environ)",
+   "Remarques",
+   "Hôtel 1",
+   "Hôtel 2",
+   "Hôtel 3",
+   "Hôtel 4"
+  ],
+  [
+   "1",
+   "Tokyo",
+   "Sat 03/04/2027",
+   "3",
+   "Tue 06/04/2027",
+   "Vol Air China via Pékin, puis train ou monorail depuis Haneda",
+   "Environ 30 min depuis Haneda",
+   "Décalage horaire. Asakusa, Shibuya, Harajuku, Akihabara, teamLab.",
+   "bmj Hyakunincho (Shinjuku), appart-hôtel, 9,0/10, environ 722 € les 3 nuits"
+  ],
+  [
+   "2",
+   "Hakone",
+   "Tue 06/04/2027",
+   "2",
+   "Thu 08/04/2027",
+   "Train depuis Tokyo (Shinjuku)",
+   "1h30",
+   "Ryokan avec onsen, lac Ashi, vue sur le Fuji.",
+   "Hakonenomori Okada (Yumoto), ryokan avec onsen, 8,2/10, environ 414 € les 2 nuits"
+  ],
+  [
+   "3",
+   "Kyoto",
+   "Thu 08/04/2027",
+   "4",
+   "Mon 12/04/2027",
+   "Shinkansen depuis Odawara (ou Tokyo)",
+   "2h15",
+   "Excursion d'une journée à Nara. Nintendo Museum à Uji, à réserver très tôt.",
+   "INA HOUSE Nijojo, appart-hôtel familial, 9,0/10, environ 491 € les 4 nuits"
+  ],
+  [
+   "4",
+   "Takayama et Shirakawa-go",
+   "Mon 12/04/2027",
+   "2",
+   "Wed 14/04/2027",
+   "Shinkansen Kyoto-Nagoya, puis train express jusqu'à Takayama",
+   "4h environ",
+   "Remplace Osaka (option proposée). Shirakawa-go en excursion depuis Takayama. Ryokan à choisir.",
+   "Oyado Hachibei, ryokan avec bain public, 8,6/10, environ 393 € les 2 nuits"
+  ],
+  [
+   "5",
+   "Tokyo",
+   "Wed 14/04/2027",
+   "2",
+   "Fri 16/04/2027",
+   "Train via Nagoya puis Shinkansen",
+   "4h30 environ",
+   "Dernier shopping, marge avant le vol. Dormir près de Haneda la dernière nuit.",
+   "Ryogoku View Hotel, chambre familiale, 8,3/10, environ 310 € les 2 nuits"
+  ]
+ ]
+}

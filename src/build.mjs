@@ -2,9 +2,10 @@ import fs from "node:fs";
 import { feature } from "topojson-client";
 import { geoMercator, geoPath } from "d3-geo";
 import { LINKS } from "./links.mjs";
+import { redactDeep } from "./public.mjs";
 const { GROUPS, STAYS } = JSON.parse(fs.readFileSync(new URL("./groups.json", import.meta.url), "utf8"));
 const COORDS = JSON.parse(fs.readFileSync(new URL("./coords.json", import.meta.url), "utf8"));
-const readSheet = (f) => JSON.parse(fs.readFileSync(new URL("./sheet/" + f, import.meta.url), "utf8")).values;
+const readSheet = (f) => redactDeep(JSON.parse(fs.readFileSync(new URL("./sheet/" + f, import.meta.url), "utf8")).values);
 
 const topo = JSON.parse(fs.readFileSync("node_modules/world-atlas/countries-10m.json", "utf8"));
 const countries = feature(topo, topo.objects.countries);
@@ -77,7 +78,38 @@ const groups = Object.entries(GROUPS).filter(([key]) => usedGroups.has(key)).map
   const [x, y] = P(g.lng, g.lat);
   return { key, label: g.label, anchor: t.anchor, dx: t.dx, dy: t.dy, xy: [x + (t.ox || 0), y + (t.oy || 0)], lat: g.lat, lng: g.lng };
 });
-const stays = STAYS;
+// Trajets entre étapes : onglet « Itinéraire » (colonnes Ordre, Comment y aller, Durée du trajet)
+const itin = fs.existsSync(new URL("./sheet/itineraire.json", import.meta.url)) ? readSheet("itineraire.json") : [];
+const legOf = (n) => {
+  const r = itin.find((x) => String(x[0]) === String(n));
+  if (!r || !r[5]) return null;
+  const t = String(r[5]);
+  const shin = /shinkansen/i.test(t), other = /train|express|monorail/i.test(t) && (/via|puis|express/i.test(t));
+  const mode = shin ? (other ? "Shinkansen + train" : "Shinkansen") : "Train";
+  const approx = /environ/i.test(r[6] || "");
+  const duree = (approx ? "≈ " : "") + String(r[6] || "").replace(/\s*environ.*$/i, "").trim();
+  return { mode, duree, detail: t + (r[6] ? " (" + r[6] + ")" : "") };
+};
+const HOTELS = fs.existsSync(new URL("./hotels.json", import.meta.url)) ? JSON.parse(fs.readFileSync(new URL("./hotels.json", import.meta.url), "utf8")) : {};
+// Hôtels : colonnes « Hôtel 1 » à « Hôtel 4 » de l'onglet Itinéraire (1 = proposition, 4 = hôtel retenu)
+const hotelsOf = (n) => {
+  const r = itin.find((x) => String(x[0]) === String(n)); if (!r) return [];
+  const out = [];
+  [8, 9, 10, 11].forEach((c, k) => {
+    const t = String(r[c] || "").trim(); if (!t) return;
+    const i = t.indexOf(",");
+    const head = (i < 0 ? t : t.slice(0, i)).trim(), rest = i < 0 ? "" : t.slice(i + 1).trim();
+    const am = head.match(/^(.*?)\s*\((.*)\)\s*$/);
+    const name = am ? am[1].trim() : head, area = am ? am[2].trim() : "";
+    const key = name.toLowerCase();
+    const url = HOTELS[key] || null;
+    if (!url) warn.push("Hôtel sans fiche Booking (ajouter dans src/hotels.json) : " + name);
+    out.push({ slot: k + 1, name, area, rest, url });
+  });
+  return out;
+};
+const stays = STAYS.map((s) => ({ ...s, leg: s.n > 1 ? legOf(s.n) : null, hotels: hotelsOf(s.n) }));
+stays.forEach((s) => { if (s.n > 1 && !s.leg) warn.push("Trajet manquant dans sheet/itineraire.json pour l'étape " + s.n); });
 const seaLabels = [
   { t: "Mer du Japon", xy: P(135.2, 37.0), r: -6 },
   { t: "Océan Pacifique", xy: P(139.6, 33.9), r: 0 },

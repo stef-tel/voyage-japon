@@ -2,9 +2,9 @@
 // Usage : node build-site.mjs   (depuis le dossier src, écrit dans le dossier parent)
 import fs from "node:fs";
 
-const data = JSON.parse(fs.readFileSync(new URL("./preparation.json", import.meta.url), "utf8"));
+import { redactDeep } from "./public.mjs";
+const data = redactDeep(JSON.parse(fs.readFileSync(new URL("./preparation.json", import.meta.url), "utf8")));
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-const SHEET = "https://docs.google.com/spreadsheets/d/1BYG-KHH-lIS8tV3o3RzYj_1i19H_ioaJizK7ekh0WL4/edit";
 
 const css = `
 :root{--ink:#1c2433;--muted:#5b6578;--bg:#fbf7f4;--card:#fff;--line:#e6dfd9;--red:#c0392b;--navy:#1e3864;--pink:#f4b6c2}
@@ -56,8 +56,8 @@ const landing = `<!doctype html><html lang="fr"><head><meta charset="utf-8"><met
 <header class="hero">${sky}<div class="t"><h1>Japon, avril 2027</h1><p>Tokyo, Hakone, Kyoto, Takayama : notre voyage en famille du 2 au 18 avril</p></div></header>
 <nav class="menu" aria-label="Menu">
 <a class="card" href="carte.html"><h2>Carte interactive</h2><p>Tous les lieux à visiter sur une carte du Japon, avec la note de chaque lieu, nos indispensables, les horaires, les réservations et une fiche en français.</p><span class="go">Ouvrir la carte</span></a>
-<a class="card" href="preparer.html"><h2>Préparer le voyage</h2><p>La liste de ce qu'il faut préparer : papiers, réservations, eSIM, applis, argent, bagages. Elle vient de l'onglet « Préparer le voyage » de notre Google Sheet.</p><span class="go">Ouvrir la checklist</span></a>
-<a class="card" href="specialites.html"><h2>Spécialités culinaires</h2><p>Ce qu'il faut goûter, ville par ville, avec les plats déjà goûtés cochés. Elle vient de l'onglet « Spécialités » de notre Google Sheet.</p><span class="go">Ouvrir la liste</span></a>
+<a class="card" href="preparer.html"><h2>Préparer le voyage</h2><p>La liste de ce qu'il faut préparer : papiers, réservations, eSIM, applis, argent, bagages. Elle vient de l'onglet « Préparer le voyage » de notre feuille de préparation.</p><span class="go">Ouvrir la checklist</span></a>
+<a class="card" href="specialites.html"><h2>Spécialités culinaires</h2><p>Ce qu'il faut goûter, ville par ville, avec les plats déjà goûtés cochés. Elle vient de l'onglet « Spécialités » de notre feuille de préparation.</p><span class="go">Ouvrir la liste</span></a>
 </nav>
 <p class="foot">Dernière mise à jour des listes : ${esc(data.updated)}. Illustration originale.</p>
 </body></html>`;
@@ -100,7 +100,7 @@ li label{display:flex;gap:12px;padding:12px 14px;cursor:pointer}li input{width:2
 <div class="filters" id="f"><button data-f="all" aria-pressed="true">Tout</button><button data-f="Indispensable" aria-pressed="false">Indispensable</button><button data-f="Important" aria-pressed="false">Important</button><button data-f="Utile" aria-pressed="false">Utile</button><button data-f="todo" aria-pressed="false">Reste à faire</button></div></div>
 ${cats.map(section).join("")}
 ${rejSection}
-<p class="note">Cette liste est générée depuis l'onglet « Préparer le voyage » de <a href="${SHEET}">notre Google Sheet</a> (état au ${esc(data.updated)}). Les cases cochées ici sont mémorisées dans ce navigateur uniquement ; la colonne « Statut » de la feuille (À faire, Fait, Rejeté) reste la référence commune. Les liens n'ont pas tous été testés : vérifier les infos officielles avant de réserver.</p>
+<p class="note">Cette liste est générée depuis l'onglet « Préparer le voyage » de notre feuille de préparation (état au ${esc(data.updated)}). Les cases cochées ici sont mémorisées dans ce navigateur uniquement ; la colonne « Statut » de la feuille (À faire, Fait, Rejeté) reste la référence commune. Les liens n'ont pas tous été testés : vérifier les infos officielles avant de réserver.</p>
 </main>
 <script>
 const KEY="japon-prep-v1";let st={};try{st=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
@@ -116,7 +116,7 @@ upd();
 
 
 // ---- Page des spécialités culinaires (onglet « Spécialités », colonne « Fait » = case à cocher de la feuille)
-const foodRows = JSON.parse(fs.readFileSync(new URL("./sheet/food.json", import.meta.url), "utf8")).values.slice(1).filter((r) => r[0]);
+const foodRows = redactDeep(JSON.parse(fs.readFileSync(new URL("./sheet/food.json", import.meta.url), "utf8")).values).slice(1).filter((r) => r[0]);
 const isDone = (r) => String(r[5]).toUpperCase() === "TRUE";
 const villes = [...new Set(foodRows.map((r) => r[2]))];
 const nDone = foodRows.filter(isDone).length;
@@ -137,7 +137,7 @@ li.done b{text-decoration:line-through;color:var(--muted)}
 <main><h1>Spécialités culinaires à goûter</h1>
 <div><b>${nDone} sur ${foodRows.length}</b> goûtées</div><div class="prog"><i style="width:${foodRows.length ? Math.round(100 * nDone / foodRows.length) : 0}%"></i></div>
 ${villes.map((v) => `<section><h2>${esc(v)}</h2><ul>${foodRows.filter((r) => r[2] === v).map(foodItem).join("")}</ul></section>`).join("")}
-<p class="note">Liste générée depuis l'onglet « Spécialités » de <a href="${SHEET}">notre Google Sheet</a> (état au ${esc(data.updated)}). Pour marquer un plat comme goûté, cocher la case « Fait » dans la feuille, puis relancer la mise à jour du site.</p>
+<p class="note">Liste générée depuis l'onglet « Spécialités » de notre feuille de préparation (état au ${esc(data.updated)}). Pour marquer un plat comme goûté, cocher la case « Fait » dans la feuille, puis relancer la mise à jour du site.</p>
 </main></body></html>`;
 fs.writeFileSync(new URL("../specialites.html", import.meta.url), foodPage);
 

@@ -1,1 +1,294 @@
-{"values":[["Date","Jour","Nuit à","Moment","Activité","Type","Heure","Remarques"],["2027-04-03","Sam","Tokyo","Soir","Arrivée à Haneda (CA421 via Pékin)","Trajet","20h00","Récupérer les bagages, transfert hôtel"],["2027-04-04","Dim","Tokyo","Matin","Senso-ji (Asakusa), arriver tôt pour éviter la foule sur Nakamise-dori","Backbone","8h00","Journée douce après le décalage horaire"],["2027-04-04","Dim","Tokyo","Après-midi","Akihabara (manga, jeux vidéo, électronique)","Backbone","14h00",""],["2027-04-05","Lun","Tokyo","Matin","Sumo : assister à l'entraînement du matin dans une écurie de Ryogoku (visite guidée en anglais)","Backbone","7h30","Réserver tôt. Lundi : Shinjuku Gyoen fermé, d'où le report au 15 avril"],["2027-04-05","Lun","Tokyo","Après-midi","Meiji-Jingu","Backbone","12h00",""],["2027-04-05","Lun","Tokyo","Après-midi","Boutique PSG de Shinjuku (boutique principale de Tokyo)","Backbone","15h00","Ouverte 11h-20h, appeler avant pour les maillots anciens"],["2027-04-05","Lun","Tokyo","Soir","Shibuya Sky (vue panoramique, de préférence au coucher du soleil)","Backbone","17h30","Créneau coucher de soleil à réserver tôt"],["2027-04-06","Mar","Hakone","Matin","Trajet Tokyo → Hakone","Trajet","9h00","Arrêt possible au Musée du ramen de Shin-Yokohama (voir le 7 avril)"],["2027-04-07","Mer","Hakone","Journée","Alternative au ryokan : journée « nature et gourmandise » près du Fuji (petite randonnée, onsen en plein air, restaurant de fruits de mer) et Musée du ramen de Shin-Yokohama","Backbone","","À trancher : en conflit avec la ligne « Nuit en ryokan avec onsen ». Choisir l'une ou l'autre"],["2027-04-08","Jeu","Kyoto","Matin","Trajet Hakone → Kyoto (Shinkansen)","Trajet","","Fin de journée libre à Kyoto"],["2027-04-09","Ven","Kyoto","Matin","Fushimi Inari (arriver avant 7h)","Backbone","6h30",""],["2027-04-09","Ven","Kyoto","Après-midi","Forêt de bambous d'Arashiyama","Backbone","13h00",""],["2027-04-09","Ven","Kyoto","Soir","Gion (idéal en fin de journée)","Backbone","18h00",""],["2027-04-10","Sam","Kyoto","Matin","Château de Himeji","Backbone","9h00","Himeji n'est pas une étape du séjour : excursion à confirmer (environ 1h30 de Kyoto)"],["2027-04-10","Sam","Kyoto","Soir","Téléphérique Nunobiki, jardin d'herbes et vue de nuit sur Kobe (mont Rokko)","Backbone","17h00","Au coucher du soleil, avant le dîner. Kobe n'est pas non plus une étape : aller-retour dans la journée"],["2027-04-10","Sam","Kyoto","Soir","Bœuf de Kobe (repas teppanyaki)","Backbone","18h30","Réserver le restaurant plusieurs semaines avant"],["2027-04-11","Dim","Kyoto","Matin","Nintendo Museum (Uji, près de Kyoto)","Backbone","9h30","Tirage au sort début janvier 2027 : le jour dépendra du créneau obtenu"],["2027-04-11","Dim","Kyoto","Après-midi","Parc de Nara (cerfs) et Todai-ji, excursion depuis Kyoto","Backbone","14h00","Journée dense : à alléger si besoin"],["2027-04-12","Lun","Takayama","Journée","Trajet Kyoto → Takayama","Trajet","","Vieille ville de Takayama en fin de journée"],["2027-04-13","Mar","Takayama","Journée","Takayama (vieille ville, marchés) et village historique de Shirakawa-go (option à la place d'Osaka)","Backbone","","Shirakawa-go en matinée, Takayama l'après-midi"],["2027-04-14","Mer","Tokyo","Journée","Trajet Takayama → Tokyo","Trajet","",""],["2027-04-15","Jeu","Tokyo","Matin","Shinjuku (jardin Shinjuku Gyoen, fermé le lundi)","Backbone","9h00","Ouvert le jeudi"],["2027-04-15","Jeu","Tokyo","Après-midi","teamLab (Planets ou Borderless)","Backbone","14h00","Réservation ouverte 31 jours avant, soit le 15 mars 2027"],["2027-04-16","Ven","Tokyo ou près de Haneda","Journée","Journée libre (nuit à placer)","Libre","","Ajouter ici les activités sur place (Type = Ajout)"],["2027-04-17","Sam","Près de Haneda","Journée","Journée libre, dernière nuit près de l'aéroport","Libre","","Vol retour à 8h30 le lendemain : rester proche de Haneda le soir"],["2027-04-18","Dim","","Matin","Départ de Haneda (CA184)","Trajet","8h30",""]]}
+{
+ "values": [
+  [
+   "Date",
+   "Jour",
+   "Nuit à",
+   "Moment",
+   "Activité",
+   "Type",
+   "Heure",
+   "Remarques"
+  ],
+  [
+   "2027-04-03",
+   "Sam",
+   "Tokyo",
+   "Soir",
+   "Arrivée à Haneda (vol via Pékin)",
+   "Trajet",
+   "20h00",
+   "Récupérer les bagages, transfert hôtel"
+  ],
+  [
+   "2027-04-04",
+   "Dim",
+   "Tokyo",
+   "Matin",
+   "Senso-ji (Asakusa), arriver tôt pour éviter la foule sur Nakamise-dori",
+   "Backbone",
+   "8h00",
+   "Journée douce après le décalage horaire"
+  ],
+  [
+   "2027-04-04",
+   "Dim",
+   "Tokyo",
+   "Après-midi",
+   "Akihabara (manga, jeux vidéo, électronique)",
+   "Backbone",
+   "14h00",
+   ""
+  ],
+  [
+   "2027-04-05",
+   "Lun",
+   "Tokyo",
+   "Matin",
+   "Sumo : assister à l'entraînement du matin dans une écurie de Ryogoku (visite guidée en anglais)",
+   "Backbone",
+   "7h30",
+   "Réserver tôt. Lundi : Shinjuku Gyoen fermé, d'où le report au 15 avril"
+  ],
+  [
+   "2027-04-05",
+   "Lun",
+   "Tokyo",
+   "Après-midi",
+   "Meiji-Jingu",
+   "Backbone",
+   "12h00",
+   ""
+  ],
+  [
+   "2027-04-05",
+   "Lun",
+   "Tokyo",
+   "Après-midi",
+   "Boutique PSG de Shinjuku (boutique principale de Tokyo)",
+   "Backbone",
+   "15h00",
+   "Ouverte 11h-20h, appeler avant pour les maillots anciens"
+  ],
+  [
+   "2027-04-05",
+   "Lun",
+   "Tokyo",
+   "Soir",
+   "Shibuya Sky (vue panoramique, de préférence au coucher du soleil)",
+   "Backbone",
+   "17h30",
+   "Créneau coucher de soleil à réserver tôt"
+  ],
+  [
+   "2027-04-05",
+   "Lun",
+   "Tokyo",
+   "Soir",
+   "Shibuya Crossing",
+   "Backbone",
+   "19h00",
+   "Juste après Shibuya Sky : traversée de nuit, quartier illuminé"
+  ],
+  [
+   "2027-04-06",
+   "Mar",
+   "Hakone",
+   "Matin",
+   "Trajet Tokyo → Hakone",
+   "Trajet",
+   "9h00",
+   "Arrêt possible au Musée du ramen de Shin-Yokohama (voir le 7 avril)"
+  ],
+  [
+   "2027-04-07",
+   "Mer",
+   "Hakone",
+   "Journée",
+   "Alternative au ryokan : journée « nature et gourmandise » près du Fuji (petite randonnée, onsen en plein air, restaurant de fruits de mer) et Musée du ramen de Shin-Yokohama",
+   "Backbone",
+   "",
+   "À trancher : en conflit avec la ligne « Nuit en ryokan avec onsen ». Choisir l'une ou l'autre"
+  ],
+  [
+   "2027-04-08",
+   "Jeu",
+   "Kyoto",
+   "Matin",
+   "Trajet Hakone → Kyoto (Shinkansen)",
+   "Trajet",
+   "",
+   "Fin de journée libre à Kyoto"
+  ],
+  [
+   "2027-04-09",
+   "Ven",
+   "Kyoto",
+   "Matin",
+   "Fushimi Inari (arriver avant 7h)",
+   "Backbone",
+   "6h30",
+   ""
+  ],
+  [
+   "2027-04-09",
+   "Ven",
+   "Kyoto",
+   "Après-midi",
+   "Forêt de bambous d'Arashiyama",
+   "Backbone",
+   "13h00",
+   ""
+  ],
+  [
+   "2027-04-09",
+   "Ven",
+   "Kyoto",
+   "Soir",
+   "Gion (idéal en fin de journée)",
+   "Backbone",
+   "18h00",
+   ""
+  ],
+  [
+   "2027-04-10",
+   "Sam",
+   "Kyoto",
+   "Matin",
+   "Château de Himeji",
+   "Backbone",
+   "9h00",
+   "Himeji n'est pas une étape du séjour : excursion à confirmer (environ 1h30 de Kyoto)"
+  ],
+  [
+   "2027-04-10",
+   "Sam",
+   "Kyoto",
+   "Soir",
+   "Téléphérique Nunobiki, jardin d'herbes et vue de nuit sur Kobe (mont Rokko)",
+   "Backbone",
+   "17h00",
+   "Au coucher du soleil, avant le dîner. Kobe n'est pas non plus une étape : aller-retour dans la journée"
+  ],
+  [
+   "2027-04-10",
+   "Sam",
+   "Kyoto",
+   "Soir",
+   "Bœuf de Kobe (repas teppanyaki)",
+   "Backbone",
+   "18h30",
+   "Réserver le restaurant plusieurs semaines avant"
+  ],
+  [
+   "2027-04-11",
+   "Dim",
+   "Kyoto",
+   "Matin",
+   "Nintendo Museum (Uji, près de Kyoto)",
+   "Backbone",
+   "9h30",
+   "Tirage au sort début janvier 2027 : le jour dépendra du créneau obtenu"
+  ],
+  [
+   "2027-04-11",
+   "Dim",
+   "Kyoto",
+   "Après-midi",
+   "Parc de Nara (cerfs) et Todai-ji, excursion depuis Kyoto",
+   "Backbone",
+   "14h00",
+   "Journée dense : à alléger si besoin"
+  ],
+  [
+   "2027-04-12",
+   "Lun",
+   "Takayama",
+   "Journée",
+   "Trajet Kyoto → Takayama",
+   "Trajet",
+   "",
+   "Vieille ville de Takayama en fin de journée"
+  ],
+  [
+   "2027-04-13",
+   "Mar",
+   "Takayama",
+   "Journée",
+   "Takayama (vieille ville, marchés) et village historique de Shirakawa-go (option à la place d'Osaka)",
+   "Backbone",
+   "",
+   "Shirakawa-go en matinée, Takayama l'après-midi"
+  ],
+  [
+   "2027-04-14",
+   "Mer",
+   "Tokyo",
+   "Journée",
+   "Trajet Takayama → Tokyo",
+   "Trajet",
+   "",
+   ""
+  ],
+  [
+   "2027-04-15",
+   "Jeu",
+   "Tokyo",
+   "Matin",
+   "Shinjuku (jardin Shinjuku Gyoen, fermé le lundi)",
+   "Backbone",
+   "9h00",
+   "Ouvert le jeudi"
+  ],
+  [
+   "2027-04-15",
+   "Jeu",
+   "Tokyo",
+   "Après-midi",
+   "teamLab (Planets ou Borderless)",
+   "Backbone",
+   "14h00",
+   "Réservation ouverte 31 jours avant, soit le 15 mars 2027"
+  ],
+  [
+   "2027-04-16",
+   "Ven",
+   "Tokyo ou près de Haneda",
+   "Matin",
+   "Harajuku",
+   "Backbone",
+   "10h00",
+   "Indispensable : à combiner avec la boutique PSG de Harajuku (Laforet), si l'envie y est"
+  ],
+  [
+   "2027-04-16",
+   "Ven",
+   "Tokyo ou près de Haneda",
+   "Journée",
+   "Journée libre (nuit à placer)",
+   "Libre",
+   "",
+   "Ajouter ici les activités sur place (Type = Ajout)"
+  ],
+  [
+   "2027-04-17",
+   "Sam",
+   "Près de Haneda",
+   "Journée",
+   "Journée libre, dernière nuit près de l'aéroport",
+   "Libre",
+   "",
+   "Vol retour à 8h30 le lendemain : rester proche de Haneda le soir"
+  ],
+  [
+   "2027-04-18",
+   "Dim",
+   "",
+   "Matin",
+   "Départ de Haneda",
+   "Trajet",
+   "8h30",
+   ""
+  ]
+ ]
+}

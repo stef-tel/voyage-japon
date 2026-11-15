@@ -1,0 +1,8 @@
+{
+ "_doc": "Fiches Booking des hôtels cités dans l'onglet Itinéraire (colonnes Hôtel 1 à 4). Clé = nom de l'hôtel en minuscules, début de la cellule. Les dates et les voyageurs sont ajoutés par la page. Sans fiche ici, la page propose une recherche Booking.",
+ "bmj hyakunincho": "https://www.booking.com/hotel/jp/bmj-hyakunincho.html",
+ "hakonenomori okada": "https://www.booking.com/hotel/jp/hakonenomori-okada.html",
+ "ina house nijojo": "https://www.booking.com/hotel/jp/jing-du-chuan-house-er-tiao-cheng.html",
+ "oyado hachibei": "https://www.booking.com/hotel/jp/oyado-hachibei.html",
+ "ryogoku view hotel": "https://www.booking.com/hotel/jp/belle-grande.html"
+}
