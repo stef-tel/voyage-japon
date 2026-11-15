@@ -107,7 +107,7 @@ header a, .about a { color: var(--focus); }
 .qrow { display: flex; gap: 8px; align-items: center; overflow-x: auto; scrollbar-width: none; }
 .qrow::-webkit-scrollbar { display: none; }
 .qrow > * { flex: none; }
-@media (min-width: 921px) { .qrow { flex-wrap: wrap; overflow: visible; } }
+.qrow { flex-wrap: wrap; overflow: visible; }
 .adv { display: grid; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
 .adv[hidden] { display: none; }
 .frow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
@@ -180,7 +180,14 @@ header a, .about a { color: var(--focus); }
 .trow { display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 9px 14px; border-bottom: 1px solid var(--line); color: var(--muted); }
 .trow .tm, .row .tm { font-size: 11px; font-variant-numeric: tabular-nums; color: var(--muted); }
 .trow .ic { width: 24px; height: 24px; border-radius: 6px; display: grid; place-items: center; background: var(--bg); font-size: 13px; }
-.row .meta .add { color: #fff; background: var(--route); border-radius: 4px; padding: 0 5px; font-weight: 600; font-size: 11px; }
+.row .meta .exc, .row .exc { display: inline-block; color: #7a3d00; background: #ffe2b8; border: 1px solid #f0a64a; border-radius: 4px; padding: 0 5px; font-weight: 700; font-size: 11px; }
+.row.oth .nm { color: var(--muted); }
+.row.oth .rate { opacity: .6; }
+.dhead.oth { cursor: default; background: var(--bg); }
+.osub { padding: 6px 14px 2px; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.mk.oth { opacity: .62; }
+.mk.oth.hl, .mk.oth:focus { opacity: 1; }
+.fiche .bd.x { background: #ffe2b8; color: #7a3d00; border-color: #f0a64a; font-weight: 700; }
 .trow .nt, .row .nt { display: block; font-size: 12px; color: var(--muted); }
 .empty { padding: 28px 18px; color: var(--muted); text-align: center; }
 
@@ -331,7 +338,7 @@ g.leg:hover .ltxt { fill: #fff; }
           <button type="button" data-v="chrono" aria-pressed="true">Chronologie</button>
           <button type="button" data-v="ville" aria-pressed="false">Par ville</button>
         </div>
-        <button type="button" class="tg" id="tg-ind" aria-pressed="false"><span class="st">★</span> Indispensables</button>
+        <button type="button" class="tg" id="tg-all" aria-pressed="false">Tous les centres d'intérêt</button>
         <button type="button" class="tg" id="tg-res" aria-pressed="false">À réserver</button>
       </div>
       <div class="adv" id="adv" hidden>
@@ -382,7 +389,7 @@ g.leg:hover .ltxt { fill: #fff; }
       <div class="lr"><span class="sw ring"></span><span>Anneau or et ★ : indispensable</span></div>
       <div class="lr"><span class="dash"></span><span>Itinéraire retenu</span></div>
       <div class="lr"><span class="sq"></span><span>Sans note (hébergement, étape)</span></div>
-      <div class="about">Notre voyage en famille, du 3 au 18 avril. Données au <span class="gen"></span>.<br>La carte montre le tronc commun du voyage : les lieux indispensables et ceux de l'onglet « Chronologie ». Les autres idées restent dans l'onglet « À faire ». Les positions marquées « approximative » sont à confirmer.</div>
+      <div class="about">Notre voyage en famille, du 3 au 18 avril. Données au <span class="gen"></span>.<br>Par défaut, la carte montre les lieux indispensables (le tronc commun du voyage). Le bouton « Tous les centres d'intérêt » affiche aussi les autres idées, en plus pâle, pour trouver des activités sur place. Les excursions (lieux visités sans y dormir) sont signalées en orange. Les positions marquées « approximative » sont à confirmer.</div>
     </div>
     <div class="hint" id="hint">Molette : zoom · Glisser : déplacer</div>
     <div class="tip" id="tip"></div>
@@ -423,7 +430,7 @@ const D = /*__DATA__*/null;
   const types = [...new Set(D.places.map((p) => p.t))];
   const norm = (s) => String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   D.places.forEach((p) => { p.q = norm(p.n + " " + p.full + " " + gBy[p.g].label + " " + p.t); });
-  const F = { min: 0, ind: false, res: false, route: true, q: "", types: new Set(types) };
+  const F = { min: 0, all: false, res: false, route: true, q: "", types: new Set(types) };
   const app = $("#app"), panel = $("#panel");
   let listScroll = 0, listFocus = null, shownIds = new Set();
   const YEAR = D.days.length ? D.days[0].iso.slice(0, 4) : "2027";
@@ -439,7 +446,7 @@ const D = /*__DATA__*/null;
 
   function vis(p) {
     if (F.min > 0 && (p.r == null || p.r < F.min)) return false;
-    if (F.ind && !p.ind) return false;
+    if (!F.all && !p.ind) return false;
     if (F.res && !isRes(p)) return false;
     if (F.q && !p.q.includes(F.q)) return false;
     return F.types.has(p.t);
@@ -489,13 +496,28 @@ const D = /*__DATA__*/null;
         const when = [it.m, it.time].filter(Boolean).join(" · ");
         if (p) {
           shownIds.add(p.id);
-          h += `<button type="button" class="row${p.id === sel ? " sel" : ""}${p.id === hover ? " hl" : ""}" data-pid="${p.id}">${ratePill(p)}<span><span class="tm">${esc(when)}</span><span class="nm" style="display:block">${esc(p.n)}</span><span class="meta"><span>${esc(p.t)}</span>${p.h != null ? `<span>${fmtH(p.h)}</span>` : ""}${isRes(p) ? `<span class="res">À réserver</span>` : ""}${p.add ? `<span class="add">Ajout</span>` : ""}</span>${it.note ? `<span class="nt">${esc(it.note)}</span>` : ""}</span></button>`;
+          h += `<button type="button" class="row${p.ind ? "" : " oth"}${p.id === sel ? " sel" : ""}${p.id === hover ? " hl" : ""}" data-pid="${p.id}">${ratePill(p)}<span><span class="tm">${esc(when)}</span><span class="nm" style="display:block">${esc(p.n)}</span><span class="meta"><span>${esc(p.t)}</span>${p.h != null ? `<span>${fmtH(p.h)}</span>` : ""}${isRes(p) ? `<span class="res">À réserver</span>` : ""}${it.exc || p.exc ? `<span class="exc">${esc(it.exc || p.exc)}</span>` : ""}</span>${it.note ? `<span class="nt">${esc(it.note)}</span>` : ""}</span></button>`;
         } else {
           const ic = /^trajet/i.test(it.type) ? "→" : /^libre/i.test(it.type) ? "○" : "·";
           h += `<div class="trow"><span class="ic" aria-hidden="true">${ic}</span><span><span class="tm">${esc(when)}</span><span style="display:block;color:var(--ink)">${esc(it.text)}</span>${it.note ? `<span class="nt">${esc(it.note)}</span>` : ""}</span></div>`;
         }
       });
     });
+    if (F.all) {
+      const others = vs.filter((p) => !p.ind && (!listFocus || listFocus.keys.includes(p.g)));
+      if (others.length) {
+        h += `<div class="dhead oth"><span class="dn">Autres centres d'intérêt</span><span class="dt">hors chronologie</span></div>`;
+        order.forEach((key) => {
+          const its = others.filter((p) => p.g === key).sort((a, b) => (b.r ?? -1) - (a.r ?? -1) || a.n.localeCompare(b.n, "fr"));
+          if (!its.length) return;
+          h += `<div class="osub">${esc(gBy[key].label)}</div>`;
+          its.forEach((p) => {
+            shownIds.add(p.id);
+            h += `<button type="button" class="row oth${p.id === sel ? " sel" : ""}${p.id === hover ? " hl" : ""}" data-pid="${p.id}">${ratePill(p)}<span><span class="nm">${esc(p.n)}</span><span class="meta"><span>${esc(p.t)}</span>${p.h != null ? `<span>${fmtH(p.h)}</span>` : ""}${isRes(p) ? `<span class="res">À réserver</span>` : ""}</span></span></button>`;
+          });
+        });
+      }
+    }
     return h;
   }
   function buildList() {
@@ -511,7 +533,7 @@ const D = /*__DATA__*/null;
       h += `<button type="button" class="ghead" data-g="${esc(key)}"><span class="gn">${esc(gBy[key].label)}</span><span class="gt">${esc(tagFor(key))}</span><span class="gc">${ni ? `<span class="st">★</span> ${ni} · ` : ""}${items.length} lieu${items.length > 1 ? "x" : ""}</span></button>`;
       items.forEach((p) => {
         shownIds.add(p.id);
-        h += `<button type="button" class="row${p.id === sel ? " sel" : ""}${p.id === hover ? " hl" : ""}" data-pid="${p.id}">${ratePill(p)}<span><span class="nm">${esc(p.n)}</span><span class="meta"><span>${esc(p.t)}</span>${p.h != null ? `<span>${fmtH(p.h)}</span>` : ""}${isRes(p) ? `<span class="res">À réserver</span>` : ""}${p.ind ? `<span class="star">★ Indispensable</span>` : ""}</span></span></button>`;
+        h += `<button type="button" class="row${p.ind ? "" : " oth"}${p.id === sel ? " sel" : ""}${p.id === hover ? " hl" : ""}" data-pid="${p.id}">${ratePill(p)}<span><span class="nm">${esc(p.n)}</span><span class="meta"><span>${esc(p.t)}</span>${p.h != null ? `<span>${fmtH(p.h)}</span>` : ""}${isRes(p) ? `<span class="res">À réserver</span>` : ""}${p.ind ? `<span class="star">★ Indispensable</span>` : ""}${p.exc ? `<span class="exc">${esc(p.exc)}</span>` : ""}</span></span></button>`;
       });
     });
     $("#list").innerHTML = h || '<div class="empty">Aucun lieu ne correspond à ces filtres.</div>';
@@ -756,6 +778,7 @@ const D = /*__DATA__*/null;
       const x = sx(g.xy[0]), y = sy(g.xy[1]);
       const stay = !!stayNums[g.key];
       if (showMarkers) return;
+      if (!stay && n === 0) return;
       const dim = n === 0;
       const num = stayNums[g.key] ? stayNums[g.key].join("·") : "";
       pins += `<g class="pin${stay ? "" : " opt"}${dim ? " dim" : ""}" data-g="${esc(g.key)}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})" tabindex="0" role="button" aria-label="${esc(g.label)}, ${n} lieux">`
@@ -802,7 +825,7 @@ const D = /*__DATA__*/null;
         const p = o.p;
         const disp = Math.hypot(o.x - o.ox, o.y - o.oy);
         if (disp > 4) leads += `<line class="lead" x1="${o.ox.toFixed(1)}" y1="${o.oy.toFixed(1)}" x2="${o.x.toFixed(1)}" y2="${o.y.toFixed(1)}"/><circle class="leaddot" cx="${o.ox.toFixed(1)}" cy="${o.oy.toFixed(1)}" r="2.2"/>`;
-        const cls = "mk" + (p.id === hover ? " hl" : "");
+        const cls = "mk" + (p.ind ? "" : " oth") + (p.id === hover ? " hl" : "");
         const body = p.r == null
           ? `<rect class="nobox" x="-9" y="-9" width="18" height="18" rx="5"/><text class="nonum">${p.t === "Hébergement" ? "H" : "·"}</text>`
           : `<circle class="dot r${p.r}" r="10"/><text class="num n${p.r}" y="1">${p.r}</text>`;
@@ -846,7 +869,7 @@ const D = /*__DATA__*/null;
   function fiche(p) {
     const stars = p.r == null ? "" : "★".repeat(p.r) + "☆".repeat(5 - p.r);
     return `<div class="fiche"><h2>${esc(p.n)}</h2><div class="kk">${esc(gBy[p.g].label)} · ${esc(p.t)}</div>`
-      + `<div class="badges">${p.r != null ? `<span class="bd"><span aria-hidden="true">${stars}</span> ${p.r}/5</span>` : '<span class="bd">Sans note</span>'}${p.ind ? '<span class="bd g">★ Indispensable</span>' : ""}${p.day ? `<span class="bd">${esc(p.day)}</span>` : ""}${p.add ? '<span class="bd r">Ajout</span>' : ""}${p.h != null ? `<span class="bd">${fmtH(p.h)} sur place</span>` : ""}${isRes(p) ? `<span class="bd r">À réserver : ${esc(p.res)}</span>` : p.res === "À vérifier" ? '<span class="bd">Réservation à vérifier</span>' : ""}</div>`
+      + `<div class="badges">${p.r != null ? `<span class="bd"><span aria-hidden="true">${stars}</span> ${p.r}/5</span>` : '<span class="bd">Sans note</span>'}${p.ind ? '<span class="bd g">★ Indispensable</span>' : ""}${p.day ? `<span class="bd">${esc(p.day)}</span>` : ""}${p.exc ? `<span class="bd x">${esc(p.exc)}</span>` : ""}${p.h != null ? `<span class="bd">${fmtH(p.h)} sur place</span>` : ""}${isRes(p) ? `<span class="bd r">À réserver : ${esc(p.res)}</span>` : p.res === "À vérifier" ? '<span class="bd">Réservation à vérifier</span>' : ""}</div>`
       + `${p.full !== p.n ? `<p>${esc(p.full)}</p>` : ""}`
       + (p.ap ? "<p>Position approximative sur la carte, à confirmer.</p>" : "")
       + `<div class="btns"><button type="button" class="btn primary mobile-only" data-act="map">Voir sur la carte</button>`
@@ -949,7 +972,7 @@ const D = /*__DATA__*/null;
     refresh();
   });
   const toggle = (id, key) => $(id).addEventListener("click", (e) => { F[key] = !F[key]; e.currentTarget.setAttribute("aria-pressed", F[key]); refresh(); });
-  toggle("#tg-ind", "ind"); toggle("#tg-res", "res"); toggle("#tg-route", "route");
+  toggle("#tg-all", "all"); toggle("#tg-res", "res"); toggle("#tg-route", "route");
 
   function refreshPanelOnly() { buildList(); }
   function refresh() {
@@ -972,9 +995,9 @@ const D = /*__DATA__*/null;
   $("#qclr").addEventListener("click", () => { qIn.value = ""; qIn.dispatchEvent(new Event("input")); qIn.focus(); });
   $("#fbtn").addEventListener("click", () => { const o = $("#adv").hidden; $("#adv").hidden = !o; $("#fbtn").setAttribute("aria-expanded", o); });
   $("#reset").addEventListener("click", () => {
-    F.min = 0; F.route = true; F.ind = false; F.res = false; F.types = new Set(types);
+    F.min = 0; F.route = true; F.all = false; F.res = false; F.types = new Set(types);
     document.querySelectorAll("#seg-rating button").forEach((x) => x.setAttribute("aria-pressed", x.dataset.v === "0"));
-    $("#tg-route").setAttribute("aria-pressed", true); $("#tg-ind").setAttribute("aria-pressed", false); $("#tg-res").setAttribute("aria-pressed", false);
+    $("#tg-route").setAttribute("aria-pressed", true); $("#tg-all").setAttribute("aria-pressed", false); $("#tg-res").setAttribute("aria-pressed", false);
     document.querySelectorAll("#types button").forEach((x) => x.setAttribute("aria-pressed", true));
     qIn.value = ""; F.q = ""; $("#searchbox").classList.remove("has");
     refresh();

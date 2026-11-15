@@ -6,7 +6,7 @@
    "Nuit à",
    "Moment",
    "Activité",
-   "Type",
+   "Type (Backbone / Trajet / Libre)",
    "Heure",
    "Remarques"
   ],
@@ -158,7 +158,7 @@
    "Château de Himeji",
    "Backbone",
    "9h00",
-   "Himeji n'est pas une étape du séjour : excursion à confirmer (environ 1h30 de Kyoto)"
+   "Excursion depuis Kyoto (pas de nuit à Himeji) : environ 1h à 1h30 de train"
   ],
   [
    "2027-04-10",
@@ -168,7 +168,7 @@
    "Téléphérique Nunobiki, jardin d'herbes et vue de nuit sur Kobe (mont Rokko)",
    "Backbone",
    "17h00",
-   "Au coucher du soleil, avant le dîner. Kobe n'est pas non plus une étape : aller-retour dans la journée"
+   "Excursion depuis Kyoto (pas de nuit à Kobe) : au coucher du soleil, avant le dîner, retour à Kyoto le soir"
   ],
   [
    "2027-04-10",
@@ -178,7 +178,7 @@
    "Bœuf de Kobe (repas teppanyaki)",
    "Backbone",
    "18h30",
-   "Réserver le restaurant plusieurs semaines avant"
+   "Excursion depuis Kyoto : réserver le restaurant plusieurs semaines avant"
   ],
   [
    "2027-04-11",
@@ -198,7 +198,7 @@
    "Parc de Nara (cerfs) et Todai-ji, excursion depuis Kyoto",
    "Backbone",
    "14h00",
-   "Journée dense : à alléger si besoin"
+   "Excursion depuis Kyoto (environ 45 min de train). Journée dense : à alléger si besoin"
   ],
   [
    "2027-04-12",
@@ -268,7 +268,7 @@
    "Journée libre (nuit à placer)",
    "Libre",
    "",
-   "Ajouter ici les activités sur place (Type = Ajout)"
+   "Activités sur place : les ajouter dans « À faire » et cocher Indispensable"
   ],
   [
    "2027-04-17",

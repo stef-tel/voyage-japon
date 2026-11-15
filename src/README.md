@@ -28,6 +28,6 @@ node check-public.mjs # contrôle de confidentialité (doit finir sans ÉCHEC)
 ```
 
 ## Règles de la carte
-- Un lieu est affiché s'il est « Indispensable » (colonne D de « À faire ») ou cité dans la chronologie (type Backbone ou Ajout, texte identique à la colonne B de « À faire »).
-- Chaque lieu affiché a besoin d'une position dans `coords.json` (clé = texte exact de la colonne B : `g` groupe, `n` nom court, `lat`, `lng`, `ap` si approximative). Une activité ajoutée sur place qui n'est pas dans « À faire » se déclare aussi dans `coords.json` (avec `t` pour le type).
-- Les fiches Booking des hôtels sont dans `hotels.json` (clé = nom de l'hôtel en minuscules). Les villes et les étapes (nuits) sont dans `groups.json`. Les fiches en français sont dans `links.mjs`.
+- Toutes les lignes de « À faire » sont chargées, sauf le type « Hébergement ». Par défaut, la carte n'affiche que les « Indispensable » (colonne D) ; le bouton « Tous les centres d'intérêt » affiche le reste. La chronologie (types Backbone, Trajet, Libre) reprend le texte exact de la colonne B. Un lieu hors de la ville de la nuit (colonne « Nuit à ») est marqué « Excursion depuis … ».
+- Chaque lieu affiché a besoin d'une position dans `coords.json` (clé = texte exact de la colonne B : `g` groupe, `n` nom court, `lat`, `lng`, `ap` si approximative).
+- Les fiches Booking des hôtels sont dans `hotels.json` (clé = nom de l'hôtel en minuscules). Les villes et les étapes (nuits) sont dans `groups.json` ; `GALIAS` dans `build.mjs` regroupe une ville de la feuille avec une ville existante (ex. Nagoya). Les fiches en français sont dans `links.mjs`.

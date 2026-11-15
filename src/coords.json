@@ -449,5 +449,12 @@
   "n": "Arima Onsen",
   "lat": 34.7977,
   "lng": 135.2478
+ },
+ "Hiroshima Visitors Pass (tramway, bus, ferry de Miyajima)": {
+  "g": "Hiroshima",
+  "n": "Hiroshima Visitors Pass",
+  "lat": 34.3978,
+  "lng": 132.4753,
+  "ap": true
  }
 }

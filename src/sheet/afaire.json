@@ -62,6 +62,30 @@
   ],
   [
    "Tokyo",
+   "Shibuya Crossing",
+   "4",
+   "TRUE",
+   "0.5",
+   "Visite",
+   "",
+   "Non",
+   "FALSE",
+   ""
+  ],
+  [
+   "Tokyo",
+   "Harajuku",
+   "4",
+   "TRUE",
+   "2.5",
+   "Visite",
+   "",
+   "Non",
+   "FALSE",
+   ""
+  ],
+  [
+   "Tokyo",
    "Sumo : assister à l'entraînement du matin dans une écurie de Ryogoku (visite guidée en anglais)",
    "4",
    "TRUE",
@@ -117,30 +141,6 @@
    "Activité",
    "",
    "Oui, très tôt",
-   "FALSE",
-   ""
-  ],
-  [
-   "Tokyo",
-   "Shibuya Crossing",
-   "4",
-   "FALSE",
-   "0.5",
-   "Visite",
-   "",
-   "Non",
-   "FALSE",
-   ""
-  ],
-  [
-   "Tokyo",
-   "Harajuku",
-   "4",
-   "FALSE",
-   "2.5",
-   "Visite",
-   "",
-   "Non",
    "FALSE",
    ""
   ],
@@ -661,7 +661,7 @@
    ""
   ],
   [
-   "Nagoya / Inuyama",
+   "Nagoya",
    "Boutique PSG de Nagoya (Parco, aile ouest, 1er étage)",
    "2",
    "FALSE",
@@ -791,6 +791,18 @@
    "Non",
    "FALSE",
    ""
+  ],
+  [
+   "Hiroshima",
+   "Hiroshima Visitors Pass (tramway, bus, ferry de Miyajima)",
+   "",
+   "FALSE",
+   "",
+   "Transport",
+   "Proposé (web)",
+   "Non",
+   "FALSE",
+   "Valable 1, 2 ou 3 jours (thewholeworldisaplayground.com)."
   ],
   [
    "Miyajima",

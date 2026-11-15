@@ -52,6 +52,7 @@ Une ligne par idée. Colonnes : ville, description (« À faire »), note de 1 �
 - Le texte de la colonne « À faire » sert d'identifiant : la Chronologie le reprend à l'identique. On peut le modifier ; la mise à jour suivante répercute le changement.
 - Rangement, refait à chaque mise à jour : par ville dans l'ordre du voyage, puis les indispensables d'abord, puis par note décroissante.
 - « À réserver à l'avance » fait apparaître l'étiquette « À réserver » sur le site.
+- Les lignes de type **« Hébergement »** sont **ignorées** : ni Chronologie, ni carte, même cochées. Les hôtels se gèrent dans l'Itinéraire.
 
 ### Chronologie : générée à partir des indispensables
 
@@ -60,10 +61,13 @@ Une ligne par activité : date, jour, nuit à, moment (matin, après-midi, soir,
 Règles de génération :
 - **Chaque indispensable de « À faire » y figure exactement une fois** (type « Backbone », texte identique).
 - Un indispensable **décoché** est retiré de la Chronologie.
-- Un **nouvel indispensable** est placé dans un jour où l'on dort dans sa ville ou à proximité. On le regroupe avec les lieux du même quartier, en respectant les jours de fermeture connus et les créneaux conseillés (tôt le matin, coucher du soleil…).
+- Un **nouvel indispensable** est placé dans un jour où l'on dort dans sa ville ou à proximité (voir « Villes sans nuit » ci-dessous). On le regroupe avec les lieux du même quartier, en respectant les jours de fermeture connus et les créneaux conseillés (tôt le matin, coucher du soleil…).
 - Les placements existants (jour, heure, remarques) sont **conservés** d'une mise à jour à l'autre ; seuls les ajouts et retraits changent.
 - S'y ajoutent des lignes **Trajet** (arrivée, changements de ville, départ, déduits de l'Itinéraire ; affichées dans la liste, sans point sur la carte) et **Libre** (journées ou créneaux sans programme). Il n'y a pas d'autre type : une activité ajoutée sur place passe par « À faire ».
 - Les journées sont ordonnées par date, puis par heure.
+- **Villes sans nuit** : si le lieu est dans une ville où l'on ne dort pas, deux cas.
+  - S'il est raisonnable de ne pas y dormir (aller-retour dans la journée), il devient une **excursion** depuis l'étape où l'on dort ce jour-là. Il est **mis en exergue** : la remarque commence par « Excursion depuis … », la ligne est surlignée en orange dans la feuille, et le site affiche une étiquette orange « Excursion depuis … ».
+  - Sinon, la mise à jour **crée une nouvelle étape** dans l'Itinéraire (avec nuits, mode de transport et durée du trajet) et le signale, puisque cela change la répartition des nuits.
 - La mise à jour **signale** les jours trop chargés, les conflits (deux alternatives toutes deux indispensables) et les indispensables impossibles à placer, au lieu de trancher.
 
 ### Itinéraire : villes, nuits, trajets, hôtels
@@ -75,7 +79,7 @@ Règles de génération :
   - **Hôtels 2 et 3** : des alternatives possibles.
   - **Hôtel 4** : **notre choix final**. Une fois rempli, il s'affiche en premier sur le site avec l'étiquette « Retenu ».
   - Format d'une cellule : le nom de l'hôtel d'abord (avant la première virgule), puis le quartier ou une description, la note et le prix.
-- **Options** : villes envisagées mais pas retenues.
+- **Options** : villes envisagées mais pas retenues. Une option devenue excursion est marquée « Excursion (0 nuit) ».
 - **Villes de passage et excursions** : villes utiles au trajet sans y dormir (correspondances, arrêts, excursions à la journée), avec le moyen de transport et la durée. Cette liste est déduite des indispensables situés hors des villes d'étape.
 
 ### Spécialités
@@ -102,8 +106,9 @@ Une ligne par démarche : catégorie, à préparer, quand, **priorité** (Indisp
 
 ### Carte interactive : contenu
 
-- **Par défaut : uniquement les indispensables.**
-- **Filtre « Tous les centres d'intérêt »** : affiche aussi toutes les autres idées de « À faire » (non indispensables), avec un style distinct, pour trouver des activités complémentaires sur place.
+- **Par défaut : uniquement les indispensables.** Les villes d'option sans lieu affiché sont masquées.
+- **Filtre « Tous les centres d'intérêt »** : affiche aussi toutes les autres idées de « À faire » (non indispensables, hors hébergements), en plus pâle, pour trouver des activités complémentaires sur place. Dans la vue Chronologie, elles apparaissent à la fin, dans une section « Autres centres d'intérêt » rangée par ville.
+- **Excursions** : étiquette orange « Excursion depuis … » dans la liste et sur la fiche du lieu.
 - **Itinéraire** : une pastille par ville, numérotée selon l'étape. Les trajets entre villes sont des flèches, avec une pastille pour le mode de transport (train, Shinkansen…) et la durée. En haut de la page, une barre reprend les étapes, avec les dates et les nuits, et les trajets entre elles.
 - **Zoom** : en vue large, on voit les villes avec le nombre de lieux ; en zoomant, les lieux eux-mêmes avec leur note.
 - **Fiche d'un lieu** : nom complet, note, durée, type, jour prévu dans la Chronologie, « À réserver », précisions, lien vers une page en français.
@@ -112,8 +117,8 @@ Une ligne par démarche : catégorie, à préparer, quand, **priorité** (Indisp
 
 - **Recherche** par nom de lieu.
 - **Vues** : « Chronologie » (jour par jour, avec les trajets et les créneaux libres) ou « Par ville ».
-- **Raccourcis** : « Indispensables » et « À réserver ».
-- **Bouton « Filtres »** (replié par défaut) : note minimale, type d'activité, affichage de l'itinéraire, « Tous les centres d'intérêt », réinitialisation.
+- **Raccourcis** : « Tous les centres d'intérêt » et « À réserver ».
+- **Bouton « Filtres »** (replié par défaut) : note minimale, type d'activité, affichage de l'itinéraire sur la carte, réinitialisation.
 - **Clic sur une ville**, une étape de la barre ou une flèche de trajet :
   - la carte zoome sur la ville ;
   - la liste se limite aux jours de cette étape, avec le bandeau « Étape n · ville » et le bouton « Tout afficher » ;
@@ -143,8 +148,8 @@ On modifie « À faire » (et Spécialités, Préparer le voyage, Hôtel 4) quan
 ### Temps 1 : mise à jour de la feuille
 
 1. **À faire** : relire et ranger (par ville dans l'ordre du voyage, indispensables d'abord, puis par note), sans changer les textes ni les villes.
-2. **Chronologie** : la régénérer à partir des indispensables (section 2) : ajouter les nouveaux, retirer ceux qui ont été décochés, conserver les placements existants, mettre à jour les trajets.
-3. **Itinéraire** : vérifier les étapes, les nuits et les trajets. Compléter les villes de passage et d'excursion nécessaires. Proposer un Hôtel 1 pour toute nouvelle étape, sans jamais toucher à l'Hôtel 4.
+2. **Chronologie** : la régénérer à partir des indispensables (section 2) : ajouter les nouveaux, retirer ceux qui ont été décochés, ignorer les hébergements, conserver les placements existants, mettre à jour les trajets, marquer les excursions.
+3. **Itinéraire** : vérifier les étapes, les nuits et les trajets. Compléter les villes de passage et d'excursion nécessaires, ou créer une étape quand un indispensable l'exige (section 2). Proposer un Hôtel 1 pour toute nouvelle étape, sans jamais toucher à l'Hôtel 4.
 4. **Questions** : lister ce qui doit être tranché (conflits, jours chargés, nuits non placées) au lieu de décider à notre place.
 
 ### Temps 2 : mise à jour du site
