@@ -1,275 +1,284 @@
 {
-"updated": "15 novembre 2026",
-"rows": [
-[
-"Papiers",
-"Passeports valides pour toute la durée du séjour, un par personne (fille de 12 ans comprise)",
-"Dès maintenant",
-"Indispensable",
-true,
-"Les Français n'ont pas besoin de visa pour un séjour touristique de moins de 90 jours. Un enfant doit avoir son propre passeport. Aucune autorisation de sortie du territoire n'est exigée s'il voyage avec ses parents.",
-"https://www.evaneos.fr/japon/voyage/informations-pratiques/visa/"
-],
-[
-"Papiers",
-"Vérifier les conditions d'entrée (visa, formalités) sur le site officiel",
-"1 mois avant le départ",
-"Indispensable",
-true,
-"Pas de visa pour les Français en 2027. Le futur système d'autorisation électronique JESTA est annoncé pour 2028 au plus tôt, donc pas concerné pour avril 2027 : à reconfirmer avant de partir.",
-"https://www.diplomatie.gouv.fr/fr/information-par-pays/japon/conseils-aux-voyageurs-entree-sejour"
-],
-[
-"Papiers",
-"Créer un compte Visit Japan Web et enregistrer les 3 voyageurs (immigration et douane)",
-"1 à 2 semaines avant le départ",
-"Important",
-true,
-"Facultatif mais recommandé : accélère les contrôles à l'arrivée et sert aux achats hors taxes. Garder le QR code en capture d'écran.",
-"https://www.japan.travel/fr/fr/guide/passeport-et-formalites/"
-],
-[
-"Papiers",
-"Assurance voyage et rapatriement (santé, annulation, bagages) pour les 3",
-"2 mois avant le départ",
-"Important",
-false,
-"Vérifier aussi la garantie de la carte bancaire. Emporter les attestations et les numéros d'assistance.",
-"https://www.japan.travel/fr/fr/guide/preparer-voyage-japon/"
-],
-[
-"Réservations",
-"Hôtels : confirmer toutes les nuits (Tokyo, Hakone, Kyoto, Takayama, Tokyo)",
-"Maintenant : la floraison des cerisiers est la haute saison",
-"Indispensable",
-false,
-"Voir l'onglet Itinéraire pour les hôtels pressentis. Choisir des tarifs annulables gratuitement. Prévoir 2 nuits encore non réparties.",
-"https://fr.japanspecialist.com/documents/d/japanspecialistfr/quand-reserver-votre-voyage-au-japon"
-],
-[
-"Réservations",
-"Ryokan avec onsen à Hakone et à Takayama (repas du soir et du matin inclus)",
-"Maintenant",
-"Indispensable",
-false,
-"Les ryokan ont peu de chambres : réserver en premier. Signaler l'âge de l'enfant et les allergies.",
-""
-],
-[
-"Réservations",
-"Billets de Shinkansen (Odawara ou Tokyo vers Kyoto, puis Kyoto vers Nagoya, Nagoya vers Tokyo)",
-"1 à 3 mois avant, dès l'ouverture des ventes",
-"Indispensable",
-false,
-"Réservation possible en ligne, par exemple avec SmartEX pour la ligne Tokyo-Osaka. Prendre des places réservées avec emplacement pour grosses valises, ou envoyer les valises par takkyubin.",
-"https://www.japan-experience.com/fr/preparer-voyage/voyager-en-train/prendre-le-train/reservations-de-places"
-],
-[
-"Réservations",
-"Train express Nagoya vers Takayama (Hida)",
-"1 à 3 mois avant",
-"Indispensable",
-false,
-"Trajet de l'étape Takayama. Vérifier les horaires sur Navitime ou Google Maps avant de réserver.",
-""
-],
-[
-"Réservations",
-"Musée Ghibli (Mitaka) : billets à date et heure fixes",
-"Dès l'ouverture des ventes du mois concerné (vérifier la date sur le site officiel)",
-"Indispensable",
-false,
-"Vente en ligne uniquement, places vite épuisées en avril. Vérifier la règle d'ouverture sur le site officiel.",
-""
-],
-[
-"Réservations",
-"Nintendo Museum (Uji) : tirage au sort puis billet",
-"Environ 3 mois avant, vérifier le calendrier officiel",
-"Indispensable",
-false,
-"Tirage au sort, à lancer le plus tôt possible pour la fille de 12 ans.",
-""
-],
-[
-"Réservations",
-"teamLab, Shibuya Sky, Skytree, sumo, bœuf de Kobe, restaurants prisés",
-"1 à 2 mois avant",
-"Important",
-false,
-"Voir l'onglet À faire (colonne Réservation). Choisir le créneau du coucher du soleil pour Shibuya Sky.",
-""
-],
-[
-"Réservations",
-"Réserver les tables sur Tabelog ou via l'hôtel pour les repas importants (sushi, bœuf de Kobe)",
-"1 mois avant",
-"Utile",
-false,
-"Certains restaurants acceptent les réservations internationales via des plateformes dédiées ou via la conciergerie de l'hôtel.",
-"https://www.japan-experience.com/fr/preparer-voyage/voyager-en-train/prendre-le-train/japon-apps"
-],
-[
-"Connexion",
-"Choisir eSIM, carte SIM ou pocket wifi, et l'installer avant le départ",
-"2 semaines avant",
-"Indispensable",
-false,
-"Une eSIM est la solution la plus simple si les smartphones sont compatibles et déverrouillés. Un pocket wifi se partage à 3 mais s'ajoute au bagage. Vérifier la compatibilité eSIM des 3 téléphones.",
-"https://selfguidejapan.com/fr/blog/esim-japon"
-],
-[
-"Connexion",
-"Comparer les forfaits eSIM (Ubigi, Airalo, Saily, etc.)",
-"2 à 4 semaines avant",
-"Utile",
-false,
-"Comparer prix, volume de données et partage de connexion.",
-"https://www.phonandroid.com/quelle-meilleure-esim-voyager-japon.html"
-],
-[
-"Smartphone",
-"Applications : Google Maps (cartes hors ligne téléchargées), Google Traduction (japonais hors ligne), Navitime ou Japan Travel by Navitime, Tabelog, SmartEX",
-"1 semaine avant",
-"Indispensable",
-true,
-"Compléter par Visit Japan Web (QR code), la météo et les alertes séisme. Télécharger les cartes hors ligne de Tokyo, Kyoto et Takayama.",
-"https://www.japan-experience.com/fr/preparer-voyage/voyager-en-train/prendre-le-train/applications-pour-smartphones-pour-votre-voyage-en-train-au-japon"
-],
-[
-"Smartphone",
-"Carte Suica ou Pasmo dans Apple Wallet (iPhone) pour métro, bus, konbini",
-"Avant le départ",
-"Important",
-false,
-"Sur Android, le Suica mobile ne fonctionne que sur les téléphones vendus au Japon : prévoir sinon une carte physique sur place.",
-""
-],
-[
-"Argent",
-"Prévenir la banque, prendre une carte sans frais à l'étranger, retirer des yens",
-"1 mois avant",
-"Important",
-false,
-"Les distributeurs des konbini (7-Eleven) et des bureaux de poste acceptent en général les cartes étrangères. Garder un peu de liquide : beaucoup de petites adresses et temples n'acceptent pas la carte.",
-"https://www.japan.travel/fr/fr/guide/preparer-voyage-japon/"
-],
-[
-"Santé",
-"Médicaments personnels : vérifier la liste des produits interdits (codéine, pseudoéphédrine) et emporter les ordonnances",
-"1 mois avant",
-"Important",
-false,
-"Un mois de traitement est autorisé sans formalité. Beaucoup d'antalgiques et sirops européens contenant de la codéine sont interdits, même avec ordonnance. Au-delà, demander le certificat d'importation (Yakkan Shoumei) au moins 2 semaines avant.",
-"https://www.kanpai.fr/sante-japon/pharmacies-medicaments"
-],
-[
-"Bagages",
-"Adaptateurs de prise type A (2 broches plates) et multiprise",
-"2 semaines avant",
-"Important",
-false,
-"Le Japon est en 100 V. La plupart des chargeurs de téléphone et d'ordinateur acceptent 100-240 V : à vérifier sur l'étiquette. Sèche-cheveux et lisseurs européens : laisser à la maison.",
-"https://www.japan-experience.com/fr/preparer-voyage/savoir/avant-de-partir/electricite-japon-adaptateur-prise"
-],
-[
-"Bagages",
-"Valises légères, un petit sac pour 2 à 3 nuits, vêtements en couches pour avril",
-"1 semaine avant",
-"Important",
-false,
-"Avril : températures douces à Tokyo et Kyoto, plus fraîches à Takayama. Prévoir une veste imperméable et des chaussures confortables pour marcher.",
-""
-],
-[
-"Bagages",
-"Envoi de valises par takkyubin entre étapes (Tokyo vers Kyoto, Takayama vers Tokyo)",
-"Sur place, la veille du départ",
-"Utile",
-false,
-"Depuis la réception de l'hôtel. Compter environ 2 000 à 3 000 ¥ par valise selon la distance. Prévoir un sac pour 2 nuits en main.",
-"https://www.japan-experience.com/fr/preparer-voyage/savoir/avant-de-partir/takkyubin-expedier-vos-bagages-entre-des-destinations-au-japon"
-],
-[
-"Transport",
-"Vols CA421 (aller) et CA184 (retour) : enregistrement en ligne, bagages inclus, repas",
-"24 h avant",
-"Important",
-false,
-"Aller avec escale à Pékin : vérifier les conditions de transit (aucun visa nécessaire pour un transit, à confirmer sur le site de la compagnie).",
-""
-],
-[
-"Transport",
-"Dernier hôtel proche de Haneda pour le vol de 8h30 du 18 avril",
-"Maintenant",
-"Important",
-false,
-"Voir l'onglet Itinéraire : dormir près de Haneda la dernière nuit.",
-""
-],
-[
-"Avant le départ",
-"Photocopies ou photos des passeports, des assurances et des réservations (cloud et papier)",
-"1 semaine avant",
-"Utile",
-false,
-"Garder aussi les adresses des hôtels en japonais.",
-""
-],
-[
-"Avant le départ",
-"Prévenir l'opérateur mobile et couper les données en itinérance",
-"1 semaine avant",
-"Utile",
-false,
-"Évite les frais si l'eSIM n'est pas activée.",
-""
-],
-[
-"Smartphone",
-"2 batteries externes (power banks) de 20 000 mAh chacune, en bagage à main",
-"1 mois avant",
-"Important",
-false,
-"20 000 mAh font environ 74 Wh, sous la limite de 100 Wh (environ 27 000 mAh) tolérée en cabine. Ne pas dépasser 25 000 mAh. Jamais en soute. Capacité et marque lisibles sur le boîtier. L'aller passe par Pékin avec Air China : choisir un modèle portant le marquage 3C (CCC) et confirmer la règle sur le site de la compagnie. Une batterie pour le pocket wifi, l'autre pour les 3 téléphones.",
-"https://fr.trip.com/guide/info/emporter-banque-alimentation-a-bord.html"
-],
-[
-"Transport",
-"Une carte IC physique par personne (Welcome Suica ou Tourist PASMO), à acheter à l'arrivée à l'aéroport",
-"À l'arrivée, le 3 avril",
-"Indispensable",
-false,
-"Nos 3 téléphones sont des Android achetés en France : sans puce FeliCa, ils ne peuvent pas recevoir la Suica ni la PASMO dans Google Wallet. La Welcome Suica dure 28 jours (le séjour fait 15 jours). Les distributeurs de gare ne prennent que les billets en yens : la recharge se fait en espèces. Arrivée à Haneda vers 20h : vérifier l'ouverture du comptoir ou du distributeur, sinon l'acheter le lendemain en gare.",
-"https://selfguidejapan.com/fr/blog/carte-suica"
-],
-[
-"Argent",
-"Yens en espèces pour recharger les 3 cartes IC et pour les petites adresses, temples et distributeurs",
-"1 mois avant, puis retrait sur place",
-"Important",
-false,
-"Retirer des yens aux distributeurs des konbini (7-Eleven) ou des bureaux de poste avec les cartes LCL, ou en emporter une partie de France. Garder du liquide séparé dans chaque sac. L'argent de la fille de 12 ans est à prévoir en espèces : elle n'a pas de carte.",
-"https://www.japan.travel/fr/fr/guide/preparer-voyage-japon/"
-],
-[
-"Argent",
-"Cartes LCL Visa et Mastercard : vérifier les frais hors zone euro et activer l'option LCL CityExplorer si elle est rentable",
-"1 mois avant",
-"Important",
-false,
-"Hors zone euro, LCL facture en général 3,05 % + 1,26 € par paiement et 3,05 % + 3,17 € par retrait (2,38 % sur les cartes Platinum+ et Visa Infinite). L'option LCL CityExplorer supprime les commissions LCL à l'étranger : demander son prix et ses conditions à la banque, et comparer avec le coût des retraits.",
-"https://www.lcl.fr/mag/loisirs-vacances/guide-vacances-lcl"
-],
-[
-"Argent",
-"Appeler LCL : paiement et retrait à l'étranger activés, plafonds relevés, code PIN connu, numéro d'opposition noté",
-"3 semaines avant",
-"Important",
-false,
-"Demander aussi si les cartes passent en paiement sans contact et dans les distributeurs japonais. Prévoir une carte de secours (celle du second adulte) gardée séparément. En cas de perte, faire opposition tout de suite.",
-"https://lcl.fr/questions-frequentes/sos-cartes"
-]
-]
+ "updated": "15 novembre 2026",
+ "rows": [
+  [
+   "Papiers",
+   "Passeports valides pour toute la durée du séjour, un par personne (fille de 12 ans comprise)",
+   "Dès maintenant",
+   "Indispensable",
+   "Fait",
+   "Les Français n'ont pas besoin de visa pour un séjour touristique de moins de 90 jours. Un enfant doit avoir son propre passeport. Aucune autorisation de sortie du territoire n'est exigée s'il voyage avec ses parents.",
+   "https://www.evaneos.fr/japon/voyage/informations-pratiques/visa/"
+  ],
+  [
+   "Papiers",
+   "Vérifier les conditions d'entrée (visa, formalités) sur le site officiel",
+   "1 mois avant le départ",
+   "Indispensable",
+   "Fait",
+   "Pas de visa pour les Français en 2027. Le futur système d'autorisation électronique JESTA est annoncé pour 2028 au plus tôt, donc pas concerné pour avril 2027 : à reconfirmer avant de partir.",
+   "https://www.diplomatie.gouv.fr/fr/information-par-pays/japon/conseils-aux-voyageurs-entree-sejour"
+  ],
+  [
+   "Papiers",
+   "Créer un compte Visit Japan Web et enregistrer les 3 voyageurs (immigration et douane)",
+   "1 à 2 semaines avant le départ",
+   "Important",
+   "Fait",
+   "Facultatif mais recommandé : accélère les contrôles à l'arrivée et sert aux achats hors taxes. Garder le QR code en capture d'écran.",
+   "https://www.japan.travel/fr/fr/guide/passeport-et-formalites/"
+  ],
+  [
+   "Papiers",
+   "Assurance voyage et rapatriement (santé, annulation, bagages) pour les 3",
+   "2 mois avant le départ",
+   "Important",
+   "À faire",
+   "Vérifier aussi la garantie de la carte bancaire. Emporter les attestations et les numéros d'assistance.",
+   "https://www.japan.travel/fr/fr/guide/preparer-voyage-japon/"
+  ],
+  [
+   "Réservations",
+   "Hôtels : confirmer toutes les nuits (Tokyo, Hakone, Kyoto, Takayama, Tokyo)",
+   "Maintenant : la floraison des cerisiers est la haute saison",
+   "Indispensable",
+   "À faire",
+   "Voir l'onglet Itinéraire pour les hôtels pressentis. Choisir des tarifs annulables gratuitement. Prévoir 2 nuits encore non réparties.",
+   "https://fr.japanspecialist.com/documents/d/japanspecialistfr/quand-reserver-votre-voyage-au-japon"
+  ],
+  [
+   "Réservations",
+   "Ryokan avec onsen à Hakone et à Takayama (repas du soir et du matin inclus)",
+   "Maintenant",
+   "Indispensable",
+   "À faire",
+   "Les ryokan ont peu de chambres : réserver en premier. Signaler l'âge de l'enfant et les allergies.",
+   ""
+  ],
+  [
+   "Réservations",
+   "Billets de Shinkansen (Odawara ou Tokyo vers Kyoto, puis Kyoto vers Nagoya, Nagoya vers Tokyo)",
+   "1 à 3 mois avant, dès l'ouverture des ventes",
+   "Indispensable",
+   "À faire",
+   "Réservation possible en ligne, par exemple avec SmartEX pour la ligne Tokyo-Osaka. Prendre des places réservées avec emplacement pour grosses valises, ou envoyer les valises par takkyubin.",
+   "https://www.japan-experience.com/fr/preparer-voyage/voyager-en-train/prendre-le-train/reservations-de-places"
+  ],
+  [
+   "Réservations",
+   "Train express Nagoya vers Takayama (Hida)",
+   "1 à 3 mois avant",
+   "Indispensable",
+   "À faire",
+   "Trajet de l'étape Takayama. Vérifier les horaires sur Navitime ou Google Maps avant de réserver.",
+   ""
+  ],
+  [
+   "Réservations",
+   "Musée Ghibli (Mitaka) : billets à date et heure fixes",
+   "Dès l'ouverture des ventes du mois concerné (vérifier la date sur le site officiel)",
+   "Indispensable",
+   "À faire",
+   "Vente en ligne uniquement, places vite épuisées en avril. Vérifier la règle d'ouverture sur le site officiel.",
+   ""
+  ],
+  [
+   "Réservations",
+   "Nintendo Museum (Uji) : tirage au sort puis billet",
+   "Environ 3 mois avant, vérifier le calendrier officiel",
+   "Indispensable",
+   "À faire",
+   "Tirage au sort, à lancer le plus tôt possible pour la fille de 12 ans.",
+   ""
+  ],
+  [
+   "Réservations",
+   "teamLab, Shibuya Sky, Skytree, sumo, bœuf de Kobe, restaurants prisés",
+   "1 à 2 mois avant",
+   "Important",
+   "À faire",
+   "Voir l'onglet À faire (colonne Réservation). Choisir le créneau du coucher du soleil pour Shibuya Sky.",
+   ""
+  ],
+  [
+   "Réservations",
+   "Réserver les tables sur Tabelog ou via l'hôtel pour les repas importants (sushi, bœuf de Kobe)",
+   "1 mois avant",
+   "Utile",
+   "À faire",
+   "Certains restaurants acceptent les réservations internationales via des plateformes dédiées ou via la conciergerie de l'hôtel.",
+   "https://www.japan-experience.com/fr/preparer-voyage/voyager-en-train/prendre-le-train/japon-apps"
+  ],
+  [
+   "Connexion",
+   "Choisir eSIM, carte SIM ou pocket wifi, et l'installer avant le départ",
+   "2 semaines avant",
+   "Indispensable",
+   "À faire",
+   "Une eSIM est la solution la plus simple si les smartphones sont compatibles et déverrouillés. Un pocket wifi se partage à 3 mais s'ajoute au bagage. Vérifier la compatibilité eSIM des 3 téléphones.",
+   "https://selfguidejapan.com/fr/blog/esim-japon"
+  ],
+  [
+   "Connexion",
+   "Comparer les forfaits eSIM (Ubigi, Airalo, Saily, etc.)",
+   "2 à 4 semaines avant",
+   "Utile",
+   "À faire",
+   "Comparer prix, volume de données et partage de connexion.",
+   "https://www.phonandroid.com/quelle-meilleure-esim-voyager-japon.html"
+  ],
+  [
+   "Smartphone",
+   "Applications : Google Maps (cartes hors ligne téléchargées), Google Traduction (japonais hors ligne), Navitime ou Japan Travel by Navitime, Tabelog, SmartEX",
+   "1 semaine avant",
+   "Indispensable",
+   "Fait",
+   "Compléter par Visit Japan Web (QR code), la météo et les alertes séisme. Télécharger les cartes hors ligne de Tokyo, Kyoto et Takayama.",
+   "https://www.japan-experience.com/fr/preparer-voyage/voyager-en-train/prendre-le-train/applications-pour-smartphones-pour-votre-voyage-en-train-au-japon"
+  ],
+  [
+   "Smartphone",
+   "Carte Suica ou Pasmo dans Apple Wallet (iPhone) pour métro, bus, konbini",
+   "Avant le départ",
+   "Important",
+   "À faire",
+   "Sur Android, le Suica mobile ne fonctionne que sur les téléphones vendus au Japon : prévoir sinon une carte physique sur place.",
+   ""
+  ],
+  [
+   "Argent",
+   "Prévenir la banque, prendre une carte sans frais à l'étranger, retirer des yens",
+   "1 mois avant",
+   "Important",
+   "À faire",
+   "Les distributeurs des konbini (7-Eleven) et des bureaux de poste acceptent en général les cartes étrangères. Garder un peu de liquide : beaucoup de petites adresses et temples n'acceptent pas la carte.",
+   "https://www.japan.travel/fr/fr/guide/preparer-voyage-japon/"
+  ],
+  [
+   "Santé",
+   "Médicaments personnels : vérifier la liste des produits interdits (codéine, pseudoéphédrine) et emporter les ordonnances",
+   "1 mois avant",
+   "Important",
+   "À faire",
+   "Un mois de traitement est autorisé sans formalité. Beaucoup d'antalgiques et sirops européens contenant de la codéine sont interdits, même avec ordonnance. Au-delà, demander le certificat d'importation (Yakkan Shoumei) au moins 2 semaines avant.",
+   "https://www.kanpai.fr/sante-japon/pharmacies-medicaments"
+  ],
+  [
+   "Bagages",
+   "Adaptateurs de prise type A (2 broches plates) et multiprise",
+   "2 semaines avant",
+   "Important",
+   "À faire",
+   "Le Japon est en 100 V. La plupart des chargeurs de téléphone et d'ordinateur acceptent 100-240 V : à vérifier sur l'étiquette. Sèche-cheveux et lisseurs européens : laisser à la maison.",
+   "https://www.japan-experience.com/fr/preparer-voyage/savoir/avant-de-partir/electricite-japon-adaptateur-prise"
+  ],
+  [
+   "Bagages",
+   "Valises légères, un petit sac pour 2 à 3 nuits, vêtements en couches pour avril",
+   "1 semaine avant",
+   "Important",
+   "À faire",
+   "Avril : températures douces à Tokyo et Kyoto, plus fraîches à Takayama. Prévoir une veste imperméable et des chaussures confortables pour marcher.",
+   ""
+  ],
+  [
+   "Bagages",
+   "Envoi de valises par takkyubin entre étapes (Tokyo vers Kyoto, Takayama vers Tokyo)",
+   "Sur place, la veille du départ",
+   "Utile",
+   "À faire",
+   "Depuis la réception de l'hôtel. Compter environ 2 000 à 3 000 ¥ par valise selon la distance. Prévoir un sac pour 2 nuits en main.",
+   "https://www.japan-experience.com/fr/preparer-voyage/savoir/avant-de-partir/takkyubin-expedier-vos-bagages-entre-des-destinations-au-japon"
+  ],
+  [
+   "Transport",
+   "Vols CA421 (aller) et CA184 (retour) : enregistrement en ligne, bagages inclus, repas",
+   "24 h avant",
+   "Important",
+   "À faire",
+   "Aller avec escale à Pékin : vérifier les conditions de transit (aucun visa nécessaire pour un transit, à confirmer sur le site de la compagnie).",
+   ""
+  ],
+  [
+   "Transport",
+   "Dernier hôtel proche de Haneda pour le vol de 8h30 du 18 avril",
+   "Maintenant",
+   "Important",
+   "À faire",
+   "Voir l'onglet Itinéraire : dormir près de Haneda la dernière nuit.",
+   ""
+  ],
+  [
+   "Avant le départ",
+   "Photocopies ou photos des passeports, des assurances et des réservations (cloud et papier)",
+   "1 semaine avant",
+   "Utile",
+   "À faire",
+   "Garder aussi les adresses des hôtels en japonais.",
+   ""
+  ],
+  [
+   "Avant le départ",
+   "Prévenir l'opérateur mobile et couper les données en itinérance",
+   "1 semaine avant",
+   "Utile",
+   "À faire",
+   "Évite les frais si l'eSIM n'est pas activée.",
+   ""
+  ],
+  [
+   "Smartphone",
+   "2 batteries externes (power banks) de 20 000 mAh chacune, en bagage à main",
+   "1 mois avant",
+   "Important",
+   "À faire",
+   "20 000 mAh font environ 74 Wh, sous la limite de 100 Wh (environ 27 000 mAh) tolérée en cabine. Ne pas dépasser 25 000 mAh. Jamais en soute. Capacité et marque lisibles sur le boîtier. L'aller passe par Pékin avec Air China : choisir un modèle portant le marquage 3C (CCC) et confirmer la règle sur le site de la compagnie. Une batterie pour le pocket wifi, l'autre pour les 3 téléphones.",
+   "https://fr.trip.com/guide/info/emporter-banque-alimentation-a-bord.html"
+  ],
+  [
+   "Transport",
+   "Une carte IC physique par personne (Welcome Suica ou Tourist PASMO), à acheter à l'arrivée à l'aéroport",
+   "À l'arrivée, le 3 avril",
+   "Indispensable",
+   "À faire",
+   "Nos 3 téléphones sont des Android achetés en France : sans puce FeliCa, ils ne peuvent pas recevoir la Suica ni la PASMO dans Google Wallet. La Welcome Suica dure 28 jours (le séjour fait 15 jours). Les distributeurs de gare ne prennent que les billets en yens : la recharge se fait en espèces. Arrivée à Haneda vers 20h : vérifier l'ouverture du comptoir ou du distributeur, sinon l'acheter le lendemain en gare.",
+   "https://selfguidejapan.com/fr/blog/carte-suica"
+  ],
+  [
+   "Argent",
+   "Yens en espèces pour recharger les 3 cartes IC et pour les petites adresses, temples et distributeurs",
+   "1 mois avant, puis retrait sur place",
+   "Important",
+   "À faire",
+   "Retirer des yens aux distributeurs des konbini (7-Eleven) ou des bureaux de poste avec les cartes LCL, ou en emporter une partie de France. Garder du liquide séparé dans chaque sac. L'argent de la fille de 12 ans est à prévoir en espèces : elle n'a pas de carte.",
+   "https://www.japan.travel/fr/fr/guide/preparer-voyage-japon/"
+  ],
+  [
+   "Argent",
+   "Cartes LCL Visa et Mastercard : vérifier les frais hors zone euro et activer l'option LCL CityExplorer si elle est rentable",
+   "1 mois avant",
+   "Important",
+   "À faire",
+   "Hors zone euro, LCL facture en général 3,05 % + 1,26 € par paiement et 3,05 % + 3,17 € par retrait (2,38 % sur les cartes Platinum+ et Visa Infinite). L'option LCL CityExplorer supprime les commissions LCL à l'étranger : demander son prix et ses conditions à la banque, et comparer avec le coût des retraits.",
+   "https://www.lcl.fr/mag/loisirs-vacances/guide-vacances-lcl"
+  ],
+  [
+   "Argent",
+   "Appeler LCL : paiement et retrait à l'étranger activés, plafonds relevés, code PIN connu, numéro d'opposition noté",
+   "3 semaines avant",
+   "Important",
+   "À faire",
+   "Demander aussi si les cartes passent en paiement sans contact et dans les distributeurs japonais. Prévoir une carte de secours (celle du second adulte) gardée séparément. En cas de perte, faire opposition tout de suite.",
+   "https://lcl.fr/questions-frequentes/sos-cartes"
+  ],
+  [
+   "Transport",
+   "Regarder Japan pass vs billets individuels",
+   "",
+   "Important",
+   "À faire",
+   "",
+   ""
+  ]
+ ]
 }

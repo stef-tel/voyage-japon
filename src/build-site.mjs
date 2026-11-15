@@ -62,14 +62,19 @@ const landing = `<!doctype html><html lang="fr"><head><meta charset="utf-8"><met
 </body></html>`;
 
 const rows = data.rows;
-const cats = [...new Set(rows.map((r) => r[0]))];
+const isRej = (r) => r[4] === "Rejeté";
+const cats = [...new Set(rows.filter((r) => !isRej(r)).map((r) => r[0]))];
 const prio = { Indispensable: "p1", Important: "p2", Utile: "p3" };
-const section = (c) => `<section><h2>${esc(c)}</h2><ul>` + rows.map((r, i) => [r, i]).filter(([r]) => r[0] === c).map(([r, i]) =>
-  `<li class="${prio[r[3]] || "p3"}"><label><input type="checkbox" data-id="${i}" ${r[4] ? "checked" : ""}><span class="main"><b>${esc(r[1])}</b>`
+const section = (c) => `<section><h2>${esc(c)}</h2><ul>` + rows.map((r, i) => [r, i]).filter(([r]) => r[0] === c && !isRej(r)).map(([r, i]) =>
+  `<li class="${prio[r[3]] || "p3"}"><label><input type="checkbox" data-id="${i}" ${r[4] === "Fait" ? "checked" : ""}><span class="main"><b>${esc(r[1])}</b>`
   + `<span class="meta"><span class="tag">${esc(r[3])}</span> ${esc(r[2])}</span>`
   + `<span class="det">${esc(r[5])}</span>`
   + (r[6] ? `<a href="${esc(r[6])}" target="_blank" rel="noopener">En savoir plus (site en français)</a>` : "")
   + `</span></label></li>`).join("") + `</ul></section>`;
+const rejected = rows.filter(isRej);
+const rejSection = rejected.length ? `<details class="rej"><summary>Rejetés (${rejected.length}) : gardés pour mémoire</summary><ul>` + rejected.map((r) =>
+  `<li><span class="main"><b>${esc(r[1])}</b><span class="meta"><span class="tag">${esc(r[0])}</span> ${esc(r[3])}${r[2] ? " · " + esc(r[2]) : ""}</span>`
+  + (r[5] ? `<span class="det">${esc(r[5])}</span>` : "") + `</span></li>`).join("") + `</ul></details>` : "";
 
 const prep = `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Préparer le voyage au Japon</title><style>${css}
@@ -85,6 +90,7 @@ li.p1{border-left-color:var(--red)}li.p2{border-left-color:#e0a030}
 li label{display:flex;gap:12px;padding:12px 14px;cursor:pointer}li input{width:22px;height:22px;margin-top:2px;flex:none}
 .main{display:flex;flex-direction:column;gap:4px}.meta{font-size:13px;color:var(--muted)}.tag{font-weight:bold;color:var(--ink)}
 .det{font-size:14px;color:#333}li.done b{text-decoration:line-through;color:var(--muted)}li.hide{display:none}
+.rej{margin-top:34px;border-top:2px solid var(--line);padding-top:10px}.rej summary{cursor:pointer;color:var(--muted);font-weight:bold}.rej li{border-left-color:#bbb;padding:10px 14px;opacity:.75}.rej li b{text-decoration:line-through;color:var(--muted)}
 .note{font-size:13px;color:var(--muted);margin-top:30px}
 </style></head><body>
 <div class="top"><b><a href="index.html" style="margin:0">Voyage au Japon</a></b><span><a href="carte.html">Carte interactive</a><a href="preparer.html">Préparer le voyage</a></span></div>
@@ -92,7 +98,8 @@ li label{display:flex;gap:12px;padding:12px 14px;cursor:pointer}li input{width:2
 <div class="bar"><div><span id="count"></span></div><div class="prog"><i id="bar"></i></div>
 <div class="filters" id="f"><button data-f="all" aria-pressed="true">Tout</button><button data-f="Indispensable" aria-pressed="false">Indispensable</button><button data-f="Important" aria-pressed="false">Important</button><button data-f="Utile" aria-pressed="false">Utile</button><button data-f="todo" aria-pressed="false">Reste à faire</button></div></div>
 ${cats.map(section).join("")}
-<p class="note">Cette liste est générée depuis l'onglet « Préparer le voyage » de <a href="${SHEET}">notre Google Sheet</a> (état au ${esc(data.updated)}). Les cases cochées ici sont mémorisées dans ce navigateur uniquement ; la colonne « Fait » de la feuille reste la référence commune. Les liens n'ont pas tous été testés : vérifier les infos officielles avant de réserver.</p>
+${rejSection}
+<p class="note">Cette liste est générée depuis l'onglet « Préparer le voyage » de <a href="${SHEET}">notre Google Sheet</a> (état au ${esc(data.updated)}). Les cases cochées ici sont mémorisées dans ce navigateur uniquement ; la colonne « Statut » de la feuille (À faire, Fait, Rejeté) reste la référence commune. Les liens n'ont pas tous été testés : vérifier les infos officielles avant de réserver.</p>
 </main>
 <script>
 const KEY="japon-prep-v1";let st={};try{st=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
