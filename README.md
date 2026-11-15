@@ -62,7 +62,8 @@ Règles de génération :
 - Un indispensable **décoché** est retiré de la Chronologie.
 - Un **nouvel indispensable** est placé dans un jour où l'on dort dans sa ville ou à proximité. On le regroupe avec les lieux du même quartier, en respectant les jours de fermeture connus et les créneaux conseillés (tôt le matin, coucher du soleil…).
 - Les placements existants (jour, heure, remarques) sont **conservés** d'une mise à jour à l'autre ; seuls les ajouts et retraits changent.
-- S'y ajoutent des lignes **Trajet** (arrivée, changements de ville, départ, déduits de l'Itinéraire) et **Libre** (journées ou créneaux sans programme). Il n'y a pas d'autre type : une activité ajoutée sur place passe par « À faire ».
+- S'y ajoutent des lignes **Trajet** (arrivée, changements de ville, départ, déduits de l'Itinéraire ; affichées dans la liste, sans point sur la carte) et **Libre** (journées ou créneaux sans programme). Il n'y a pas d'autre type : une activité ajoutée sur place passe par « À faire ».
+- Les journées sont ordonnées par date, puis par heure.
 - La mise à jour **signale** les jours trop chargés, les conflits (deux alternatives toutes deux indispensables) et les indispensables impossibles à placer, au lieu de trancher.
 
 ### Itinéraire : villes, nuits, trajets, hôtels
@@ -149,10 +150,10 @@ On modifie « À faire » (et Spécialités, Préparer le voyage, Hôtel 4) quan
 ### Temps 2 : mise à jour du site
 
 5. Relire tous les onglets et régénérer les pages.
-6. Traiter les avertissements : position inconnue d'un lieu (la rechercher), fiche Booking d'un nouvel hôtel, lien en français manquant.
+6. Traiter les avertissements : position inconnue d'un lieu (la rechercher), fiche Booking d'un nouvel hôtel (en attendant, un lien de recherche Booking est proposé), lien en français manquant.
 7. **Contrôle de confidentialité** (section 4) : la publication est bloquée en cas de problème.
 8. **Vérification du rendu** sur PC et sur mobile (clic sur une ville, onglet Hôtel, filtres, onglets Carte/Liste), sans erreur.
-9. **Publication** : commit et push sur GitHub, puis contrôle que GitHub contient bien la nouvelle version. Pour un changement de présentation du site, publier d'abord un aperçu privé et attendre notre validation.
+9. **Publication** : commit et push sur GitHub, puis contrôle que GitHub contient bien la nouvelle version. GitHub Pages se met à jour en une à deux minutes. Pour un changement de présentation du site, publier d'abord un aperçu privé et attendre notre validation.
 10. **Compte rendu** : ce qui a changé (dans la feuille, sur la carte, dans les spécialités, dans la checklist), les avertissements restants et les questions ouvertes.
 
 ## Pour les curieux
