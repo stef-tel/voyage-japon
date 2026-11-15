@@ -132,7 +132,7 @@ false,
 "Applications : Google Maps (cartes hors ligne téléchargées), Google Traduction (japonais hors ligne), Navitime ou Japan Travel by Navitime, Tabelog, SmartEX",
 "1 semaine avant",
 "Indispensable",
-false,
+true,
 "Compléter par Visit Japan Web (QR code), la météo et les alertes séisme. Télécharger les cartes hors ligne de Tokyo, Kyoto et Takayama.",
 "https://www.japan-experience.com/fr/preparer-voyage/voyager-en-train/prendre-le-train/applications-pour-smartphones-pour-votre-voyage-en-train-au-japon"
 ],
@@ -153,15 +153,6 @@ false,
 false,
 "Les distributeurs des konbini (7-Eleven) et des bureaux de poste acceptent en général les cartes étrangères. Garder un peu de liquide : beaucoup de petites adresses et temples n'acceptent pas la carte.",
 "https://www.japan.travel/fr/fr/guide/preparer-voyage-japon/"
-],
-[
-"Smartphone",
-"2 batteries externes (power banks) de 20 000 mAh chacune, en bagage à main",
-"1 mois avant",
-"Important",
-false,
-"20 000 mAh font environ 74 Wh, sous la limite de 100 Wh (environ 27 000 mAh) tolérée en cabine. Ne pas dépasser 25 000 mAh. Jamais en soute. Capacité et marque lisibles sur le boîtier. L'aller passe par Pékin avec Air China : choisir un modèle portant le marquage 3C (CCC) et confirmer la règle sur le site de la compagnie. Une batterie pour le pocket wifi, l'autre pour les 3 téléphones.",
-"https://fr.trip.com/guide/info/emporter-banque-alimentation-a-bord.html"
 ],
 [
 "Santé",
@@ -234,6 +225,51 @@ false,
 false,
 "Évite les frais si l'eSIM n'est pas activée.",
 ""
+],
+[
+"Smartphone",
+"2 batteries externes (power banks) de 20 000 mAh chacune, en bagage à main",
+"1 mois avant",
+"Important",
+false,
+"20 000 mAh font environ 74 Wh, sous la limite de 100 Wh (environ 27 000 mAh) tolérée en cabine. Ne pas dépasser 25 000 mAh. Jamais en soute. Capacité et marque lisibles sur le boîtier. L'aller passe par Pékin avec Air China : choisir un modèle portant le marquage 3C (CCC) et confirmer la règle sur le site de la compagnie. Une batterie pour le pocket wifi, l'autre pour les 3 téléphones.",
+"https://fr.trip.com/guide/info/emporter-banque-alimentation-a-bord.html"
+],
+[
+"Transport",
+"Une carte IC physique par personne (Welcome Suica ou Tourist PASMO), à acheter à l'arrivée à l'aéroport",
+"À l'arrivée, le 3 avril",
+"Indispensable",
+false,
+"Nos 3 téléphones sont des Android achetés en France : sans puce FeliCa, ils ne peuvent pas recevoir la Suica ni la PASMO dans Google Wallet. La Welcome Suica dure 28 jours (le séjour fait 15 jours). Les distributeurs de gare ne prennent que les billets en yens : la recharge se fait en espèces. Arrivée à Haneda vers 20h : vérifier l'ouverture du comptoir ou du distributeur, sinon l'acheter le lendemain en gare.",
+"https://selfguidejapan.com/fr/blog/carte-suica"
+],
+[
+"Argent",
+"Yens en espèces pour recharger les 3 cartes IC et pour les petites adresses, temples et distributeurs",
+"1 mois avant, puis retrait sur place",
+"Important",
+false,
+"Retirer des yens aux distributeurs des konbini (7-Eleven) ou des bureaux de poste avec les cartes LCL, ou en emporter une partie de France. Garder du liquide séparé dans chaque sac. L'argent de la fille de 12 ans est à prévoir en espèces : elle n'a pas de carte.",
+"https://www.japan.travel/fr/fr/guide/preparer-voyage-japon/"
+],
+[
+"Argent",
+"Cartes LCL Visa et Mastercard : vérifier les frais hors zone euro et activer l'option LCL CityExplorer si elle est rentable",
+"1 mois avant",
+"Important",
+false,
+"Hors zone euro, LCL facture en général 3,05 % + 1,26 € par paiement et 3,05 % + 3,17 € par retrait (2,38 % sur les cartes Platinum+ et Visa Infinite). L'option LCL CityExplorer supprime les commissions LCL à l'étranger : demander son prix et ses conditions à la banque, et comparer avec le coût des retraits.",
+"https://www.lcl.fr/mag/loisirs-vacances/guide-vacances-lcl"
+],
+[
+"Argent",
+"Appeler LCL : paiement et retrait à l'étranger activés, plafonds relevés, code PIN connu, numéro d'opposition noté",
+"3 semaines avant",
+"Important",
+false,
+"Demander aussi si les cartes passent en paiement sans contact et dans les distributeurs japonais. Prévoir une carte de secours (celle du second adulte) gardée séparément. En cas de perte, faire opposition tout de suite.",
+"https://lcl.fr/questions-frequentes/sos-cartes"
 ]
 ]
 }
