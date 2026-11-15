@@ -34,7 +34,7 @@
    "2 mois avant le départ",
    "Important",
    "À faire",
-   "Vérifier aussi la garantie de la carte bancaire. Emporter les attestations et les numéros d'assistance.",
+   "Vérifier aussi la garantie de la carte bancaire. Emporter les attestations et les numéros d'assistance. Au Japon, les soins se paient sur place et la Sécurité sociale ne couvre presque rien : une hospitalisation dépasse souvent 10 000 € selon les comparateurs. Chercher des frais médicaux d'au moins 500 000 € (idéalement 1 M€), l'avance de frais ou la prise en charge directe, le rapatriement aux frais réels, et se méfier des sous-plafonds journaliers trop bas.",
    "https://www.japan.travel/fr/fr/guide/preparer-voyage-japon/"
   ],
   [
@@ -78,7 +78,7 @@
    "Musée Ghibli (Mitaka) : billets à date et heure fixes",
    "Dès l'ouverture des ventes du mois concerné (vérifier la date sur le site officiel)",
    "Indispensable",
-   "À faire",
+   "Rejeté",
    "Vente en ligne uniquement, places vite épuisées en avril. Vérifier la règle d'ouverture sur le site officiel.",
    ""
   ],
@@ -279,6 +279,24 @@
    "À faire",
    "",
    ""
+  ],
+  [
+   "Santé",
+   "Sécurité sociale : savoir qu'elle ne couvre presque rien au Japon, et garder factures, ordonnances et justificatifs pour demander un remboursement au retour",
+   "Avant le départ, puis au retour",
+   "Important",
+   "À faire",
+   "La Carte Vitale ne sert à rien au Japon et la CEAM (carte européenne) n'y est pas valable : elle ne couvre que l'Europe. Hors Europe, seuls les soins urgents et imprévus peuvent éventuellement être remboursés au retour, sur la base des tarifs français, avec le formulaire S3125 « Soins reçus à l'étranger » (sur Ameli) et les factures acquittées. Le rapatriement sanitaire n'est jamais pris en charge. Prévoir de payer sur place.",
+   "https://ymanci.fr/assurance-sante/guide/assurance-maladie-voyage/"
+  ],
+  [
+   "Santé",
+   "Mutuelle : appeler pour connaître l'assistance à l'étranger (avance de frais d'hospitalisation, rapatriement, plafond, durée de séjour couverte) et noter le numéro d'assistance 24 h/24",
+   "2 mois avant le départ",
+   "Important",
+   "À faire",
+   "Hors Europe, la couverture d'une mutuelle repose surtout sur l'assistance d'urgence, souvent limitée en durée et en montant (exemple relevé chez une grande mutuelle : jusqu'à 80 000 € d'avance de frais, pour des séjours de moins de 31 jours). Demander si le contrat couvre les 3 personnes pour un séjour d'environ 16 jours, et si une attestation d'assistance peut être envoyée par e-mail. Une mutuelle ne remplace pas une assurance voyage avec un plafond élevé.",
+   "https://hellosafe.fr/assurance-voyage/mutuelle-sante-internationale"
   ]
  ]
 }
